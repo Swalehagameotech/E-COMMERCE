@@ -1,0 +1,77 @@
+import { images } from '../utils/CardsImage';
+
+const MiddleBottom = () => {
+  // Category labels mapping
+  const categoryLabels = {
+    accessories: 'Accessories',
+    footwears: 'Footwears',
+    fashion: 'Fashion',
+    others: 'Others'
+  };
+
+  // Format key name to title (capitalize first letter)
+  const formatTitle = (key) => {
+    return key.charAt(0).toUpperCase() + key.slice(1);
+  };
+
+  // Placeholder image URL
+  const placeholderImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
+
+  return (
+    <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Main Grid: 1 column mobile, 2 tablet, 4 desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {Object.entries(images).map(([categoryKey, items]) => (
+            <div
+              key={categoryKey}
+              className="relative top-[-28rem] bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300"
+            >
+              {/* Category Title */}
+              <h2 className="text-xl font-bold text-gray-800 mb-4 text-center">
+                {categoryLabels[categoryKey] || formatTitle(categoryKey)}
+              </h2>
+
+              {/* Sub-boxes in 2x2 Grid */}
+              <div className="grid grid-cols-2 gap-3">
+                {Object.entries(items).map(([itemKey, imageUrl]) => (
+                  <div
+                    key={itemKey}
+                    className="flex flex-col items-center p-3 rounded-lg bg-gray-50 hover:bg-gray-100 hover:scale-105 hover:shadow-md transition-all duration-300 cursor-pointer"
+                  >
+                    {/* Image Container with Fixed Height */}
+                    <div className="w-full h-24 mb-2 flex items-center justify-center overflow-hidden rounded-md bg-gray-200">
+                      {imageUrl && imageUrl.trim() !== '' ? (
+                        <img
+                          src={imageUrl}
+                          alt={formatTitle(itemKey)}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = placeholderImage;
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src={placeholderImage}
+                          alt="Placeholder"
+                          className="w-full h-full object-cover"
+                        />
+                      )}
+                    </div>
+
+                    {/* Title Text */}
+                    <p className="text-sm font-medium text-gray-700 text-center">
+                      {formatTitle(itemKey)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MiddleBottom;

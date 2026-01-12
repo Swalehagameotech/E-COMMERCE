@@ -2,7 +2,7 @@ export const images = {
   accessories: {
     Anklet: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765299587/qld6uf5ece70ogsjslet.avif",
     bracelte: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765364822/photo-1752659659278-17c9541e2f77_viftu8.jpg",
-    pendant: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765363256/photo-1594843310570-1c82e9244e20_mx2dag.jpg",
+    neklaces: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765363256/photo-1594843310570-1c82e9244e20_mx2dag.jpg",
     watches:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765216232/unnamed_tfeles.jpg"
   },
   footwears:{
@@ -14,7 +14,7 @@ export const images = {
   fashion:{
     comfy:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1764940680/10096_lj31j3.jpg",
     kurta:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1764933735/937_utbiaz.jpg",
-    sari:"",
+    Belts:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765545677/one-size-women-fancy-lether-belt-women-belt-lether-pu-belt-original-imahffzgerpejme3_j0merd.jpg",
     scarf:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765300508/images_m1r5in.jpg"
   },
   others:{

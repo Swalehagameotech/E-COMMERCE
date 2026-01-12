@@ -74,10 +74,12 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 
+px-4 sm:px-6 lg:px-16 py-10">
+      <div className="w-full max-w-sm sm:max-w-md lg:max-w-xl space-y-8">
         {/* Card Container */}
-        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-8 border border-white/20">
+        <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl 
+p-6 sm:p-8 lg:p-12 border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto h-16 w-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mb-4 shadow-lg">

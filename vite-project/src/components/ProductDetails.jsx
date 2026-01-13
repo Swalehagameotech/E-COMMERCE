@@ -14,7 +14,7 @@ const ProductDetails = () => {
   const collectionType = searchParams.get('collection') || 'newarrival';
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  
+
   const [product, setProduct] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
   const [quantity, setQuantity] = useState(1);
@@ -26,7 +26,7 @@ const ProductDetails = () => {
       try {
         setLoading(true);
         let response;
-        
+
         if (collectionType === 'newarrival') {
           response = await newArrivalAPI.getNewArrivalById(id);
         } else if (collectionType === 'trending') {
@@ -36,7 +36,7 @@ const ProductDetails = () => {
         } else {
           response = await newArrivalAPI.getNewArrivalById(id);
         }
-        
+
         if (response.success) {
           setProduct(response.data);
         } else {
@@ -60,7 +60,7 @@ const ProductDetails = () => {
         } else if (collectionType === 'discount') {
           response = await discountAPI.getDiscounts();
         }
-        
+
         if (response && response.success) {
           // Filter out current product and limit to 8
           const filtered = (response.data || [])
@@ -135,7 +135,7 @@ const ProductDetails = () => {
     const stars = [];
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
-    
+
     for (let i = 0; i < fullStars; i++) {
       stars.push(<Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />);
     }
@@ -153,10 +153,10 @@ const ProductDetails = () => {
       <Hero />
       <div className="min-h-screen pt-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
-          
+
           {/* Product Details Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-16">
-            
+
             {/* Left Side - Product Image */}
             <div className="w-full">
               <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 sticky top-24">
@@ -197,7 +197,7 @@ const ProductDetails = () => {
                   <div className="flex items-center gap-4 mb-2">
                     {product.discounted_price ? (
                       <>
-                        <span className="text-3xl sm:text-4xl font-bold text-purple-600">
+                        <span className="text-3xl sm:text-4xl font-bold text-[#664343]">
                           ₹{product.discounted_price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-xl sm:text-2xl text-gray-400 line-through">
@@ -252,16 +252,16 @@ const ProductDetails = () => {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => handleQuantityChange(-1)}
-                      className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center font-bold border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                      <Minus className="h-5 w-5" />
+                      -
                     </button>
                     <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
                     <button
                       onClick={() => handleQuantityChange(1)}
-                      className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-10 h-10 flex font-bold items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
                     >
-                      <Plus className="h-5 w-5" />
+                      +
                     </button>
                   </div>
                 </div>
@@ -270,17 +270,19 @@ const ProductDetails = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-[#B77466] hover:bg-[#896C6C] text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                   </button>
                   <button
                     onClick={handleBuyNow}
-                    className="flex-1 bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                    className="flex-1 bg-[#795757] hover:bg-[#664343] text-white font-medium py-3 px-6 rounded-lg transition-colors
+             focus-visible:outline-none focus-visible:ring-0"
                   >
                     Buy Now
                   </button>
+
                 </div>
               </div>
             </div>

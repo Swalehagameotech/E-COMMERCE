@@ -21,7 +21,7 @@ const Footwear = () => {
    <div
   className="min-h-screen"
   style={{
-  background: 'linear-gradient(to right, #FFD6BA, #E5BEB5, #FFD6BA)'
+  background: 'bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8]'
 
   }}
 >

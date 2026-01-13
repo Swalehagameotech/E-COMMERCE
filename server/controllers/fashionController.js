@@ -25,8 +25,9 @@ exports.getFashion = async (req, res) => {
       };
       
       const catLower = category.toLowerCase();
-      query.subcategory = categoryMap[catLower] || catLower;
-      console.log(`🔍 Filtering by subcategory: ${query.subcategory}`);
+      const subcategoryValue = categoryMap[catLower] || catLower;
+      query.subcategory = { $regex: subcategoryValue, $options: 'i' };
+      console.log(`🔍 Filtering by subcategory: ${subcategoryValue}`);
     }
     
     // Search in name or description

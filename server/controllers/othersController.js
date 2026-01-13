@@ -16,8 +16,14 @@ exports.getOthers = async (req, res) => {
     
     // Filter by subcategory if provided
     if (subcategory) {
-      query.subcategory = subcategory.toLowerCase();
-      console.log(`🔍 Filtering by subcategory: ${query.subcategory}`);
+      // Handle plural forms: if subcategory ends with 's', also match singular form
+      let pattern = subcategory;
+      if (subcategory.toLowerCase().endsWith('s') && subcategory.length > 1) {
+        const singular = subcategory.slice(0, -1); // Remove last 's'
+        pattern = `(${subcategory}|${singular})`;
+      }
+      query.subcategory = { $regex: `^${pattern}$`, $options: 'i' };
+      console.log(`🔍 Filtering by subcategory: ${subcategory} (pattern: ${pattern})`);
     }
     
     // Search in name or description

@@ -3,7 +3,7 @@ import { Search, ShoppingCart } from 'lucide-react';
 import { isAuthenticated, logout } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import titleImage from '../assets/herosection/title.png';
+import titleImage from '../assets/herosection/tit.png';
 
 const Hero = ({ searchQuery: externalSearchQuery, onSearchChange }) => {
   const [searchQuery, setSearchQuery] = useState(externalSearchQuery || '');
@@ -55,7 +55,7 @@ const Hero = ({ searchQuery: externalSearchQuery, onSearchChange }) => {
             <img 
               src={titleImage} 
               alt="Logo" 
-              className="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 object-contain max-w-full"
+              className="h-10 w-20 sm:h-8 sm:w-8 md:h-10 md:w-10 object-cover max-w-full"
               onError={(e) => {
                 // Fallback if image doesn't load
                 e.target.style.display = 'none';

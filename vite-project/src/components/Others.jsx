@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Hero from './Hero';
 import OthersCategoryRow from './OthersCategoryRow';
 import OthersDisplay from './OthersDisplay';
+import Footer from './Footer';
 
 const Others = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -24,6 +28,10 @@ const Others = () => {
     // Don't clear category/subcategory when searching, just search within them
   };
 
+  const handleBackClick = () => {
+    navigate(-1); // Go back to previous page
+  };
+
   return (
    <div
   className="min-h-screen"
@@ -32,6 +40,13 @@ const Others = () => {
 
   }}
 >
+      {/* Back Arrow */}
+      <button
+        onClick={handleBackClick}
+        className="fixed top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
 
       <Hero 
         searchQuery={searchQuery} 
@@ -48,6 +63,7 @@ const Others = () => {
           searchQuery={searchQuery}
         />
       </div>
+      <Footer />
     </div>
   );
 };

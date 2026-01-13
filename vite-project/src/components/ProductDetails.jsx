@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { ShoppingCart, Star, Plus, Minus } from 'lucide-react';
+import { ShoppingCart, Star, Plus, Minus, ArrowLeft } from 'lucide-react';
 import Hero from './Hero';
 import { useCart } from '../context/CartContext';
 import SuggestionsSection from './SuggestionsSection';
@@ -100,6 +100,10 @@ const ProductDetails = () => {
     setQuantity(prev => Math.max(1, Math.min(prev + change, product?.stock || 10)));
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
 
   if (loading) {
     return (
@@ -150,6 +154,14 @@ const ProductDetails = () => {
 
   return (
     <>
+      {/* Back Arrow */}
+      <button
+        onClick={handleBackClick}
+        className="fixed top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
+      
       <Hero />
       <div className="min-h-screen pt-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">

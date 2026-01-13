@@ -1,10 +1,10 @@
-import { Mail, Phone, MapPin, FileText } from 'lucide-react';
+import { Mail, Phone, MapPin, FileText, Star } from 'lucide-react';
 
 const Footer = () => {
   return (
     <footer className="w-full bg-gradient-to-br from-[#987070] via-[#795757] to-[#987070] text-gray-300 py-8 sm:py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
           
           {/* Contact Information */}
           <div className="space-y-4">
@@ -27,6 +27,24 @@ const Footer = () => {
                     +1 (234) 567-890
                   </a>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Why Choose Us */}
+          <div className="space-y-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
+              <Star className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
+              Why Choose Us?
+            </h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-sm sm:text-base text-[#FFF0D1]">
+                <p className="mb-2">✓ Premium Quality Products</p>
+                <p className="mb-2">✓ Fast & Secure Delivery</p>
+                <p className="mb-2">✓ 24/7 Customer Support</p>
+                <p className="mb-2">✓ Easy Returns & Exchanges</p>
+                <p className="mb-2">✓ Competitive Prices</p>
+                <p>✓ Trusted by Thousands</p>
               </div>
             </div>
           </div>

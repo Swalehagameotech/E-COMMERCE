@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Hero from './Hero';
 import CategoryRow from './CategoryRow';
 import ProductsDisplay from './ProductsDisplay';
@@ -6,6 +8,7 @@ import ProductsDisplay from './ProductsDisplay';
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -17,6 +20,10 @@ const Products = () => {
     setSelectedCategory(null); // Clear category when searching
   };
 
+  const handleBackClick = () => {
+    navigate(-1);
+  };
+
   return (
    <div
   className="min-h-screen"
@@ -25,6 +32,13 @@ const Products = () => {
 
   }}
 >
+      {/* Back Arrow */}
+      <button
+        onClick={handleBackClick}
+        className="fixed top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
 
       <Hero 
         searchQuery={searchQuery} 

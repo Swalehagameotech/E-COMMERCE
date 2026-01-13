@@ -18,13 +18,26 @@ export const images = {
     scarf:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765300508/images_m1r5in.jpg"
   },
   others:{
-    skincare:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765279526/95dce7ab-6c31-44dd-bf49-e8cf53d570b6_fkkjbq.avif",
-    bags:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765367586/acaa40829713501Red_1_csuaqn.jpg",
-    glasses:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765595039/clsw529_1_u2fezy.jpg",
-    perfumes:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765436687/a24b612d20937da3d12be63e4b011580_jrhjxb.jpg"
-
+    Skincare:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765279526/95dce7ab-6c31-44dd-bf49-e8cf53d570b6_fkkjbq.avif",
+    Bags:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765367586/acaa40829713501Red_1_csuaqn.jpg",
+    Perfumes:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765436687/a24b612d20937da3d12be63e4b011580_jrhjxb.jpg",
+    Glasses:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765595039/clsw529_1_u2fezy.jpg"
   }
 
+};
+
+// Export subcategory images for /others page
+export const othersSubcategories = {
+  skincare:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765279526/95dce7ab-6c31-44dd-bf49-e8cf53d570b6_fkkjbq.avif",
+  facewash:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765280246/f2903c7a-adb4-4545-b1cf-a7df0fedbe8c_sisexk.avif",
+  moisturizer:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765278964/b98275b4-323e-45d6-a6ee-54b5034eb0f7_avyxoj.avif",
+  sunscreen:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765278430/51ZNcS8KwYL._AC_UL640_FMwebp_QL65__bytejl.webp",
+  bags:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765367586/acaa40829713501Red_1_csuaqn.jpg",
+  clutch:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765367405/0d3ec1aSUG296_1_orcy2x.jpg",
+  crossbody:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765445731/33b1fbdMHB0064CBTaupe_1_m1ab1h.jpg",
+  totebag:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765371583/2178eaaVWAW25BGCYW020_1_vmfjyf.jpg",
+  glasses:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765595039/clsw529_1_u2fezy.jpg",
+  perfumes:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1765436687/a24b612d20937da3d12be63e4b011580_jrhjxb.jpg"
 };
 
 

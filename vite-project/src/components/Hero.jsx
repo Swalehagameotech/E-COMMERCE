@@ -3,7 +3,7 @@ import { Search, ShoppingCart } from 'lucide-react';
 import { isAuthenticated, logout } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import titleImage from '../assets/herosection/title2.png';
+import titleImage from '../assets/herosection/title.png';
 
 const Hero = ({ searchQuery: externalSearchQuery, onSearchChange }) => {
   const [searchQuery, setSearchQuery] = useState(externalSearchQuery || '');

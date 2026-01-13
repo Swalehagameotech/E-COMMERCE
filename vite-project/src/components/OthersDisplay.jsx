@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import productAPI from '../utils/productApi';
+import othersAPI from '../utils/othersApi';
 
-const ProductsDisplay = ({ category, searchQuery }) => {
+const OthersDisplay = ({ category, subcategory, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,12 +19,41 @@ const ProductsDisplay = ({ category, searchQuery }) => {
       try {
         let response;
         
-        if (searchQuery) {
-          response = await productAPI.searchProducts(searchQuery);
+        // Priority: subcategory > category > all products
+        if (subcategory) {
+          // Subcategory is selected (either from subcategory click or direct category click like perfume/glasses)
+          if (searchQuery) {
+            response = await othersAPI.searchOthers(searchQuery, subcategory);
+          } else {
+            response = await othersAPI.filterBySubcategory(subcategory);
+          }
         } else if (category) {
-          response = await productAPI.filterByCategory(category);
+          // Main category selected but no subcategory yet
+          if (category === 'perfume') {
+            // Perfume directly shows products with subcategory 'perfumes'
+            if (searchQuery) {
+              response = await othersAPI.searchOthers(searchQuery, 'perfumes');
+            } else {
+              response = await othersAPI.filterBySubcategory('perfumes');
+            }
+          } else if (category === 'glasses') {
+            // Glasses directly shows products with subcategory 'glasses'
+            if (searchQuery) {
+              response = await othersAPI.searchOthers(searchQuery, 'glasses');
+            } else {
+              response = await othersAPI.filterBySubcategory('glasses');
+            }
+          } else {
+            // For skincare/bags, wait for subcategory selection - don't show products yet
+            response = { success: true, data: [] };
+          }
         } else {
-          response = await productAPI.getProducts({ limit: 50 });
+          // No filter - show all products
+          if (searchQuery) {
+            response = await othersAPI.searchOthers(searchQuery);
+          } else {
+            response = await othersAPI.getOthers({ limit: 50 });
+          }
         }
         
         if (response.success) {
@@ -47,7 +76,7 @@ const ProductsDisplay = ({ category, searchQuery }) => {
     };
 
     fetchProducts();
-  }, [category, searchQuery]);
+  }, [category, subcategory, searchQuery]);
 
   const handleAddToCart = (product) => {
     addToCart(product);
@@ -116,9 +145,22 @@ const ProductsDisplay = ({ category, searchQuery }) => {
                 
                 {/* Price and Add to Cart - Smaller on mobile */}
                 <div className="mt-auto">
-                  <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676] mb-0.5 sm:mb-1 md:mb-2 lg:mb-3">
-                    ₹{product.price.toLocaleString('en-IN')}
-                  </p>
+                  <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1 md:mb-2 lg:mb-3">
+                    {product.discounted_price ? (
+                      <>
+                        <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676]">
+                          ₹{product.discounted_price.toLocaleString('en-IN')}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm line-through text-gray-400">
+                          ₹{product.price.toLocaleString('en-IN')}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676]">
+                        ₹{product.price.toLocaleString('en-IN')}
+                      </p>
+                    )}
+                  </div>
                   <div className="flex gap-1 sm:gap-1.5 md:gap-2">
                     <button
                       onClick={() => handleAddToCart(product)}
@@ -146,4 +188,4 @@ const ProductsDisplay = ({ category, searchQuery }) => {
   );
 };
 
-export default ProductsDisplay;
+export default OthersDisplay;

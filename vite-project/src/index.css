@@ -17,6 +17,11 @@
   animation: fade-in 0.3s ease-out;
 }
 
+/* Hide scrollbar for horizontal scrolling sections */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   body {
   @apply m-0 min-w-[320px] min-h-screen;

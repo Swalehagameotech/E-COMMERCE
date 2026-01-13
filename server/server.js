@@ -13,6 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
+app.use('/api/footwear', require('./routes/footwearRoutes'));
+app.use('/api/fashion', require('./routes/fashionRoutes'));
+app.use('/api/others', require('./routes/othersRoutes'));
+app.use('/api/newarrival', require('./routes/newArrivalRoutes'));
+app.use('/api/trending', require('./routes/trendingRoutes'));
+app.use('/api/discount', require('./routes/discountRoutes'));
 
 // Health check route
 app.get('/api/health', (req, res) => {

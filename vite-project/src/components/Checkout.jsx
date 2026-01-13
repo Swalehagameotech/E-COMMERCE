@@ -1,22 +1,36 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import OrderConfirmationModal from './OrderConfirmationModal';
 
 const Checkout = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
 
-  const subtotal = getCartTotal();
+  // Check if this is a "Buy Now" purchase (single product, not from cart)
+  const buyNowProduct = location.state?.buyNowProduct;
+  
+  // Use buyNowProduct if available, otherwise use cart
+  const displayItems = buyNowProduct 
+    ? [{ ...buyNowProduct, quantity: 1 }]
+    : cart;
+  
+  const subtotal = buyNowProduct
+    ? buyNowProduct.price
+    : getCartTotal();
   const deliveryCharges = 50;
   const total = subtotal + deliveryCharges;
 
   const handlePlaceOrder = () => {
     if (paymentMethod === 'cod') {
-      // Clear cart and show confirmation
-      clearCart();
+      // If it's a buy now purchase, don't clear cart (cart wasn't used)
+      // Otherwise, clear cart for normal checkout
+      if (!buyNowProduct) {
+        clearCart();
+      }
       setShowModal(true);
     }
   };
@@ -26,7 +40,7 @@ const Checkout = () => {
     navigate('/home');
   };
 
-  if (cart.length === 0) {
+  if (displayItems.length === 0) {
     return (
       <div className="min-h-screen bg-gray-50 pt-20 px-4">
         <div className="max-w-4xl mx-auto">
@@ -56,7 +70,7 @@ const Checkout = () => {
               <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Order Details</h2>
                 <div className="space-y-3">
-                  {cart.map((item) => (
+                  {displayItems.map((item) => (
                     <div key={item._id} className="flex items-center gap-4 pb-3 border-b last:border-0">
                       <div className="w-16 h-16 bg-gray-100 rounded flex items-center justify-center overflow-hidden flex-shrink-0">
                         <img

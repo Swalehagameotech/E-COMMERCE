@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
-import productAPI from '../utils/productApi';
+import footwearAPI from '../utils/footwearApi';
 
-const ProductsDisplay = ({ category, searchQuery }) => {
+const FootwearDisplay = ({ category, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,26 +20,26 @@ const ProductsDisplay = ({ category, searchQuery }) => {
         let response;
         
         if (searchQuery) {
-          response = await productAPI.searchProducts(searchQuery);
+          response = await footwearAPI.searchFootwear(searchQuery);
         } else if (category) {
-          response = await productAPI.filterByCategory(category);
+          response = await footwearAPI.filterByCategory(category);
         } else {
-          response = await productAPI.getProducts({ limit: 50 });
+          response = await footwearAPI.getFootwear({ limit: 50 });
         }
         
         if (response.success) {
           setProducts(response.data || []);
         } else {
-          setError('Failed to fetch products');
+          setError('Failed to fetch footwear');
         }
       } catch (err) {
-        console.error('Error fetching products:', err);
+        console.error('Error fetching footwear:', err);
         if (err.response?.status === 404) {
           setError('Backend server not found. Please make sure the server is running on http://localhost:5000');
         } else if (err.code === 'ECONNREFUSED') {
           setError('Cannot connect to backend server. Please start the server: cd server && npm start');
         } else {
-          setError('Error loading products. Please check if the backend server is running.');
+          setError('Error loading footwear. Please check if the backend server is running.');
         }
       } finally {
         setLoading(false);
@@ -62,7 +62,7 @@ const ProductsDisplay = ({ category, searchQuery }) => {
     return (
       <div className="w-full py-12 text-center">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-        <p className="mt-4 text-gray-600">Loading products...</p>
+        <p className="mt-4 text-gray-600">Loading footwear...</p>
       </div>
     );
   }
@@ -78,7 +78,7 @@ const ProductsDisplay = ({ category, searchQuery }) => {
   if (products.length === 0) {
     return (
       <div className="w-full py-12 text-center">
-        <p className="text-gray-600 text-lg">No products found.</p>
+        <p className="text-gray-600 text-lg">No footwear found.</p>
       </div>
     );
   }
@@ -116,9 +116,22 @@ const ProductsDisplay = ({ category, searchQuery }) => {
                 
                 {/* Price and Add to Cart - Smaller on mobile */}
                 <div className="mt-auto">
-                  <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676] mb-0.5 sm:mb-1 md:mb-2 lg:mb-3">
-                    ₹{product.price.toLocaleString('en-IN')}
-                  </p>
+                  <div className="flex items-center gap-1 sm:gap-2 mb-0.5 sm:mb-1 md:mb-2 lg:mb-3">
+                    {product.discounted_price ? (
+                      <>
+                        <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676]">
+                          ₹{product.discounted_price.toLocaleString('en-IN')}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm line-through text-gray-400">
+                          ₹{product.price.toLocaleString('en-IN')}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676]">
+                        ₹{product.price.toLocaleString('en-IN')}
+                      </p>
+                    )}
+                  </div>
                   <div className="flex gap-1 sm:gap-1.5 md:gap-2">
                     <button
                       onClick={() => handleAddToCart(product)}
@@ -146,4 +159,4 @@ const ProductsDisplay = ({ category, searchQuery }) => {
   );
 };
 
-export default ProductsDisplay;
+export default FootwearDisplay;

@@ -1,14 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Hero from './Hero';
 import CategoryRow from './CategoryRow';
 import ProductsDisplay from './ProductsDisplay';
+import Footer from './Footer';
 
 const Products = () => {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  // Read search query from URL params on mount
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+      setSelectedCategory(null); // Clear category when search is active
+    } else {
+      setSearchQuery(''); // Clear search when URL param is removed
+    }
+  }, [searchParams]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -51,6 +64,7 @@ const Products = () => {
           searchQuery={searchQuery}
         />
       </div>
+      <Footer />
     </div>
   );
 };

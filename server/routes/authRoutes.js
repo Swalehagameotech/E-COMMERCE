@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signup, login } = require('../controllers/authController');
+const { signup, login, createOrGetFirebaseUser } = require('../controllers/authController');
 
 // @route   POST /api/auth/signup
 // @desc    Register a new user
@@ -11,5 +11,10 @@ router.post('/signup', signup);
 // @desc    Login user
 // @access  Public
 router.post('/login', login);
+
+// @route   POST /api/auth/firebase-user
+// @desc    Create or get user with Firebase UID
+// @access  Public
+router.post('/firebase-user', createOrGetFirebaseUser);
 
 module.exports = router;

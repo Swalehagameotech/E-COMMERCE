@@ -3,11 +3,14 @@ import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import footwearAPI from '../utils/footwearApi';
+import AuthModal from './AuthModal';
+import { isAuthenticated } from '../utils/auth';
 
 const FootwearDisplay = ({ category, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
@@ -50,11 +53,19 @@ const FootwearDisplay = ({ category, searchQuery }) => {
   }, [category, searchQuery]);
 
   const handleAddToCart = (product) => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     addToCart(product);
     // Optional: Show toast notification
   };
 
   const handleBuyNow = (product) => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     navigate('/checkout', { state: { buyNowProduct: product } });
   };
 
@@ -155,6 +166,7 @@ const FootwearDisplay = ({ category, searchQuery }) => {
           ))}
         </div>
       </div>
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </div>
   );
 };

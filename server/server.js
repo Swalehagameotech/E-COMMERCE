@@ -19,6 +19,8 @@ app.use('/api/others', require('./routes/othersRoutes'));
 app.use('/api/newarrival', require('./routes/newArrivalRoutes'));
 app.use('/api/trending', require('./routes/trendingRoutes'));
 app.use('/api/discount', require('./routes/discountRoutes'));
+app.use('/api/cart', require('./routes/cartRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 
 // Health check route
 app.get('/api/health', (req, res) => {

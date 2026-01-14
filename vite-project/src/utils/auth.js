@@ -1,19 +1,19 @@
-// Auth utility functions
+// Auth utility functions (Firebase-based)
 
 export const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem('firebaseUID');
 };
 
 export const setToken = (token) => {
-  localStorage.setItem('token', token);
+  localStorage.setItem('firebaseUID', token);
 };
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
+  localStorage.removeItem('firebaseUID');
 };
 
 export const isAuthenticated = () => {
-  return !!getToken();
+  return !!localStorage.getItem('firebaseUID');
 };
 
 export const getUserFromStorage = () => {
@@ -37,4 +37,8 @@ export const removeUserFromStorage = () => {
 export const logout = () => {
   removeToken();
   removeUserFromStorage();
+};
+
+export const getFirebaseUID = () => {
+  return localStorage.getItem('firebaseUID');
 };

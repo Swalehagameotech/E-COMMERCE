@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import orderAPI from '../utils/orderAPI';
 import OrderConfirmationModal from './OrderConfirmationModal';
+import Hero from './Hero';
+import Footer from './Footer';
 
 const Checkout = () => {
   const { cart, getCartTotal, clearCart } = useCart();
@@ -9,6 +12,8 @@ const Checkout = () => {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Check if this is a "Buy Now" purchase (single product, not from cart)
   const buyNowProduct = location.state?.buyNowProduct;
@@ -24,14 +29,39 @@ const Checkout = () => {
   const deliveryCharges = 50;
   const total = subtotal + deliveryCharges;
 
-  const handlePlaceOrder = () => {
-    if (paymentMethod === 'cod') {
-      // If it's a buy now purchase, don't clear cart (cart wasn't used)
-      // Otherwise, clear cart for normal checkout
-      if (!buyNowProduct) {
-        clearCart();
+  const handlePlaceOrder = async () => {
+    if (paymentMethod !== 'cod') return;
+    
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Prepare items for order API
+      const items = displayItems.map(item => ({
+        productId: item._id || item.productId,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity || 1,
+        image: item.image || '',
+      }));
+
+      // Create order
+      const response = await orderAPI.createOrder(items, total);
+      
+      if (response.success) {
+        // Clear cart only if it's not a buy now purchase
+        if (!buyNowProduct) {
+          clearCart();
+        }
+        setShowModal(true);
+      } else {
+        setError('Failed to place order. Please try again.');
       }
-      setShowModal(true);
+    } catch (err) {
+      console.error('Error placing order:', err);
+      setError('Error placing order. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,32 +72,40 @@ const Checkout = () => {
 
   if (displayItems.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-20 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">No Items to Checkout</h2>
-            <button
-              onClick={() => navigate('/home')}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </div>
+      <>
+        <Hero />
+        <div className="min-h-screen pt-20 px-4 bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8]">
+<div className="max-w-4xl mx-auto mt-2 sm:mt-44">
+  <div className="bg-gradient-to-r from-[#FFD6E0] via-[#F6DFEB] to-[#FFD6E0] rounded-lg shadow-md p-8 text-center">
+    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+      No Items to Checkout
+    </h2>
+    <button
+      onClick={() => navigate('/home')}
+      className="bg-[#896C6C] hover:bg-[#896C6C] text-white font-medium py-2 px-6 rounded-lg transition-colors"
+    >
+      Continue Shopping
+    </button>
+  </div>
+</div>
+
       </div>
+      <Footer />
+      </>
     );
   }
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 pt-20 px-2 sm:px-4 md:px-6 lg:px-8 py-8">
+      <Hero />
+      <div className="min-h-screen bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8] pt-20 px-2 sm:px-4 md:px-6 lg:px-8 py-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 mt-10">Checkout</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Order Details */}
             <div className="lg:col-span-2 space-y-4">
-              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <div className="bg-gradient-to-r from-[#FFD6E0] via-[#F6DFEB] to-[#FFD6E0] rounded-lg shadow-md p-4 sm:p-6">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Order Details</h2>
                 <div className="space-y-3">
                   {displayItems.map((item) => (
@@ -85,7 +123,7 @@ const Checkout = () => {
                           Quantity: {item.quantity} × ₹{item.price.toLocaleString('en-IN')}
                         </p>
                       </div>
-                      <p className="font-bold text-purple-600">
+                      <p className="font-bold text-[#896C6C] ">
                         ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                       </p>
                     </div>
@@ -96,7 +134,7 @@ const Checkout = () => {
 
             {/* Payment Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
+              <div className="bg-gradient-to-r from-[#FFD6E0] via-[#F6DFEB] to-[#FFD6E0] rounded-lg shadow-md p-6 sticky top-24">
                 <h2 className="text-xl font-bold text-gray-800 mb-4">Payment Summary</h2>
                 
                 <div className="space-y-3 mb-6">
@@ -132,12 +170,17 @@ const Checkout = () => {
                   </div>
                 </div>
 
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
                 <button
                   onClick={handlePlaceOrder}
-                  disabled={paymentMethod !== 'cod'}
-                  className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                  disabled={paymentMethod !== 'cod' || loading}
+                  className="w-full bg-[#896C6C] hover:bg-[#896C6C] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-colors"
                 >
-                  Place Order
+                  {loading ? 'Placing Order...' : 'Place Order'}
                 </button>
               </div>
             </div>
@@ -147,6 +190,7 @@ const Checkout = () => {
 
       {/* Order Confirmation Modal */}
       {showModal && <OrderConfirmationModal onClose={handleCloseModal} />}
+      <Footer />
     </>
   );
 };

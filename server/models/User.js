@@ -1,7 +1,35 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const cartItemSchema = new mongoose.Schema({
+  productId: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    default: 1,
+  },
+  image: {
+    type: String,
+  },
+}, { _id: false });
+
 const userSchema = new mongoose.Schema({
+  firebaseUID: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   name: {
     type: String,
     required: [true, 'Name is required'],
@@ -17,8 +45,15 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters long'],
+    // Password is optional for Firebase users
+  },
+  cart: {
+    type: [cartItemSchema],
+    default: [],
+  },
+  cartCount: {
+    type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,
@@ -26,10 +61,10 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Hash password before saving
+// Hash password before saving (only if password is provided)
 userSchema.pre('save', async function () {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return;
+  // Only hash the password if it has been modified (or is new) and exists
+  if (!this.isModified('password') || !this.password) return;
 
   try {
     // Hash password with cost of 10

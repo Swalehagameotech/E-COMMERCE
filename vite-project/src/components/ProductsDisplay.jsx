@@ -3,11 +3,17 @@ import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import productAPI from '../utils/productApi';
+import footwearAPI from '../utils/footwearApi';
+import fashionAPI from '../utils/fashionApi';
+import othersAPI from '../utils/othersApi';
+import AuthModal from './AuthModal';
+import { isAuthenticated } from '../utils/auth';
 
 const ProductsDisplay = ({ category, searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
@@ -19,18 +25,47 @@ const ProductsDisplay = ({ category, searchQuery }) => {
       try {
         let response;
         
-        if (searchQuery) {
-          response = await productAPI.searchProducts(searchQuery);
+        if (searchQuery && searchQuery.trim()) {
+          const trimmedQuery = searchQuery.trim();
+          // Search across all collections
+          const [productsResult, footwearResult, fashionResult, othersResult] = await Promise.allSettled([
+            productAPI.searchProducts(trimmedQuery),
+            footwearAPI.searchFootwear(trimmedQuery),
+            fashionAPI.searchFashion(trimmedQuery),
+            othersAPI.searchOthers(trimmedQuery)
+          ]);
+          
+          // Combine results from all collections
+          const allProducts = [];
+          
+          if (productsResult.status === 'fulfilled' && productsResult.value?.success) {
+            allProducts.push(...(productsResult.value.data || []));
+          }
+          if (footwearResult.status === 'fulfilled' && footwearResult.value?.success) {
+            allProducts.push(...(footwearResult.value.data || []));
+          }
+          if (fashionResult.status === 'fulfilled' && fashionResult.value?.success) {
+            allProducts.push(...(fashionResult.value.data || []));
+          }
+          if (othersResult.status === 'fulfilled' && othersResult.value?.success) {
+            allProducts.push(...(othersResult.value.data || []));
+          }
+          
+          setProducts(allProducts);
         } else if (category) {
           response = await productAPI.filterByCategory(category);
+          if (response.success) {
+            setProducts(response.data || []);
+          } else {
+            setError('Failed to fetch products');
+          }
         } else {
           response = await productAPI.getProducts({ limit: 50 });
-        }
-        
-        if (response.success) {
-          setProducts(response.data || []);
-        } else {
-          setError('Failed to fetch products');
+          if (response.success) {
+            setProducts(response.data || []);
+          } else {
+            setError('Failed to fetch products');
+          }
         }
       } catch (err) {
         console.error('Error fetching products:', err);
@@ -50,11 +85,19 @@ const ProductsDisplay = ({ category, searchQuery }) => {
   }, [category, searchQuery]);
 
   const handleAddToCart = (product) => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     addToCart(product);
     // Optional: Show toast notification
   };
 
   const handleBuyNow = (product) => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     navigate('/checkout', { state: { buyNowProduct: product } });
   };
 
@@ -142,6 +185,7 @@ const ProductsDisplay = ({ category, searchQuery }) => {
           ))}
         </div>
       </div>
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </div>
   );
 };

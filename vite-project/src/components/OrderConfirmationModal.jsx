@@ -3,7 +3,7 @@ import { CheckCircle } from 'lucide-react';
 const OrderConfirmationModal = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 sm:p-8 animate-fade-in">
+      <div className="bg-gradient-to-r from-[#FFD6E0] via-[#F6DFEB] to-[#FFD6E0] rounded-lg shadow-xl max-w-md w-full p-6 sm:p-8 animate-fade-in">
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
@@ -21,7 +21,7 @@ const OrderConfirmationModal = ({ onClose }) => {
           
           <button
             onClick={onClose}
-            className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-6 rounded-lg transition-colors"
+            className="w-full sm:w-auto bg-[#896C6C]  hover:[#896C6C]  text-white font-medium py-2 px-6 rounded-lg transition-colors"
           >
             Continue Shopping
           </button>

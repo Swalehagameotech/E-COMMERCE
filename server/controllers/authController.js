@@ -119,3 +119,63 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+// @desc    Create or get user with Firebase UID
+// @route   POST /api/auth/firebase-user
+// @access  Public (Firebase token verified on frontend)
+exports.createOrGetFirebaseUser = async (req, res) => {
+  try {
+    const { firebaseUID, name, email } = req.body;
+
+    if (!firebaseUID || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide firebaseUID and email',
+      });
+    }
+
+    // Check if user exists by Firebase UID
+    let user = await User.findOne({ firebaseUID });
+
+    if (!user) {
+      // Check if user exists by email (might be migrating)
+      user = await User.findOne({ email: email.toLowerCase() });
+      
+      if (user) {
+        // Update existing user with Firebase UID
+        user.firebaseUID = firebaseUID;
+        await user.save();
+      } else {
+        // Create new user
+        user = await User.create({
+          firebaseUID,
+          name: name || email.split('@')[0],
+          email: email.toLowerCase(),
+          cart: [],
+          cartCount: 0,
+          orders: [],
+          orderCount: 0,
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User authenticated',
+      data: {
+        user: {
+          id: user._id,
+          firebaseUID: user.firebaseUID,
+          name: user.name,
+          email: user.email,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Firebase user error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error',
+    });
+  }
+};

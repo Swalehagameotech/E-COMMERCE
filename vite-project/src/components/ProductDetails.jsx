@@ -7,6 +7,8 @@ import SuggestionsSection from './SuggestionsSection';
 import newArrivalAPI from '../utils/newArrivalApi';
 import trendingAPI from '../utils/trendingApi';
 import discountAPI from '../utils/discountApi';
+import AuthModal from './AuthModal';
+import { isAuthenticated } from '../utils/auth';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -20,6 +22,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -80,6 +83,10 @@ const ProductDetails = () => {
   }, [id, collectionType]);
 
   const handleAddToCart = () => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     if (product) {
       for (let i = 0; i < quantity; i++) {
         addToCart(product);
@@ -88,6 +95,10 @@ const ProductDetails = () => {
   };
 
   const handleBuyNow = () => {
+    if (!isAuthenticated()) {
+      setShowAuthModal(true);
+      return;
+    }
     if (product) {
       for (let i = 0; i < quantity; i++) {
         addToCart(product);
@@ -155,15 +166,16 @@ const ProductDetails = () => {
   return (
     <>
       {/* Back Arrow */}
-      <button
-        onClick={handleBackClick}
-        className="fixed top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
-      >
-        <ArrowLeft className="h-5 w-5" />
-      </button>
+    <button
+  onClick={handleBackClick}
+  className="fixed top-28 sm:top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
+>
+  <ArrowLeft className="h-5 w-5" />
+</button>
+
       
       <Hero />
-      <div className="min-h-screen pt-20 bg-gray-50">
+      <div className="min-h-screen pt-20   bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
 
           {/* Product Details Section */}
@@ -306,6 +318,7 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
+      {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </>
   );
 };

@@ -1,112 +1,97 @@
-import { Mail, Phone, MapPin, FileText, Star } from 'lucide-react';
+import { Mail, Phone, MapPin, Truck, ShieldCheck, RefreshCw, Star } from 'lucide-react';
+import logo from '../assets/herosection/tit copy.png';
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-gradient-to-br from-[#987070] via-[#795757] to-[#987070] text-gray-300 py-8 sm:py-12 md:py-16">
+    <footer className="w-full bg-secondary text-primary pt-16 pb-10 border-t-4 border-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
-          
-          {/* Contact Information */}
-          <div className="space-y-4">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Contact Us</h3>
-            <div className="space-y-3 sm:space-y-4">
-              <div className="flex items-start gap-3">
-                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="text-sm sm:text-base font-medium text-white">Email</p>
-                  <a href="mailto:support@ecommerce.com" className="text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors break-all">
-                    support@ecommerce.com
-                  </a>
-                </div>
+
+        {/* Why Choose Us Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 pb-12 border-b border-primary/10">
+          <div className="flex flex-col items-center text-center space-y-3">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+              <Truck className="w-6 h-6 text-accent" />
+            </div>
+            <h4 className="font-serif font-bold text-lg">Free Shipping</h4>
+            <p className="text-sm text-primary/70 max-w-xs">On all orders over $100. Delivered safely to your doorstep.</p>
+          </div>
+          <div className="flex flex-col items-center text-center space-y-3">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+              <ShieldCheck className="w-6 h-6 text-accent" />
+            </div>
+            <h4 className="font-serif font-bold text-lg">Secure Payment</h4>
+            <p className="text-sm text-primary/70 max-w-xs">100% secure payment processing with top-tier encryption.</p>
+          </div>
+          <div className="flex flex-col items-center text-center space-y-3">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+              <RefreshCw className="w-6 h-6 text-accent" />
+            </div>
+            <div className="flex flex-col">
+              <h4 className="font-serif font-bold text-lg">Easy Returns</h4>
+              <p className="text-sm text-primary/70 max-w-xs">Love it or return it within 30 days. No questions asked.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+          {/* Brand Column */}
+          <div className="space-y-6">
+            <img src={logo} alt="LUXE" className="h-10 w-auto" />
+            <p className="text-primary/70 text-sm leading-relaxed max-w-xs">
+              Redefining contemporary fashion with timeless elegance. Quality craftsmanship for the modern woman.
+            </p>
+            <div className="flex gap-4">
+              {/* Social Icons Placeholder */}
+              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-accent hover:text-white transition-colors cursor-pointer shadow-sm text-primary">
+                <span className="text-xs font-bold">IG</span>
               </div>
-              <div className="flex items-start gap-3">
-                <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="text-sm sm:text-base font-medium text-white">Phone</p>
-                  <a href="tel:+1234567890" className="text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors">
-                    +1 (234) 567-890
-                  </a>
-                </div>
+              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-accent hover:text-white transition-colors cursor-pointer shadow-sm text-primary">
+                <span className="text-xs font-bold">FB</span>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-accent hover:text-white transition-colors cursor-pointer shadow-sm text-primary">
+                <span className="text-xs font-bold">TW</span>
               </div>
             </div>
           </div>
 
-          {/* Why Choose Us */}
-          <div className="space-y-4">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
-              <Star className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-              Why Choose Us?
-            </h3>
-            <div className="space-y-3 sm:space-y-4">
-              <div className="text-sm sm:text-base text-[#FFF0D1]">
-                <p className="mb-2">✓ Premium Quality Products</p>
-                <p className="mb-2">✓ Fast & Secure Delivery</p>
-                <p className="mb-2">✓ 24/7 Customer Support</p>
-                <p className="mb-2">✓ Easy Returns & Exchanges</p>
-                <p className="mb-2">✓ Competitive Prices</p>
-                <p>✓ Trusted by Thousands</p>
-              </div>
-            </div>
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-serif font-bold text-primary">Shop</h4>
+            <ul className="space-y-4">
+              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">New Arrivals</a></li>
+              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Best Sellers</a></li>
+              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Accessories</a></li>
+              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Sale</a></li>
+            </ul>
           </div>
 
-          {/* Terms & Conditions */}
-          <div className="space-y-4">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
-              <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-              Legal
-            </h3>
-            <div className="space-y-3 sm:space-y-4">
-              <a 
-                href="#terms" 
-                className="block text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                Terms & Conditions
-              </a>
-              <a 
-                href="#privacy" 
-                className="block text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                Privacy Policy
-              </a>
-              <a 
-                href="#refund" 
-                className="block text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                Refund Policy
-              </a>
-              <a 
-                href="#shipping" 
-                className="block text-sm sm:text-base text-gray-400 hover:text-purple-400 transition-colors"
-              >
-                Shipping Policy
-              </a>
-            </div>
+          {/* Customer Care */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-serif font-bold text-primary">Customer Care</h4>
+            <ul className="space-y-4">
+              <li><a href="/contact" className="text-primary/70 hover:text-accent transition-colors text-sm">Contact Us</a></li>
+              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">Shipping & Returns</a></li>
+              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">Size Guide</a></li>
+              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">FAQ</a></li>
+            </ul>
           </div>
 
-          {/* Location / Address */}
-          <div className="space-y-4">
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
-              <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-              Location
-            </h3>
-            <div className="space-y-3 sm:space-y-4">
+          {/* Contact Info */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-serif font-bold text-primary">Contact</h4>
+            <div className="space-y-4 text-sm text-primary/70">
               <div className="flex items-start gap-3">
-                <div className="flex-1">
-                  <p className="text-sm sm:text-base text-[#FFF0D1] leading-relaxed">
-                    123 Commerce Street<br />
-                    Business District<br />
-                    City, State 12345<br />
-                    Country
-                  </p>
-                </div>
+                <MapPin className="w-5 h-5 text-accent mt-0.5" />
+                <span>123 Fashion Ave, <br />New York, NY 10001</span>
               </div>
-              <div className="pt-2">
-                <p className="text-xs sm:text-sm text-[#FFF0D1]">
-                  Business Hours:<br />
-                  Monday - Friday: 9:00 AM - 6:00 PM<br />
-                  Saturday: 10:00 AM - 4:00 PM<br />
-                  Sunday: Closed
-                </p>
+              <div className="flex items-center gap-3">
+                <Phone className="w-5 h-5 text-accent" />
+                <span>+1 (555) 123-4567</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-accent" />
+                <span>care@luxe.com</span>
               </div>
             </div>
           </div>
@@ -114,10 +99,14 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-gray-800">
-          <p className="text-center text-xs sm:text-sm text-gray-500">
-            © {new Date().getFullYear()} E-Commerce Store. All rights reserved.
+        <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-primary/60">
+            © {new Date().getFullYear()} Luxe Store. All rights reserved.
           </p>
+          <div className="flex gap-6">
+            <a href="#" className="text-xs text-primary/60 hover:text-accent transition-colors">Privacy Policy</a>
+            <a href="#" className="text-xs text-primary/60 hover:text-accent transition-colors">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>

@@ -21,10 +21,10 @@ const ProductsDisplay = ({ category, searchQuery }) => {
     const fetchProducts = async () => {
       setLoading(true);
       setError(null);
-      
+
       try {
         let response;
-        
+
         if (searchQuery && searchQuery.trim()) {
           const trimmedQuery = searchQuery.trim();
           // Search across all collections
@@ -34,35 +34,46 @@ const ProductsDisplay = ({ category, searchQuery }) => {
             fashionAPI.searchFashion(trimmedQuery),
             othersAPI.searchOthers(trimmedQuery)
           ]);
-          
-          // Combine results from all collections
+
+          // Combine results from all collections with collection type
           const allProducts = [];
-          
+
           if (productsResult.status === 'fulfilled' && productsResult.value?.success) {
-            allProducts.push(...(productsResult.value.data || []));
+            // Products from productAPI are accessories, tag them as 'products' (accessories collection)
+            const products = (productsResult.value.data || []).map(p => ({ ...p, _collectionType: 'products' }));
+            allProducts.push(...products);
           }
           if (footwearResult.status === 'fulfilled' && footwearResult.value?.success) {
-            allProducts.push(...(footwearResult.value.data || []));
+            const products = (footwearResult.value.data || []).map(p => ({ ...p, _collectionType: 'footwear' }));
+            allProducts.push(...products);
           }
           if (fashionResult.status === 'fulfilled' && fashionResult.value?.success) {
-            allProducts.push(...(fashionResult.value.data || []));
+            const products = (fashionResult.value.data || []).map(p => ({ ...p, _collectionType: 'fashion' }));
+            allProducts.push(...products);
           }
           if (othersResult.status === 'fulfilled' && othersResult.value?.success) {
-            allProducts.push(...(othersResult.value.data || []));
+            const products = (othersResult.value.data || []).map(p => ({ ...p, _collectionType: 'others' }));
+            allProducts.push(...products);
           }
-          
+
           setProducts(allProducts);
         } else if (category) {
+          // Category filtering is for accessories (anklet, bracelet, necklace, watch)
+          // These come from productAPI which uses /api/products
           response = await productAPI.filterByCategory(category);
           if (response.success) {
-            setProducts(response.data || []);
+            // All products from productAPI are accessories, tag them as 'products'
+            const products = (response.data || []).map(p => ({ ...p, _collectionType: 'products' }));
+            setProducts(products);
           } else {
             setError('Failed to fetch products');
           }
         } else {
           response = await productAPI.getProducts({ limit: 50 });
           if (response.success) {
-            setProducts(response.data || []);
+            // Products from productAPI are accessories, tag them as 'products' (accessories collection)
+            const products = (response.data || []).map(p => ({ ...p, _collectionType: 'products' }));
+            setProducts(products);
           } else {
             setError('Failed to fetch products');
           }
@@ -84,21 +95,35 @@ const ProductsDisplay = ({ category, searchQuery }) => {
     fetchProducts();
   }, [category, searchQuery]);
 
-  const handleAddToCart = (product) => {
-    if (!isAuthenticated()) {
-      setShowAuthModal(true);
+  const handleProductClick = (product, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    if (!product || !product._id) {
+      console.error('Product or product ID is missing:', product);
       return;
     }
-    addToCart(product);
-    // Optional: Show toast notification
-  };
-
-  const handleBuyNow = (product) => {
-    if (!isAuthenticated()) {
-      setShowAuthModal(true);
-      return;
+    
+    // Use stored collection type or determine from category
+    let collectionType = product._collectionType || 'products'; // default to products (accessories)
+    if (!collectionType && product.category) {
+      const cat = product.category.toLowerCase();
+      if (cat === 'footwear') collectionType = 'footwear';
+      else if (cat === 'fashion') collectionType = 'fashion';
+      else if (cat === 'others' || cat === 'other') collectionType = 'others';
+      else if (cat === 'accessories' || cat === 'anklet' || cat === 'bracelet' || cat === 'necklace' || cat === 'watch') collectionType = 'products';
     }
-    navigate('/checkout', { state: { buyNowProduct: product } });
+    
+    const productPath = `/product/${product._id}?collection=${collectionType}`;
+    console.log('Navigating to product:', productPath, 'Product:', product);
+    
+    try {
+      navigate(productPath);
+    } catch (err) {
+      console.error('Navigation error:', err);
+    }
   };
 
   if (loading) {
@@ -129,56 +154,51 @@ const ProductsDisplay = ({ category, searchQuery }) => {
   return (
     <div className="w-full px-1 sm:px-2 md:px-4 lg:px-6 xl:px-8 py-3 sm:py-4 md:py-6 lg:py-8">
       <div className="max-w-7xl mx-auto">
-        {/* Grid Layout - 2 columns on mobile, responsive scaling */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1.5 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-5">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-12">
           {products.map((product) => (
             <div
               key={product._id}
-              className="bg-white rounded-md sm:rounded-lg shadow-sm sm:shadow-md hover:shadow-lg sm:hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
+              className="group flex flex-col cursor-pointer"
+              onClick={(e) => handleProductClick(product, e)}
             >
-              {/* Product Image - Smaller on mobile */}
-              <div className="w-full aspect-square bg-gray-100 flex items-center justify-center p-0.5 sm:p-1 md:p-2 lg:p-3 overflow-hidden">
+              {/* Product Image */}
+              <div className="relative w-full aspect-[3/4] overflow-hidden bg-gray-50 mb-4">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  style={{ imageRendering: 'auto' }}
+                  loading="lazy"
                   onError={(e) => {
                     e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
                   }}
                 />
               </div>
 
-              {/* Product Info - Smaller text and padding on mobile */}
-              <div className="p-1 sm:p-1.5 md:p-2 lg:p-3 xl:p-4 flex flex-col flex-grow">
-                <h3 className="text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-semibold text-gray-800 mb-0.5 sm:mb-1 md:mb-2 line-clamp-2 leading-tight">
+              {/* Product Info */}
+              <div className="flex flex-col text-center">
+                <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 group-hover:underline decoration-accent underline-offset-4 decoration-1 transition-all">
                   {product.name}
                 </h3>
-                <p className="text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-gray-600 mb-0.5 sm:mb-1 md:mb-2 lg:mb-3 line-clamp-2 flex-grow leading-tight">
+                <p className="text-xs text-gray-500 mb-2 line-clamp-1 uppercase tracking-wide">
                   {product.description}
                 </p>
-                
-                {/* Price and Add to Cart - Smaller on mobile */}
-                <div className="mt-auto">
-                  <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#A87676] mb-0.5 sm:mb-1 md:mb-2 lg:mb-3">
-                    ₹{product.price.toLocaleString('en-IN')}
-                  </p>
-                  <div className="flex gap-1 sm:gap-1.5 md:gap-2">
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className="flex-1 bg-[#A87676] hover:bg-[#CA8787] text-white font-medium py-0.5 sm:py-1 md:py-1.5 lg:py-2 px-1 sm:px-2 md:px-3 lg:px-4 rounded sm:rounded-md md:rounded-lg transition-colors duration-200 flex items-center justify-center gap-0.5 sm:gap-1 md:gap-2 text-[10px] sm:text-xs md:text-sm lg:text-base"
-                    >
-                      <ShoppingCart className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-4 md:w-4" />
-                      <span className="hidden sm:inline">Add</span>
-                      <span className="sm:hidden">Add</span>
-                    </button>
-                    <button
-                      onClick={() => handleBuyNow(product)}
-                      className="flex-1 bg-[#A87676] hover:bg-[#CA8787] text-white font-medium py-0.5 sm:py-1 md:py-1.5 lg:py-2 px-1 sm:px-2 md:px-3 lg:px-4 rounded sm:rounded-md md:rounded-lg transition-colors duration-200 flex items-center justify-center gap-0.5 sm:gap-1 md:gap-2 text-[10px] sm:text-xs md:text-sm lg:text-base"
-                    >
-                      <span className="hidden sm:inline">Buy Now</span>
-                      <span className="sm:hidden">Buy</span>
-                    </button>
-                  </div>
+                <div className="flex items-center justify-center gap-3">
+                  {product.discounted_price ? (
+                    <>
+                      <p className="text-sm font-medium text-accent">
+                        ₹{product.discounted_price.toLocaleString('en-IN')}
+                      </p>
+                      <p className="text-xs text-gray-400 line-through">
+                        ₹{(product.original_price || product.price || 0).toLocaleString('en-IN')}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-sm font-medium text-primary">
+                      ₹{(product.original_price || product.price || 0).toLocaleString('en-IN')}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

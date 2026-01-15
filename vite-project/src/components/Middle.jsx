@@ -76,34 +76,35 @@ const Middle = () => {
   };
 
   return (
-    <section className="relative w-screen overflow-hidden mt-20">
+    <section className="relative w-full overflow-hidden mt-20 lg:-mt-0">
 
 
       {/* Desktop Carousel */}
-      <div className="hidden lg:block relative w-screen h-[50vh] overflow-hidden">
+      <div className="hidden lg:block relative w-full h-screen overflow-hidden">
         <div
-          className="flex h-full transition-transform duration-500 ease-in-out"
+          className="flex h-full transition-transform duration-700 ease-in-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
           {slides.map((slide) => (
-            <div key={slide.id} className="w-screen h-full flex-shrink-0 relative">
-              <div className={`w-full h-full ${slide.fallbackBg} relative`}>
+            <div key={slide.id} className="w-full h-full flex-shrink-0 relative">
+              <div className="w-full h-full relative">
                 <img
                   src={slide.image}
                   alt={`Slide ${slide.id}`}
-                  className="w-full h-full object-cover object-center
-"
+                  className="w-full h-full object-cover object-top"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
                   }}
                 />
-                <div className="absolute inset-0 hidden items-center justify-center text-white">
-                  <h2 className="text-4xl font-bold">Image {slide.id}</h2>
+                <div className="hidden absolute inset-0 bg-secondary flex items-center justify-center">
+                  <span className="text-gray-400">Image not available</span>
                 </div>
+                {/* Overlay and Text */}
+
               </div>
             </div>
           ))}
@@ -112,28 +113,26 @@ const Middle = () => {
         {/* Desktop Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#E6D8C3] hover:bg-white/30 text-white p-3 rounded-full backdrop-blur z-10 focus:outline-none focus:ring-0 active:outline-none"
+          className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-4 backdrop-blur-md rounded-full transition-all duration-300 border border-white/30"
         >
-          <ChevronLeft className="h-6 w-6" />
+          <ChevronLeft className="h-8 w-8" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#E6D8C3] hover:bg-white/30 text-white p-3 rounded-full backdrop-blur z-10 focus:outline-none focus:ring-0 active:outline-none"
+          className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-4 backdrop-blur-md rounded-full transition-all duration-300 border border-white/30"
         >
-          <ChevronRight className="h-6 w-6" />
+          <ChevronRight className="h-8 w-8" />
         </button>
 
         {/* Indicators */}
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-4 z-10">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full  focus:outline-none focus:ring-0
-             focus-visible:outline-none focus-visible:ring-0 ${
-                index === currentSlide ? 'bg-white scale-125' : 'bg-[#E6D8C3]'
-              }`}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-accent scale-125' : 'bg-white/50 hover:bg-white/80'
+                }`}
             />
           ))}
         </div>

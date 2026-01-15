@@ -16,22 +16,36 @@ exports.getOthers = async (req, res) => {
     
     // Filter by subcategory if provided
     if (subcategory) {
-      // Handle plural forms: if subcategory ends with 's', also match singular form
-      let pattern = subcategory;
-      if (subcategory.toLowerCase().endsWith('s') && subcategory.length > 1) {
-        const singular = subcategory.slice(0, -1); // Remove last 's'
-        pattern = `(${subcategory}|${singular})`;
-      }
-      query.subcategory = { $regex: `^${pattern}$`, $options: 'i' };
+      // Create flexible regex that matches subcategory with optional spaces/underscores
+      // e.g., "tote_bag", "tote bag", "totebag" all match
+      const escaped = subcategory.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = escaped.replace(/[\s_]/g, '[\\s_]*');
+      
+      query.subcategory = { 
+        $regex: `^${pattern}$`, 
+        $options: 'i' 
+      };
+      
       console.log(`🔍 Filtering by subcategory: ${subcategory} (pattern: ${pattern})`);
     }
     
     // Search in name or description
     if (search) {
-      query.$or = [
+      const searchConditions = [
         { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } }
       ];
+      
+      // Combine search with subcategory filter using $and if both exist
+      if (subcategory) {
+        query.$and = [
+          { subcategory: query.subcategory },
+          { $or: searchConditions }
+        ];
+        delete query.subcategory; // Remove direct assignment, use $and instead
+      } else {
+        query.$or = searchConditions;
+      }
       console.log(`🔍 Searching for: ${search}`);
     }
     

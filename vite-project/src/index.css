@@ -7,6 +7,7 @@
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -22,52 +23,59 @@
   display: none;
 }
 
-@layer base {
-  body {
-  @apply m-0 min-w-[320px] min-h-screen;
+/* Hide scrollbars for home page */
+.hide-all-scrollbars {
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-  
+.hide-all-scrollbars::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+@layer base {
+  body {
+    @apply m-0 min-w-[320px] min-h-screen bg-secondary text-primary font-sans antialiased;
+  }
+
   :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     @apply leading-normal font-normal antialiased;
-    color-scheme: light dark;
   }
-  
-  a {
-    @apply font-medium text-[#646cff] no-underline;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold text-primary;
   }
-  
-  a:hover {
-    @apply text-[#535bf2];
-  }
-  
+
   h1 {
     @apply text-5xl leading-tight;
   }
-  
-  button {
-    @apply rounded-lg border border-transparent px-5 py-3 text-base font-medium font-sans;
-    @apply bg-[#1a1a1a] cursor-pointer transition-colors duration-[250ms];
+
+  a {
+    @apply font-medium text-primary no-underline transition-colors duration-200;
   }
- 
-  
+
+  a:hover {
+    @apply text-accent-dark;
+  }
+
+  button {
+    @apply rounded-xl border border-transparent px-6 py-2.5 text-sm font-bold font-sans tracking-wide;
+    @apply bg-accent text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-accent-dark;
+  }
+
+  button:hover {
+    @apply -translate-y-0.5;
+  }
+
   button:focus,
   button:focus-visible {
-    @apply outline-4 outline-offset-2;
-  }
-  
-  @media (prefers-color-scheme: light) {
-    :root {
-      @apply text-[#213547] bg-white;
-    }
-    
-    a:hover {
-      @apply text-[#747bff];
-    }
-    
-    button {
-      @apply bg-[#f9f9f9];
-    }
+    @apply outline-none ring-2 ring-accent ring-offset-2;
   }
 }

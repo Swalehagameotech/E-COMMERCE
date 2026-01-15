@@ -42,7 +42,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
     <section className="w-full py-8 sm:py-12 md:py-16 bg-gradient-to-b from-[#F0E4D3] via-white to-[#DCC5B2]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Section Title */}
-        <h2 className="font-serif italic text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center bg-gradient-to-r from-[#7C444F] via-[#7C444F] to-[#7C444F] bg-clip-text text-transparent tracking-wide">
+        <h2 className="font-serif text-3xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-center bg-gradient-to-r from-[#7C444F] via-[#7C444F] to-[#7C444F] bg-clip-text text-transparent tracking-wide">
           {title}
         </h2>
 
@@ -73,12 +73,19 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
               <div
                 key={product._id}
                 onClick={() => handleProductClick(product._id)}
-                className="flex-shrink-0 w-48 sm:w-56 md:w-64 lg:w-72 cursor-pointer group"
+                className="flex-shrink-0 w-40 sm:w-44 md:w-48 lg:w-52 cursor-pointer group"
               >
-                <div className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100">
 
                   {/* Product Image */}
-                  <div className="w-full aspect-square bg-gray-100 overflow-hidden relative">
+                  <div className="w-full aspect-[2/3] bg-gray-100 overflow-hidden relative">
+                    {/* Sale Badge - Only for Sale section */}
+                    {title === "Sale" && (
+                      <div className="absolute top-1 left-1 z-20 bg-red-400 text-white px-2 py-0 rounded-md shadow-lg">
+                        <span className="text-xs font-bold tracking-wide uppercase">Sale</span>
+                      </div>
+                    )}
+                    
                     <img
                       src={product.image}
                       alt={product.name}
@@ -90,15 +97,20 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
                     />
 
                     {/* Price Overlay */}
-                    <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent px-3 py-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-white text-sm font-semibold tracking-wide">
-                          ₹{product.price}
-                        </span>
-
-                        {product.originalPrice && (
-                          <span className="text-xs text-gray-300 line-through">
-                            ₹{product.originalPrice}
+                    <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/60 to-transparent px-3 py-3">
+                      <div className="flex items-center justify-start gap-2">
+                        {product.discounted_price ? (
+                          <>
+                            <span className="text-white text-lg sm:text-xl font-bold tracking-wide drop-shadow-lg">
+                              ₹{product.discounted_price}
+                            </span>
+                            <span className="text-sm text-gray-300 line-through">
+                              ₹{product.original_price || product.price || 0}
+                            </span>
+                          </>
+                        ) : (
+                          <span className="text-white text-lg sm:text-xl font-bold tracking-wide drop-shadow-lg">
+                            ₹{product.original_price || product.price || 0}
                           </span>
                         )}
                       </div>

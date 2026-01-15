@@ -7,6 +7,10 @@ import SuggestionsSection from './SuggestionsSection';
 import newArrivalAPI from '../utils/newArrivalApi';
 import trendingAPI from '../utils/trendingApi';
 import discountAPI from '../utils/discountApi';
+import footwearAPI from '../utils/footwearApi';
+import fashionAPI from '../utils/fashionApi';
+import othersAPI from '../utils/othersApi';
+import productAPI from '../utils/productApi';
 import AuthModal from './AuthModal';
 import { isAuthenticated } from '../utils/auth';
 
@@ -28,21 +32,76 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        let response;
+        setError(null);
+        let response = null;
+        let found = false;
 
-        if (collectionType === 'newarrival') {
-          response = await newArrivalAPI.getNewArrivalById(id);
-        } else if (collectionType === 'trending') {
-          response = await trendingAPI.getTrendingById(id);
-        } else if (collectionType === 'discount') {
-          response = await discountAPI.getDiscountById(id);
-        } else {
-          response = await newArrivalAPI.getNewArrivalById(id);
+        // Try the specified collection type first
+        try {
+          if (collectionType === 'products') {
+            response = await productAPI.getProductById(id);
+          } else if (collectionType === 'newarrival') {
+            response = await newArrivalAPI.getNewArrivalById(id);
+          } else if (collectionType === 'trending') {
+            response = await trendingAPI.getTrendingById(id);
+          } else if (collectionType === 'discount') {
+            response = await discountAPI.getDiscountById(id);
+          } else if (collectionType === 'footwear') {
+            response = await footwearAPI.getFootwearById(id);
+          } else if (collectionType === 'fashion') {
+            response = await fashionAPI.getFashionById(id);
+          } else if (collectionType === 'others') {
+            response = await othersAPI.getOthersById(id);
+          } else {
+            // Default: try products first (accessories), then newarrival
+            response = await productAPI.getProductById(id);
+            if (!response || !response.success) {
+              response = await newArrivalAPI.getNewArrivalById(id);
+            }
+          }
+
+          if (response && response.success) {
+            found = true;
+            setProduct(response.data);
+          }
+        } catch (firstError) {
+          // If first attempt fails, try other collections
+          console.log('Product not found in specified collection, trying others...');
         }
 
-        if (response.success) {
-          setProduct(response.data);
-        } else {
+        // If not found in specified collection, try all other collections
+        if (!found) {
+          const collections = [
+            { api: productAPI, method: 'getProductById', name: 'products' },
+            { api: newArrivalAPI, method: 'getNewArrivalById', name: 'newarrival' },
+            { api: trendingAPI, method: 'getTrendingById', name: 'trending' },
+            { api: discountAPI, method: 'getDiscountById', name: 'discount' },
+            { api: footwearAPI, method: 'getFootwearById', name: 'footwear' },
+            { api: fashionAPI, method: 'getFashionById', name: 'fashion' },
+            { api: othersAPI, method: 'getOthersById', name: 'others' },
+          ];
+
+          // Skip the collection we already tried
+          const collectionsToTry = collections.filter(
+            col => col.name !== collectionType
+          );
+
+          for (const { api, method } of collectionsToTry) {
+            try {
+              response = await api[method](id);
+              if (response && response.success) {
+                found = true;
+                setProduct(response.data);
+                break;
+              }
+            } catch (e) {
+              // Continue to next collection
+              continue;
+            }
+          }
+        }
+
+        if (!found) {
           setError('Product not found');
         }
       } catch (err) {
@@ -56,12 +115,20 @@ const ProductDetails = () => {
     const fetchSuggestions = async () => {
       try {
         let response;
-        if (collectionType === 'newarrival') {
+        if (collectionType === 'products') {
+          response = await productAPI.getProducts({ limit: 50 });
+        } else if (collectionType === 'newarrival') {
           response = await newArrivalAPI.getNewArrivals();
         } else if (collectionType === 'trending') {
           response = await trendingAPI.getTrending();
         } else if (collectionType === 'discount') {
           response = await discountAPI.getDiscounts();
+        } else if (collectionType === 'footwear') {
+          response = await footwearAPI.getFootwear();
+        } else if (collectionType === 'fashion') {
+          response = await fashionAPI.getFashion();
+        } else if (collectionType === 'others') {
+          response = await othersAPI.getOthers();
         }
 
         if (response && response.success) {
@@ -100,9 +167,7 @@ const ProductDetails = () => {
       return;
     }
     if (product) {
-      for (let i = 0; i < quantity; i++) {
-        addToCart(product);
-      }
+      // Direct checkout without adding to cart
       navigate('/checkout', { state: { buyNowProduct: product } });
     }
   };
@@ -166,16 +231,17 @@ const ProductDetails = () => {
   return (
     <>
       {/* Back Arrow */}
-    <button
-  onClick={handleBackClick}
-  className="fixed top-28 sm:top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
->
-  <ArrowLeft className="h-5 w-5" />
-</button>
+      <button
+        onClick={handleBackClick}
+        className="fixed top-28 sm:top-20 left-4 z-[110] bg-white/80 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg transition-all duration-200"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
 
-      
+
+
       <Hero />
-      <div className="min-h-screen pt-20   bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8]">
+      <div className="min-h-screen pt-20 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
 
           {/* Product Details Section */}
@@ -183,12 +249,12 @@ const ProductDetails = () => {
 
             {/* Left Side - Product Image */}
             <div className="w-full">
-              <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 sticky top-24">
-                <div className="aspect-square w-full bg-gray-100 rounded-lg overflow-hidden">
+              <div className="bg-white rounded-none shadow-sm p-4 sm:p-6 md:p-8 sticky top-24">
+                <div className="aspect-[3/4] w-full bg-gray-50 overflow-hidden relative">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-cover"
                     onError={(e) => {
                       e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
                     }}
@@ -199,91 +265,72 @@ const ProductDetails = () => {
 
             {/* Right Side - Product Details */}
             <div className="w-full">
-              <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <div className="bg-transparent p-6 sm:p-0">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">
                   {product.name}
                 </h1>
 
                 {product.brand_name && (
-                  <p className="text-lg sm:text-xl text-gray-600 mb-4">
-                    Brand: <span className="font-semibold">{product.brand_name}</span>
+                  <p className="text-lg sm:text-xl text-gray-500 mb-6 uppercase tracking-widest font-light">
+                    {product.brand_name}
                   </p>
                 )}
 
-                {product.stars && (
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex items-center">{renderStars(product.stars)}</div>
-                    <span className="text-gray-600">({product.stars})</span>
-                  </div>
-                )}
-
-                <div className="mb-6">
+                <div className="mb-8 border-b border-gray-200 pb-8">
                   <div className="flex items-center gap-4 mb-2">
                     {product.discounted_price ? (
                       <>
-                        <span className="text-3xl sm:text-4xl font-bold text-[#664343]">
+                        <span className="text-3xl sm:text-4xl font-semibold text-primary">
                           ₹{product.discounted_price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-xl sm:text-2xl text-gray-400 line-through">
-                          ₹{product.price.toLocaleString('en-IN')}
+                          ₹{(product.original_price || product.price || 0).toLocaleString('en-IN')}
                         </span>
                       </>
                     ) : (
-                      <span className="text-3xl sm:text-4xl font-bold text-purple-600">
-                        ₹{product.price.toLocaleString('en-IN')}
+                      <span className="text-3xl sm:text-4xl font-semibold text-primary">
+                        ₹{(product.original_price || product.price || 0).toLocaleString('en-IN')}
                       </span>
                     )}
                   </div>
                 </div>
 
                 {product.description && (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                    <p className="text-gray-600 leading-relaxed">{product.description}</p>
+                  <div className="mb-8">
+                    <h3 className="text-sm font-bold text-primary mb-2 uppercase tracking-wider">Description</h3>
+                    <p className="text-gray-600 leading-relaxed font-light">{product.description}</p>
                   </div>
                 )}
 
                 <div className="space-y-4 mb-8">
                   {product.material && (
                     <div className="flex items-center gap-4">
-                      <span className="text-gray-700 font-medium w-24">Material:</span>
-                      <span className="text-gray-600">{product.material}</span>
+                      <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Material:</span>
+                      <span className="text-gray-600 font-light">{product.material}</span>
                     </div>
                   )}
                   {product.color && (
                     <div className="flex items-center gap-4">
-                      <span className="text-gray-700 font-medium w-24">Color:</span>
-                      <span className="text-gray-600">{product.color}</span>
-                    </div>
-                  )}
-                  {product.category && (
-                    <div className="flex items-center gap-4">
-                      <span className="text-gray-700 font-medium w-24">Category:</span>
-                      <span className="text-gray-600 capitalize">{product.category}</span>
-                    </div>
-                  )}
-                  {product.subcategory && (
-                    <div className="flex items-center gap-4">
-                      <span className="text-gray-700 font-medium w-24">Subcategory:</span>
-                      <span className="text-gray-600 capitalize">{product.subcategory}</span>
+                      <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Color:</span>
+                      <span className="text-gray-600 font-light">{product.color}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Quantity Selector */}
-                <div className="mb-6">
-                  <label className="block text-gray-700 font-medium mb-2">Quantity</label>
+                <div className="mb-8">
+                  <label className="block text-primary font-bold mb-3 text-sm uppercase tracking-wider">Quantity</label>
                   <div className="flex items-center gap-4">
                     <button
                       onClick={() => handleQuantityChange(-1)}
-                      className="w-10 h-10 flex items-center justify-center font-bold border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center font-light border border-accent rounded-full hover:bg-accent hover:text-white transition-colors"
                     >
                       -
                     </button>
-                    <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
+                    <span className="text-xl font-light w-12 text-center text-primary">{quantity}</span>
                     <button
                       onClick={() => handleQuantityChange(1)}
-                      className="w-10 h-10 flex font-bold items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="w-10 h-10 flex items-center justify-center font-light border border-accent rounded-full hover:bg-accent hover:text-white transition-colors"
                     >
                       +
                     </button>
@@ -294,19 +341,17 @@ const ProductDetails = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 bg-[#B77466] hover:bg-[#896C6C] text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-white border border-accent text-accent hover:bg-accent hover:text-white font-bold text-sm uppercase tracking-widest py-4 px-6 transition-all duration-300 flex items-center justify-center gap-2 rounded-xl shadow-sm"
                   >
-                    <ShoppingCart className="h-5 w-5" />
-                    Add to Cart
+                    <ShoppingCart className="h-4 w-4" />
+                    Add to Bag
                   </button>
                   <button
                     onClick={handleBuyNow}
-                    className="flex-1 bg-[#795757] hover:bg-[#664343] text-white font-medium py-3 px-6 rounded-lg transition-colors
-             focus-visible:outline-none focus-visible:ring-0"
+                    className="flex-1 bg-pastel-green border border-pastel-green hover:bg-white hover:text-primary text-primary font-bold text-sm uppercase tracking-widest py-4 px-6 transition-all duration-300 rounded-xl shadow-sm"
                   >
                     Buy Now
                   </button>
-
                 </div>
               </div>
             </div>

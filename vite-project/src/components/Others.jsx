@@ -21,6 +21,7 @@ const Others = () => {
   const handleSubcategoryClick = (subcategory) => {
     setSelectedSubcategory(subcategory);
     setSearchQuery(''); // Clear search when subcategory is selected
+    // Keep the category set when subcategory is selected
   };
 
   const handleSearchChange = (query) => {

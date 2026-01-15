@@ -31,46 +31,40 @@ const MiddleBottom = () => {
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
 
   return (
-    <div className="w-full bg-white px-2 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="w-full bg-secondary px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">Shop by Category</h2>
+          <div className="w-20 h-1 bg-accent mx-auto"></div>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {Object.entries(images).map(([categoryKey, items]) => (
             <div
               key={categoryKey}
               onClick={() => handleCategoryClick(categoryKey)}
-              className="group bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8] rounded-xl shadow-lg p-4
-                         hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+              className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 border-accent/30 hover:border-accent p-6 hover:scale-105 transform"
             >
               {/* Category Title */}
-              <h2
-                className="text-xl sm:text-2xl font-bold text-center mb-4
-                           bg-gradient-to-r from-[#8D493A] via-gray-700 to-[#8D493A]
-                           bg-clip-text text-transparent tracking-wide"
+              <h3
+                className="text-xl font-serif font-bold text-center mb-6 text-primary group-hover:text-accent transition-colors duration-300"
               >
                 {categoryLabels[categoryKey] || formatTitle(categoryKey)}
-              </h2>
-
-              {/* Decorative underline */}
-              <div className="w-12 h-1 bg-gradient-to-r from-pink-400 to-[#E5989B] mx-auto mb-5 rounded-full group-hover:w-20 transition-all duration-300" />
+              </h3>
 
               {/* Sub-boxes */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 {Object.entries(items).map(([itemKey, imageUrl]) => (
                   <div
                     key={itemKey}
-                    className="flex flex-col items-center p-3 rounded-lg
-                               hover:bg-white hover:shadow-md
-                               transition-all duration-300"
+                    className="flex flex-col items-center"
                   >
-                    <div className="w-full h-20 sm:h-24 md:h-28 mb-2 flex items-center justify-center
-                                    overflow-hidden rounded-lg bg-gray-100">
+                    <div className="w-full h-24 mb-3 overflow-hidden bg-secondary rounded-lg flex items-center justify-center p-2">
                       {imageUrl && imageUrl.trim() !== '' ? (
                         <img
                           src={imageUrl}
                           alt={formatTitle(itemKey)}
-                          className="w-full h-full object-contain
-                                     group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
                           onError={(e) => {
                             e.target.src = placeholderImage;
                           }}
@@ -79,14 +73,13 @@ const MiddleBottom = () => {
                         <img
                           src={placeholderImage}
                           alt="Placeholder"
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-cover opacity-50"
                         />
                       )}
                     </div>
-
-                    <p className="text-xs sm:text-sm font-semibold text-gray-700 text-center tracking-wide">
+                    <span className="text-xs uppercase tracking-wider font-bold text-primary/60">
                       {formatTitle(itemKey)}
-                    </p>
+                    </span>
                   </div>
                 ))}
               </div>

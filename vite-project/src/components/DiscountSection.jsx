@@ -27,7 +27,7 @@ const DiscountSection = () => {
     return null;
   }
 
-  return <ProductScrollSection title="10% Discount" products={products} collectionType="discount" />;
+  return <ProductScrollSection title="Sale" products={products} collectionType="discount" />;
 };
 
 export default DiscountSection;

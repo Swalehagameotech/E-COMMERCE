@@ -38,13 +38,7 @@ const Products = () => {
   };
 
   return (
-   <div
-  className="min-h-screen"
-  style={{
-  background: 'bg-gradient-to-br from-[#EDDFE0] to-[#FFECC8]'
-
-  }}
->
+    <div className="min-h-screen bg-secondary">
       {/* Back Arrow */}
       <button
         onClick={handleBackClick}
@@ -53,14 +47,14 @@ const Products = () => {
         <ArrowLeft className="h-5 w-5" />
       </button>
 
-      <Hero 
-        searchQuery={searchQuery} 
+      <Hero
+        searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
       />
       <div className="pt-20 sm:pt-18 md:pt-20 pb-4 sm:pb-6 md:pb-8">
         <CategoryRow onCategoryClick={handleCategoryClick} />
-        <ProductsDisplay 
-          category={selectedCategory} 
+        <ProductsDisplay
+          category={selectedCategory}
           searchQuery={searchQuery}
         />
       </div>

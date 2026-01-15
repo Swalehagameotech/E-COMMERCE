@@ -1,6 +1,29 @@
 import { useState } from 'react';
 import { images, othersSubcategories } from '../utils/CardsImage';
 
+/* ===== SAME ROUND UI AS FOOTWEAR ===== */
+const RoundImage = ({ src, alt, size = 'lg' }) => (
+  <div
+    className={`
+      ${size === 'lg' ? 'w-26 h-26 lg:w-32 lg:h-32' : 'w-16 h-16 sm:w-20 sm:h-20'}
+      rounded-full overflow-hidden
+      shadow-md hover:shadow-xl
+      transition-all duration-300
+      bg-secondary hover:bg-white
+      border-2 border-accent/30 hover:border-accent
+      hover:scale-110 transform
+      flex items-center justify-center
+      p-3
+    `}
+  >
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-full object-contain mix-blend-multiply"
+    />
+  </div>
+);
+
 const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
   const [selectedMainCategory, setSelectedMainCategory] = useState(null);
 
@@ -45,6 +68,8 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
   const handleMainCategoryClick = (category) => {
     if (category.hasSubcategories) {
       setSelectedMainCategory(category);
+      // Set the category state so products are shown immediately
+      onCategoryClick(category.key);
     } else {
       onSubcategoryClick(category.key === 'perfume' ? 'perfumes' : 'glasses');
       setSelectedMainCategory(null);
@@ -59,13 +84,12 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
   const handleBack = () => {
     setSelectedMainCategory(null);
     onCategoryClick(null);
+    // Clear subcategory when going back
+    onSubcategoryClick(null);
   };
 
   const Wrapper = ({ children }) => (
-    <div
-      className="w-full py-2 sm:py-3 md:py-4 relative z-0"
-      style={{ background: 'linear-gradient(to right, #FFD6BA, #E5BEB5, #FFD6BA)' }}
-    >
+    <div className="w-full py-2 sm:py-3 md:py-4 bg-secondary">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         {children}
       </div>
@@ -78,40 +102,34 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
       <Wrapper>
         <button
           onClick={handleBack}
-          className="mb-2 text-purple-600 hover:text-purple-700 font-medium"
+          className="mb-2 text-primary hover:text-accent font-medium font-serif"
         >
           ← Back
         </button>
 
         {/* Desktop */}
         <div className="hidden md:block">
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg p-3 lg:p-4">
-            <h2 className="text-lg font-bold text-center mb-3">
+          <div className="rounded-2xl shadow-sm border border-primary/5 p-3 lg:p-4">
+            <h2 className="text-lg font-bold font-serif text-center mb-4 text-primary">
               {selectedMainCategory.name}
             </h2>
 
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-6 lg:gap-8">
               {selectedMainCategory.subcategories.map((subcat) => (
                 <div
                   key={subcat.key}
                   onClick={() => handleSubcategoryClick(subcat.key)}
-                  className="flex-1 max-w-xs cursor-pointer group"
+                  className="flex flex-col items-center cursor-pointer group"
                 >
-                  <div className="rounded-lg shadow-md hover:shadow-lg transition bg-white">
-                    <div className="flex justify-center p-2">
-                      <div className="w-20 h-20 lg:w-24 lg:h-24">
-                        <img
-                          src={subcat.image || selectedMainCategory.image}
-                          alt={subcat.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div className="py-1 text-center">
-                      <h3 className="text-sm font-semibold">
-                        {subcat.name}
-                      </h3>
-                    </div>
+                  <RoundImage
+                    src={subcat.image || selectedMainCategory.image}
+                    alt={subcat.name}
+                  />
+
+                  <div className="mt-3 text-center">
+                    <h3 className="text-sm font-bold font-serif text-primary group-hover:text-accent">
+                      {subcat.name}
+                    </h3>
                   </div>
                 </div>
               ))}
@@ -121,33 +139,28 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
 
         {/* Mobile */}
         <div className="md:hidden">
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg p-3">
-            <h2 className="text-base font-bold text-center mb-2">
+          <div className="rounded-xl shadow-sm border border-primary/5 p-3">
+            <h2 className="text-base font-bold font-serif text-center mb-3 text-primary">
               {selectedMainCategory.name}
             </h2>
 
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-3">
               {selectedMainCategory.subcategories.map((subcat) => (
                 <div
                   key={subcat.key}
                   onClick={() => handleSubcategoryClick(subcat.key)}
-                  className="cursor-pointer"
+                  className="flex flex-col items-center cursor-pointer group"
                 >
-                  <div className="rounded-lg shadow bg-white">
-                    <div className="flex justify-center p-1">
-                      <div className="w-14 h-14">
-                        <img
-                          src={subcat.image || selectedMainCategory.image}
-                          alt={subcat.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div className="text-center py-0.5">
-                      <h3 className="text-xs font-semibold leading-tight">
-                        {subcat.name}
-                      </h3>
-                    </div>
+                  <RoundImage
+                    src={subcat.image || selectedMainCategory.image}
+                    alt={subcat.name}
+                    size="sm"
+                  />
+
+                  <div className="mt-1 text-center">
+                    <h3 className="text-[10px] sm:text-xs font-bold font-serif text-primary group-hover:text-accent">
+                      {subcat.name}
+                    </h3>
                   </div>
                 </div>
               ))}
@@ -163,29 +176,20 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
     <Wrapper>
       {/* Desktop */}
       <div className="hidden md:block">
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg p-3 lg:p-4">
-          <div className="flex justify-center gap-3">
+        <div className="rounded-2xl shadow-sm border border-primary/5 p-3 lg:p-4">
+          <div className="flex justify-center gap-6 lg:gap-8">
             {mainCategories.map((category) => (
               <div
                 key={category.key}
                 onClick={() => handleMainCategoryClick(category)}
-                className="flex-1 max-w-xs cursor-pointer"
+                className="flex flex-col items-center cursor-pointer group"
               >
-                <div className="rounded-lg shadow-md hover:shadow-lg bg-white transition">
-                  <div className="flex justify-center p-2">
-                    <div className="w-20 h-20 lg:w-24 lg:h-24">
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                  <div className="py-1 text-center">
-                    <h3 className="text-sm font-semibold">
-                      {category.name}
-                    </h3>
-                  </div>
+                <RoundImage src={category.image} alt={category.name} />
+
+                <div className="mt-3 text-center">
+                  <h3 className="text-sm lg:text-base font-bold font-serif text-primary group-hover:text-accent">
+                    {category.name}
+                  </h3>
                 </div>
               </div>
             ))}
@@ -195,29 +199,24 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
 
       {/* Mobile */}
       <div className="md:hidden">
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg p-3">
-          <div className="grid grid-cols-4 gap-2">
+        <div className="rounded-xl shadow-sm border border-primary/5 p-3">
+          <div className="grid grid-cols-4 gap-3">
             {mainCategories.map((category) => (
               <div
                 key={category.key}
                 onClick={() => handleMainCategoryClick(category)}
-                className="cursor-pointer"
+                className="flex flex-col items-center cursor-pointer group"
               >
-                <div className="rounded-lg shadow bg-white">
-                  <div className="flex justify-center p-1">
-                    <div className="w-14 h-14">
-                      <img
-                        src={category.image}
-                        alt={category.name}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                  <div className="text-center py-0.5">
-                    <h3 className="text-xs font-semibold leading-tight">
-                      {category.name}
-                    </h3>
-                  </div>
+                <RoundImage
+                  src={category.image}
+                  alt={category.name}
+                  size="sm"
+                />
+
+                <div className="mt-1 text-center">
+                  <h3 className="text-[10px] sm:text-xs font-bold font-serif text-primary group-hover:text-accent">
+                    {category.name}
+                  </h3>
                 </div>
               </div>
             ))}

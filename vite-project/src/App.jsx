@@ -14,11 +14,14 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Orders from './components/Orders';
 import ProtectedRoute from './components/ProtectedRoute';
+import Admin from './components/admin/Admin';
+import ScrollToTop from './utils/SrollToTop';
 
 function App() {
   return (
     <CartProvider>
       <BrowserRouter>
+      <ScrollToTop/>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -54,6 +57,14 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/admin/*"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Navigate to="/home" replace />} />
         </Routes>
       </BrowserRouter>

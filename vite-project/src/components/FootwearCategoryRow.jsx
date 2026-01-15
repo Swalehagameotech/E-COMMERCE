@@ -10,39 +10,34 @@ const FootwearCategoryRow = ({ onCategoryClick }) => {
 
   return (
     <div
-      className="w-full py-2 sm:py-3 md:py-4 relative z-0"
-      style={{ background: 'linear-gradient(to right, #FFD6BA, #E5BEB5, #FFD6BA)' }}
+      className="w-full py-2 sm:py-3 md:py-4 relative z-0 bg-secondary"
     >
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
 
         {/* Desktop */}
         <div className="hidden md:block">
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-md p-3 lg:p-4">
-            <div className="flex justify-center gap-3">
+          <div className="rounded-2xl shadow-sm border border-primary/5 p-3 lg:p-4">
+            <div className="flex justify-center gap-6 lg:gap-8">
               {categories.map((category) => (
                 <div
                   key={category.key}
                   onClick={() => onCategoryClick(category.key)}
-                  className="flex-1 max-w-xs cursor-pointer group"
+                  className="flex flex-col items-center cursor-pointer group"
                 >
-                  <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white">
+                  {/* Round Image Container */}
+                  <div className="w-26 h-26 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-secondary hover:bg-white border-2 border-accent/30 hover:border-accent hover:scale-110 transform flex items-center justify-center p-3">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-50 h-50 object-contain mix-blend-multiply"
+                    />
+                  </div>
 
-                    <div className="flex items-center justify-center p-2 bg-gradient-to-br from-gray-50 to-white">
-                      <div className="w-20 h-20 lg:w-24 lg:h-24">
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="py-1.5 text-center">
-                      <h3 className="text-sm font-semibold text-gray-800 group-hover:text-purple-600 transition-colors">
-                        {category.name}
-                      </h3>
-                    </div>
-
+                  {/* Category Name */}
+                  <div className="mt-3 text-center">
+                    <h3 className="text-sm lg:text-base font-bold font-serif text-primary group-hover:text-accent transition-colors">
+                      {category.name}
+                    </h3>
                   </div>
                 </div>
               ))}
@@ -52,32 +47,28 @@ const FootwearCategoryRow = ({ onCategoryClick }) => {
 
         {/* Mobile / Tablet */}
         <div className="md:hidden">
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg shadow-md p-2">
-            <div className="grid grid-cols-4 gap-2">
+          <div className="rounded-xl shadow-sm border border-primary/5 p-3">
+            <div className="grid grid-cols-4 gap-3">
               {categories.map((category) => (
                 <div
                   key={category.key}
                   onClick={() => onCategoryClick(category.key)}
-                  className="cursor-pointer group"
+                  className="flex flex-col items-center cursor-pointer group"
                 >
-                  <div className="rounded-md overflow-hidden shadow-sm bg-white">
+                  {/* Round Image Container */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden shadow-md bg-secondary hover:bg-white transition-all duration-300 border-2 border-accent/30 hover:border-accent flex items-center justify-center p-2">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full h-full object-contain mix-blend-multiply"
+                    />
+                  </div>
 
-                    <div className="flex items-center justify-center p-1.5 bg-gradient-to-br from-gray-50 to-white">
-                      <div className="w-10 h-10 sm:w-14 sm:h-14">
-                        <img
-                          src={category.image}
-                          alt={category.name}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="py-1 text-center">
-                      <h3 className="text-[11px] sm:text-xs font-semibold text-gray-800 leading-tight">
-                        {category.name}
-                      </h3>
-                    </div>
-
+                  {/* Category Name */}
+                  <div className="mt-2 text-center">
+                    <h3 className="text-[10px] sm:text-xs font-bold font-serif text-primary leading-tight group-hover:text-accent transition-colors">
+                      {category.name}
+                    </h3>
                   </div>
                 </div>
               ))}

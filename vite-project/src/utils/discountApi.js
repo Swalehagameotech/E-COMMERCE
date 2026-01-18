@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/discount';
+const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/discount';
 
 const discountApi = axios.create({
   baseURL: API_URL,

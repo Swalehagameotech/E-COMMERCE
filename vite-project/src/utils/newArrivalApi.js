@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/newarrival';
+const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/newarrival';
 
 const newArrivalApi = axios.create({
   baseURL: API_URL,

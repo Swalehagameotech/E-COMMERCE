@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/trending';
+const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/trending';
 
 const trendingApi = axios.create({
   baseURL: API_URL,

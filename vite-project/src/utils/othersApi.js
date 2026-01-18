@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/others';
+const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/others';
 
 // Create axios instance
 const othersApi = axios.create({

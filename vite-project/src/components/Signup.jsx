@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signUpWithEmail, signInWithGoogle } from '../utils/firebaseAuth';
+import { showToast } from '../utils/toast';
 import bgImage from '../assets/herosection/zia-bg.png';
-import logo from '../assets/herosection/tit copy.png'
+const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const validateForm = () => {
     const newErrors = {};
@@ -54,12 +54,10 @@ const Signup = () => {
         [name]: '',
       }));
     }
-    setErrorMessage('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
 
     if (!validateForm()) {
       return;
@@ -71,31 +69,42 @@ const Signup = () => {
       const result = await signUpWithEmail(formData.email, formData.password, formData.name);
 
       if (result.success) {
+        showToast('Account created successfully!', 'success');
         navigate('/home');
       } else {
-        setErrorMessage(result.error || 'An error occurred during signup');
+        if (result.errorCode === 'EMAIL_EXISTS') {
+          showToast('Already have account login', 'error');
+        } else {
+          showToast(result.error || 'An error occurred during signup', 'error');
+        }
       }
     } catch (error) {
-      setErrorMessage(error.message || 'An error occurred during signup');
+      showToast('An error occurred during signup', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignup = async () => {
-    setErrorMessage('');
     setGoogleLoading(true);
 
     try {
       const result = await signInWithGoogle();
 
       if (result.success) {
+        showToast('Account created successfully!', 'success');
         navigate('/home');
       } else {
-        setErrorMessage(result.error || 'Failed to sign up with Google');
+        if (result.errorCode === 'CANCELLED') {
+          // User cancelled, don't show error
+          return;
+        }
+        // Check if email exists by trying to get user info
+        // For now, just show generic error or let backend handle it
+        showToast('Failed to sign up with Google', 'error');
       }
     } catch (error) {
-      setErrorMessage(error.message || 'Failed to sign up with Google');
+      showToast('Failed to sign up with Google', 'error');
     } finally {
       setGoogleLoading(false);
     }
@@ -116,19 +125,19 @@ const Signup = () => {
 
 
 {/* Background Logo - Top Left */}
+
 <img
   src={logo}
   alt="Logo"
   className="
     absolute
-    top-4
-    left-4
-    h-12 sm:h-20 md:h-14
+    top-6
+    left-6
+    h-8 sm:h-14 md:h-12
     object-contain
     z-10
   "
 />
-
 
     
       <div className="max-w-xs sm:max-w-sm lg:max-w-md w-full space-y-6">
@@ -142,24 +151,6 @@ const Signup = () => {
             </h2>
             <p className="text-sm text-gray-600">Join us and start your journey</p>
           </div>
-
-          {/* Error Message */}
-          {errorMessage && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm flex items-center">
-              <svg
-                className="h-5 w-5 mr-2 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {errorMessage}
-            </div>
-          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">

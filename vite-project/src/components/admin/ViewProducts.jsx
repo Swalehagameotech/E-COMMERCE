@@ -171,7 +171,7 @@ const ViewProducts = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleEdit(product)}
-                          className="text-accent hover:text-accent-dark p-2 hover:bg-secondary rounded"
+                          className="text-black hover:text-accent-dark p-2 hover:bg-secondary rounded"
                         >
                           <Edit className="h-4 w-4" />
                         </button>

@@ -11,7 +11,10 @@ import {
   Menu,
   X,
   Store,
+  LogOut
 } from 'lucide-react';
+import { auth } from '../../utils/firebase';
+import { signOut } from 'firebase/auth';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -43,9 +46,8 @@ const AdminLayout = () => {
     <div className="min-h-screen bg-secondary flex">
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-primary/10 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-primary/10 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Logo/Header */}
@@ -72,11 +74,10 @@ const AdminLayout = () => {
                     navigate(item.path);
                     setSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                    isActive(item.path)
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-primary hover:bg-secondary'
-                  }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive(item.path)
+                    ? 'bg-primary text-white shadow-md'
+                    : 'text-primary hover:bg-secondary'
+                    }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium">{item.name}</span>
@@ -85,16 +86,6 @@ const AdminLayout = () => {
             })}
           </nav>
 
-          {/* Back to Store Button */}
-          <div className="p-4 border-t border-primary/10">
-            <button
-              onClick={handleBackToStore}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-primary hover:bg-secondary transition-all duration-200"
-            >
-              <Store className="h-5 w-5" />
-              <span className="font-medium">Back to Store</span>
-            </button>
-          </div>
         </div>
       </aside>
 
@@ -120,7 +111,22 @@ const AdminLayout = () => {
             <h2 className="text-xl font-serif font-bold text-primary">
               {menuItems.find((item) => isActive(item.path))?.name || 'Admin Panel'}
             </h2>
-            <div className="w-10" /> {/* Spacer for centering */}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={async () => {
+                  try {
+                    await signOut(auth);
+                    navigate('/login');
+                  } catch (error) {
+                    console.error('Error signing out:', error);
+                  }
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="font-medium">Sign Out</span>
+              </button>
+            </div>
           </div>
         </header>
 

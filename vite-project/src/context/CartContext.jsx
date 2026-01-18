@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { isAuthenticated } from '../utils/auth';
 import { cartAPI } from '../utils/cartAPI';
+import { auth } from '../utils/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const CartContext = createContext();
 
@@ -16,56 +18,86 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
+const getCartKey = () => {
+  const uid = localStorage.getItem('firebaseUID');
+  return uid ? `cart_${uid}` : 'cart_guest';
+};
+
+  // Load cart function
+  const loadCart = async () => {
+    setLoading(true);
+    const isAuth = isAuthenticated();
+
+    if (isAuth) {
+      // Load from MongoDB
+      try {
+        const response = await cartAPI.getCart();
+        if (response.success) {
+          // Transform cart items: productId -> _id for frontend compatibility
+          const transformedCart = response.data.cart.map(item => ({
+            _id: item.productId,
+            productId: item.productId,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image || '',
+          }));
+          setCart(transformedCart);
+        } else {
+          setCart([]);
+        }
+      } catch (error) {
+        console.error('Error loading cart from MongoDB:', error);
+        // Fallback to localStorage if MongoDB fails
+        const savedCart = localStorage.getItem(getCartKey());
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      } else {
+        setCart([]);
+      }
+
+      }
+    } else {
+      // Load from localStorage for guest users
+      const savedCart = localStorage.getItem(getCartKey());
+        if (savedCart) {
+          setCart(JSON.parse(savedCart));
+        } else {
+          setCart([]);
+      }
+
+    }
+    setLoading(false);
+  };
 
   // Load cart on mount
   useEffect(() => {
-    const loadCart = async () => {
-      setLoading(true);
-      const isAuth = isAuthenticated();
-
-      if (isAuth) {
-        // Load from MongoDB
-        try {
-          const response = await cartAPI.getCart();
-          if (response.success) {
-            // Transform cart items: productId -> _id for frontend compatibility
-            const transformedCart = response.data.cart.map(item => ({
-              _id: item.productId,
-              productId: item.productId,
-              name: item.name,
-              price: item.price,
-              quantity: item.quantity,
-              image: item.image || '',
-            }));
-            setCart(transformedCart);
-          }
-        } catch (error) {
-          console.error('Error loading cart from MongoDB:', error);
-          // Fallback to localStorage if MongoDB fails
-          const savedCart = localStorage.getItem('cart');
-          if (savedCart) {
-            setCart(JSON.parse(savedCart));
-          }
-        }
-      } else {
-        // Load from localStorage for guest users
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-          setCart(JSON.parse(savedCart));
-        }
-      }
-      setLoading(false);
-    };
-
     loadCart();
   }, []);
 
+  // Reload cart when auth state changes (user logs in/out)
+  useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      localStorage.setItem('firebaseUID', user.uid);
+      loadCart();
+    } else {
+      setCart([]);
+      localStorage.removeItem(getCartKey());
+      localStorage.removeItem('firebaseUID');
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
+
+
   // Sync cart to localStorage for guest users
   useEffect(() => {
-    if (!isAuthenticated()) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-  }, [cart]);
+  const key = getCartKey();
+  localStorage.setItem(key, JSON.stringify(cart));
+}, [cart]);
+
 
   // Sync cart to MongoDB when authenticated
   const syncToMongoDB = async (updatedCart) => {
@@ -229,8 +261,15 @@ export const CartProvider = ({ children }) => {
     } else {
       // Clear local state
       setCart([]);
-      localStorage.removeItem('cart');
+      localStorage.removeItem(getCartKey());
     }
+  };
+
+  // Clear only local cart state without touching MongoDB
+  // Used when user signs out - keeps cart in DB for when they log back in
+  const clearLocalCart = () => {
+    setCart([]);
+    localStorage.removeItem(getCartKey());
   };
 
   const getCartTotal = () => {
@@ -247,6 +286,7 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     updateQuantity,
     clearCart,
+    clearLocalCart,
     getCartTotal,
     getCartItemCount,
     loading,

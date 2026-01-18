@@ -17,4 +17,10 @@ router.post('/login', login);
 // @access  Public
 router.post('/firebase-user', createOrGetFirebaseUser);
 
+// @route   GET /api/auth/profile
+// @desc    Get current user profile
+// @access  Protected
+const { authenticate } = require('../middleware/authMiddleware');
+router.get('/profile', authenticate, require('../controllers/authController').getProfile);
+
 module.exports = router;

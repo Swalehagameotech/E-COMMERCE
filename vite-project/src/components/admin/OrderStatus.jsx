@@ -30,7 +30,9 @@ const OrderStatus = () => {
     }
   };
 
-  const pendingOrders = orders.filter((o) => o.status === 'pending');
+  const pendingOrders = orders.filter((o) => 
+    ['placed', 'confirmed', 'shipped'].includes(o.status)
+  );
   const deliveredOrders = orders.filter((o) => o.status === 'delivered');
 
   const filteredOrders = orders.filter((order) => {
@@ -136,12 +138,15 @@ const OrderStatus = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
                   Status
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">
+                  Paid
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-primary/5">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
                     No orders found
                   </td>
                 </tr>
@@ -165,6 +170,17 @@ const OrderStatus = () => {
                         }`}
                       >
                         {order.status || 'pending'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          order.status === 'delivered'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-red-100 text-red-700'
+                        }`}
+                      >
+                        {order.status === 'delivered' ? 'paid' : 'unpaid'}
                       </span>
                     </td>
                   </tr>

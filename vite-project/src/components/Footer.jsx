@@ -1,6 +1,5 @@
 import { Mail, Phone, MapPin, Truck, ShieldCheck, RefreshCw, Star } from 'lucide-react';
-import logo from '../assets/herosection/tit copy.png';
-
+const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 const Footer = () => {
   return (
     <footer className="w-full bg-secondary text-primary pt-16 pb-10 border-t-4 border-white">

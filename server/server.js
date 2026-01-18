@@ -22,6 +22,7 @@ app.use('/api/discount', require('./routes/discountRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
+app.use('/api/address', require('./routes/addressRoutes'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -33,7 +34,7 @@ const connectDB = async () => {
   try {
     // Get MongoDB connection string from environment variable
     const mongoURI = process.env.DBURL || process.env.MONGO_URI || 'mongodb://localhost:27017/auth-app';
-    
+
     // Validate connection string
     if (!mongoURI || mongoURI.trim() === '' || mongoURI === 'your_mongodb_compass_connection_string') {
       console.error('❌ MongoDB Connection Error: Please set DBURL or MONGO_URI in your .env file');

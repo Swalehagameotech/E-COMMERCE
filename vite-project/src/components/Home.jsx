@@ -50,7 +50,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-secondary" style={{ overflowX: 'hidden' }}>
+    <div className="min-h-screen bg-gradient-to-b from-[#FFF0F5] via-[#FFE4E1] to-[#FFF0F5]" style={{ overflowX: 'hidden' }}>
       <Hero />
       <Middle />
       <NewArrivalSection />

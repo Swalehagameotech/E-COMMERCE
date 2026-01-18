@@ -42,9 +42,18 @@ export const signUpWithEmail = async (email, password, name) => {
     return { success: false, error: 'Failed to create user in database' };
   } catch (error) {
     console.error('Signup error:', error);
+    // Handle Firebase errors
+    if (error.code === 'auth/email-already-in-use') {
+      return {
+        success: false,
+        errorCode: 'EMAIL_EXISTS',
+        error: 'Already have account login',
+      };
+    }
     return {
       success: false,
-      error: error.message || 'Failed to sign up',
+      errorCode: 'UNKNOWN',
+      error: 'Failed to sign up',
     };
   }
 };
@@ -72,9 +81,18 @@ export const signInWithEmail = async (email, password) => {
     return { success: false, error: 'User not found. Please signup first.' };
   } catch (error) {
     console.error('Login error:', error);
+    // Handle Firebase errors
+    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+      return {
+        success: false,
+        errorCode: 'USER_NOT_FOUND',
+        error: 'No account found please signup',
+      };
+    }
     return {
       success: false,
-      error: error.message || 'Failed to login',
+      errorCode: 'UNKNOWN',
+      error: 'Failed to login',
     };
   }
 };
@@ -102,9 +120,19 @@ export const signInWithGoogle = async () => {
     return { success: false, error: 'Failed to authenticate' };
   } catch (error) {
     console.error('Google signin error:', error);
+    // Handle Google signin errors - check if user already exists by trying to find in DB first
+    // For now, Google signin typically creates new users, but if there's an error we'll handle it
+    if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
+      return {
+        success: false,
+        errorCode: 'CANCELLED',
+        error: 'Sign in cancelled',
+      };
+    }
     return {
       success: false,
-      error: error.message || 'Failed to sign in with Google',
+      errorCode: 'UNKNOWN',
+      error: 'Failed to sign in with Google',
     };
   }
 };

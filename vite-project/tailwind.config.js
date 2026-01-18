@@ -9,7 +9,7 @@ export default {
       colors: {
         primary: '#4A403A', // Warm dark grey/brown for text
         secondary: '#FFF5F6', // Very light pastel pink background
-        accent: '#EBE1D1', // Soft pastel pink/coral
+        accent: '#A87676', // Soft pastel pink/coral
         'accent-dark': '#FF9E99', // Slightly darker pink for hover
         'pastel-cream': '#FFF9F0',
         'pastel-green': '#E2F0CB',

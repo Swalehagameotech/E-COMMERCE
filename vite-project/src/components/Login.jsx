@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signInWithEmail, signInWithGoogle } from '../utils/firebaseAuth';
+import { showToast } from '../utils/toast';
 import bgImage from '../assets/herosection/zia-bg.png';
-import logo from '../assets/herosection/tit copy.png'
-
+const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const validateForm = () => {
     const newErrors = {};
@@ -46,12 +45,10 @@ const Login = () => {
         [name]: '',
       }));
     }
-    setErrorMessage('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
 
     if (!validateForm()) {
       return;
@@ -63,31 +60,40 @@ const Login = () => {
       const result = await signInWithEmail(formData.email, formData.password);
 
       if (result.success) {
+        showToast('Login successful!', 'success');
         navigate('/home');
       } else {
-        setErrorMessage(result.error || 'Invalid email or password');
+        if (result.errorCode === 'USER_NOT_FOUND') {
+          showToast('No account found please signup', 'error');
+        } else {
+          showToast(result.error || 'Failed to login', 'error');
+        }
       }
     } catch (error) {
-      setErrorMessage(error.message || 'Failed to login');
+      showToast('Failed to login', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
-    setErrorMessage('');
     setGoogleLoading(true);
 
     try {
       const result = await signInWithGoogle();
 
       if (result.success) {
+        showToast('Login successful!', 'success');
         navigate('/home');
       } else {
-        setErrorMessage(result.error || 'Failed to sign in with Google');
+        if (result.errorCode === 'CANCELLED') {
+          // User cancelled, don't show error
+          return;
+        }
+        showToast('Failed to sign in with Google', 'error');
       }
     } catch (error) {
-      setErrorMessage(error.message || 'Failed to sign in with Google');
+      showToast('Failed to sign in with Google', 'error');
     } finally {
       setGoogleLoading(false);
     }
@@ -109,9 +115,9 @@ const Login = () => {
   alt="Logo"
   className="
     absolute
-    top-4
-    left-4
-    h-12 sm:h-20 md:h-14
+    top-6
+    left-6
+    h-8 sm:h-14 md:h-12
     object-contain
     z-10
   "
@@ -130,24 +136,6 @@ p-4 sm:p-5 lg:p-6 border border-white/20">
             </h2>
             <p className="text-sm text-gray-600">Sign in to your account</p>
           </div>
-
-          {/* Error Message */}
-          {errorMessage && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm flex items-center">
-              <svg
-                className="h-5 w-5 mr-2 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              {errorMessage}
-            </div>
-          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">

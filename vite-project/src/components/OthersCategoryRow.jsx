@@ -5,11 +5,11 @@ import { images, othersSubcategories } from '../utils/CardsImage';
 const RoundImage = ({ src, alt, size = 'lg' }) => (
   <div
     className={`
-      ${size === 'lg' ? 'w-26 h-26 lg:w-32 lg:h-32' : 'w-16 h-16 sm:w-20 sm:h-20'}
+      ${size === 'lg' ? 'w-24 h-24 lg:w-32 lg:h-32' : 'w-16 h-16 sm:w-20 sm:h-20'}
       rounded-full overflow-hidden
       shadow-md hover:shadow-xl
       transition-all duration-300
-      bg-secondary hover:bg-white
+      bg-white
       border-2 border-accent/30 hover:border-accent
       hover:scale-110 transform
       flex items-center justify-center
@@ -19,7 +19,7 @@ const RoundImage = ({ src, alt, size = 'lg' }) => (
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-contain mix-blend-multiply"
+      className="w-full h-full object-contain mix-blend-multiply rounded-full"
     />
   </div>
 );
@@ -89,7 +89,7 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
   };
 
   const Wrapper = ({ children }) => (
-    <div className="w-full py-2 sm:py-3 md:py-4 bg-secondary">
+    <div className="w-full py-2 sm:py-3 md:py-4 pt-12 sm:pt-14 md:pt-16 bg-secondary">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
         {children}
       </div>
@@ -100,13 +100,6 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
   if (selectedMainCategory?.hasSubcategories) {
     return (
       <Wrapper>
-        <button
-          onClick={handleBack}
-          className="mb-2 text-primary hover:text-accent font-medium font-serif"
-        >
-          ← Back
-        </button>
-
         {/* Desktop */}
         <div className="hidden md:block">
           <div className="rounded-2xl shadow-sm border border-primary/5 p-3 lg:p-4">

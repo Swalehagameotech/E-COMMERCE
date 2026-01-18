@@ -7,26 +7,49 @@ import MiddleBottom from './MiddleBottom';
 
 const Middle = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentMobileSlide, setCurrentMobileSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobileAutoPlaying, setIsMobileAutoPlaying] = useState(true);
 
+  // Desktop slides
   const slides = [
     {
       id: 1,
-      image: kurtiImage,
+      image:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768647590/White_Modern_Simple_Minimalist_Beauty_Skincare_Products_Presentation_1920_x_600_px_1920_x_600_px_nzlpou.png",
       fallbackBg: "bg-gradient-to-r from-pink-400 to-purple-500"
     },
     {
       id: 2,
-      image: sariImage,
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768649601/Black_and_Gold_Elegant_Special_New_Year_s_Watch_Promo_Banner_Design_1920_x_600_px_1_z7rvvq.png",
       fallbackBg: "bg-gradient-to-r from-blue-400 to-indigo-500"
     },
     {
       id: 3,
-      image: watchesImage,
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768646835/White_Green_and_Orange_Simple_Modern_Republic_Day_Sale_Billboard_Landscape_1920_x_600_px_1_vlnrt7.png",
       fallbackBg: "bg-gradient-to-r from-gray-600 to-gray-800"
-    }
+    },
   ];
 
+  // Mobile slides
+  const mobileSlides = [
+    {
+      id: 1,
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768649490/White_Modern_Simple_Minimalist_Beauty_Skincare_Products_Presentation_1920_x_600_px_1920_x_600_px_1080_x_1080_px_1080_x_1080_px_l6kzhw.png",
+      fallbackBg: "bg-gradient-to-r from-pink-400 to-purple-500"
+    },
+    {
+      id: 2,
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768649523/White_Orange_Minimal_Indian_Republic_Day_Sale_Instagram_Post_2_jlc5yu.svg",
+      fallbackBg: "bg-gradient-to-r from-blue-400 to-indigo-500"
+    },
+    {
+      id: 3,
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768650831/White_Modern_Simple_Minimalist_Beauty_Skincare_Products_Presentation_1920_x_600_px_1920_x_600_px_1080_x_1080_px_1080_x_1080_px_1080_x_1080_px_qvhejd.png",
+      fallbackBg: "bg-gradient-to-r from-gray-600 to-gray-800"
+    },
+  ];
+
+  // Desktop carousel auto-play
   useEffect(() => {
     if (!isAutoPlaying) return;
 
@@ -36,6 +59,17 @@ const Middle = () => {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, slides.length]);
+
+  // Mobile carousel auto-play
+  useEffect(() => {
+    if (!isMobileAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentMobileSlide((prev) => (prev + 1) % mobileSlides.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isMobileAutoPlaying, mobileSlides.length]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -55,6 +89,25 @@ const Middle = () => {
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
+  // Mobile slide navigation
+  const goToMobileSlide = (index) => {
+    setCurrentMobileSlide(index);
+    setIsMobileAutoPlaying(false);
+    setTimeout(() => setIsMobileAutoPlaying(true), 10000);
+  };
+
+  const nextMobileSlide = () => {
+    setCurrentMobileSlide((prev) => (prev + 1) % mobileSlides.length);
+    setIsMobileAutoPlaying(false);
+    setTimeout(() => setIsMobileAutoPlaying(true), 10000);
+  };
+
+  const prevMobileSlide = () => {
+    setCurrentMobileSlide((prev) => (prev - 1 + mobileSlides.length) % mobileSlides.length);
+    setIsMobileAutoPlaying(false);
+    setTimeout(() => setIsMobileAutoPlaying(true), 10000);
+  };
+
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const minSwipeDistance = 50;
@@ -71,30 +124,29 @@ const Middle = () => {
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
-    if (distance > minSwipeDistance) nextSlide();
-    if (distance < -minSwipeDistance) prevSlide();
+    if (distance > minSwipeDistance) nextMobileSlide();
+    if (distance < -minSwipeDistance) prevMobileSlide();
   };
 
   return (
-    <section className="relative w-full overflow-hidden mt-20 lg:-mt-0">
-
+<section className="relative w-full overflow-hidden mt-32 lg:mt-32">
 
       {/* Desktop Carousel */}
-      <div className="hidden lg:block relative w-full h-screen overflow-hidden">
+      <div className="hidden lg:block relative w-full overflow-hidden">
         <div
-          className="flex h-full transition-transform duration-700 ease-in-out"
+          className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
           {slides.map((slide) => (
-            <div key={slide.id} className="w-full h-full flex-shrink-0 relative">
-              <div className="w-full h-full relative">
+            <div key={slide.id} className="w-full flex-shrink-0 relative">
+              <div className="w-full relative">
                 <img
                   src={slide.image}
                   alt={`Slide ${slide.id}`}
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-auto object-contain"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
@@ -103,74 +155,79 @@ const Middle = () => {
                 <div className="hidden absolute inset-0 bg-secondary flex items-center justify-center">
                   <span className="text-gray-400">Image not available</span>
                 </div>
-                {/* Overlay and Text */}
-
               </div>
             </div>
           ))}
         </div>
 
         {/* Desktop Arrows */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-4 backdrop-blur-md rounded-full transition-all duration-300 border border-white/30"
-        >
-          <ChevronLeft className="h-8 w-8" />
-        </button>
-
-        <button
-          onClick={nextSlide}
-          className="absolute right-8 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-4 backdrop-blur-md rounded-full transition-all duration-300 border border-white/30"
-        >
-          <ChevronRight className="h-8 w-8" />
-        </button>
-
-        {/* Indicators */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-4 z-10">
-          {slides.map((_, index) => (
+        {slides.length > 1 && (
+          <>
             <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? 'bg-accent scale-125' : 'bg-white/50 hover:bg-white/80'
-                }`}
-            />
-          ))}
-        </div>
+              onClick={prevSlide}
+              className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-md transition-colors duration-200 z-10"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </button>
+
+            <button
+              onClick={nextSlide}
+              className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-3 rounded-full shadow-md transition-colors duration-200 z-10"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-6 w-6" />
+            </button>
+          </>
+        )}
       </div>
 
       {/* Mobile Carousel */}
-      <div className="lg:hidden relative w-screen h-[50vh] overflow-hidden">
+      <div className="lg:hidden relative w-full h-auto overflow-hidden">
         <div
           className="flex h-full transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          style={{ transform: `translateX(-${currentMobileSlide * 100}%)` }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {slides.map((slide) => (
+          {mobileSlides.map((slide) => (
             <div key={slide.id} className="w-screen h-full flex-shrink-0">
               <img
                 src={slide.image}
                 alt={`Slide ${slide.id}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
               />
+              <div className="hidden absolute inset-0 bg-secondary flex items-center justify-center">
+                <span className="text-gray-400">Image not available</span>
+              </div>
             </div>
           ))}
         </div>
 
-        <button
-          onClick={prevSlide}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </button>
+        {mobileSlides.length > 1 && (
+          <>
+            <button
+              onClick={prevMobileSlide}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-md transition-colors duration-200 z-10"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
 
-        <button
-          onClick={nextSlide}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/20 text-white p-2 rounded-full"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </button>
+            <button
+              onClick={nextMobileSlide}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-md transition-colors duration-200 z-10"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </>
+        )}
       </div>
 
       <MiddleBottom />

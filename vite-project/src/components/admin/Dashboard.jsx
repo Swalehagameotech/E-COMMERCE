@@ -4,16 +4,17 @@ import adminAPI from '../../utils/adminAPI';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchDashboard();
+    fetchOrders();
   }, []);
 
   const fetchDashboard = async () => {
     try {
-      setLoading(true);
       const response = await adminAPI.getDashboard();
       if (response.success) {
         setStats(response.data);
@@ -23,6 +24,17 @@ const Dashboard = () => {
     } catch (err) {
       console.error('Error fetching dashboard:', err);
       setError('Error loading dashboard data');
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const response = await adminAPI.getAllOrders();
+      if (response.success) {
+        setOrders(response.data);
+      }
+    } catch (err) {
+      console.error('Error fetching orders:', err);
     } finally {
       setLoading(false);
     }
@@ -43,6 +55,11 @@ const Dashboard = () => {
       </div>
     );
   }
+
+  // Calculate pending orders same way as Order Status page
+  const pendingOrdersCount = orders.filter((o) => 
+    ['placed', 'confirmed', 'shipped'].includes(o.status)
+  ).length;
 
   const StatCard = ({ title, value, icon: Icon, color = 'primary' }) => (
     <div className="bg-white rounded-xl shadow-sm border border-primary/5 p-6">
@@ -81,7 +98,7 @@ const Dashboard = () => {
         />
         <StatCard
           title="Pending Orders"
-          value={stats?.pendingOrders || 0}
+          value={pendingOrdersCount}
           icon={Clock}
           color="yellow"
         />

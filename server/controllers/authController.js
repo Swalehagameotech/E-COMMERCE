@@ -50,6 +50,7 @@ exports.signup = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          isAdmin: user.isAdmin,
         },
         token,
       },
@@ -107,6 +108,7 @@ exports.login = async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          isAdmin: user.isAdmin,
         },
         token,
       },
@@ -140,7 +142,7 @@ exports.createOrGetFirebaseUser = async (req, res) => {
     if (!user) {
       // Check if user exists by email (might be migrating)
       user = await User.findOne({ email: email.toLowerCase() });
-      
+
       if (user) {
         // Update existing user with Firebase UID
         user.firebaseUID = firebaseUID;
@@ -168,11 +170,49 @@ exports.createOrGetFirebaseUser = async (req, res) => {
           firebaseUID: user.firebaseUID,
           name: user.name,
           email: user.email,
+          isAdmin: user.isAdmin,
         },
       },
     });
   } catch (error) {
     console.error('Firebase user error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Server error',
+    });
+  }
+};
+// @desc    Get current user profile
+// @route   GET /api/auth/profile
+// @access  Protected
+exports.getProfile = async (req, res) => {
+  try {
+    const { firebaseUID } = req.user;
+    const user = await User.findOne({ firebaseUID });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        user: {
+          id: user._id,
+          firebaseUID: user.firebaseUID,
+          name: user.name,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          cart: user.cart,
+          cartCount: user.cartCount,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Get profile error:', error);
     res.status(500).json({
       success: false,
       message: error.message || 'Server error',

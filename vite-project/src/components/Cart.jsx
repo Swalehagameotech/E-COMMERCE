@@ -38,7 +38,8 @@ const Cart = () => {
   return (
     <>
       <Hero />
-      <div className="min-h-screen bg-secondary pt-28 px-2 sm:px-4 md:px-6 lg:px-8 py-8">
+      <div className="min-h-screen bg-secondary pt-40 sm:pt-44 md:pt-48 px-2 sm:px-4 md:px-6 lg:px-8 py-8">
+
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl sm:text-3xl font-bold font-serif text-primary mb-6">Shopping Cart</h1>
 
@@ -122,10 +123,10 @@ const Cart = () => {
                 </div>
 
                 <button
-                  onClick={() => navigate('/checkout')}
+                  onClick={() => navigate('/order-review', { state: { items: cart, fromCart: true } })}
                   className="w-full bg-primary hover:bg-white hover:text-primary border border-transparent hover:border-primary text-white font-bold tracking-widest uppercase text-sm py-4 px-4 transition-all duration-300"
                 >
-                  Buy Now
+                  Buy now
                 </button>
               </div>
             </div>

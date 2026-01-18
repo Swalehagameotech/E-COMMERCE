@@ -23,7 +23,7 @@ const collectionMap = {
 exports.getDashboard = async (req, res) => {
   try {
     const collections = [NewArrival, Trending, Discount, Fashion, Footwear, Others];
-    
+
     // Get total stock from all collections
     let totalStock = 0;
     const categoryStock = [];
@@ -32,13 +32,13 @@ exports.getDashboard = async (req, res) => {
       const products = await collection.find({});
       const stock = products.reduce((sum, p) => sum + (p.stock || 0), 0);
       totalStock += stock;
-      
+
       const collectionName = collection.modelName.toLowerCase();
       categoryStock.push({
-        category: collectionName === 'newarrival' ? 'newarrival' : 
-                  collectionName === 'discount' ? 'discount' :
-                  collectionName === 'trending' ? 'trending' :
-                  collectionName,
+        category: collectionName === 'newarrival' ? 'newarrival' :
+          collectionName === 'discount' ? 'discount' :
+            collectionName === 'trending' ? 'trending' :
+              collectionName,
         stock: stock,
       });
     }
@@ -46,8 +46,10 @@ exports.getDashboard = async (req, res) => {
     // Get total customers
     const totalCustomers = await User.countDocuments();
 
-    // Get pending orders
-    const pendingOrders = await Order.countDocuments({ status: 'pending' });
+    // Get pending orders (placed, confirmed, shipped are all considered pending)
+    const pendingOrders = await Order.countDocuments({ 
+      status: { $in: ['placed', 'confirmed', 'shipped'] } 
+    });
     const totalOrders = await Order.countDocuments();
 
     res.json({
@@ -237,7 +239,7 @@ exports.deleteProduct = async (req, res) => {
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find({}).sort({ createdAt: -1 });
-    
+
     // Enrich orders with user email
     const enrichedOrders = await Promise.all(
       orders.map(async (order) => {
@@ -268,10 +270,10 @@ exports.updateOrderStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!['pending', 'delivered'].includes(status)) {
+    if (!['placed', 'confirmed', 'shipped', 'delivered'].includes(status)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid status. Must be "pending" or "delivered"',
+        message: 'Invalid status. Must be "placed", "confirmed", "shipped", or "delivered"',
       });
     }
 
@@ -306,7 +308,7 @@ exports.updateOrderStatus = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}).sort({ createdAt: -1 });
-    
+
     // Enrich users with order count
     const enrichedUsers = await Promise.all(
       users.map(async (user) => {

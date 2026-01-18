@@ -9,7 +9,8 @@ import Fashion from './components/Fashion';
 import Others from './components/Others';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
-import Checkout from './components/Checkout';
+import Checkout from './components/checkout/Checkout';
+import OrderReview from './components/checkout/OrderReview';
 import About from './components/About';
 import Contact from './components/Contact';
 import Orders from './components/Orders';
@@ -21,7 +22,7 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
-      <ScrollToTop/>
+        <ScrollToTop />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -36,6 +37,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order-review"
+            element={
+              <ProtectedRoute>
+                <OrderReview />
               </ProtectedRoute>
             }
           />

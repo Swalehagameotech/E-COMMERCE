@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
   productId: {
     type: String,
-    required: true,
+    required: false,
   },
   name: {
     type: String,
@@ -36,10 +36,14 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
-    enum: ['pending', 'delivered'],
-    default: 'pending',
+    enum: ['placed', 'confirmed', 'shipped', 'delivered'],
+    default: 'placed',
   },
   createdAt: {
     type: Date,

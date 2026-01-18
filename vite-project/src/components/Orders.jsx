@@ -74,7 +74,7 @@ const Orders = () => {
     return (
       <>
         <Hero />
-        <div className="min-h-screen pt-20 px-4 bg-secondary">
+        <div className="min-h-screen pt-48 px-4 bg-secondary">
           <div className="max-w-4xl mx-auto my-2 sm:my-0">
             <div className="bg-white rounded-lg shadow-md p-8 text-center border border-primary/10">
               <h2 className="text-2xl font-bold text-primary mb-4">No Orders Yet</h2>
@@ -114,6 +114,12 @@ const Orders = () => {
                         month: 'long',
                         day: 'numeric',
                       })}
+                    </p>
+                    <p className={`text-sm font-medium mt-1 ${order.status === 'delivered' ? 'text-green-600' :
+                        order.status === 'shipped' ? 'text-blue-600' :
+                          'text-yellow-600'
+                      }`}>
+                      Status: {order.status?.charAt(0).toUpperCase() + order.status?.slice(1) || 'Pending'}
                     </p>
                   </div>
                   <div className="mt-2 sm:mt-0">

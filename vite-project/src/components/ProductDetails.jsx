@@ -4,6 +4,7 @@ import { ShoppingCart, Star, Plus, Minus, ArrowLeft } from 'lucide-react';
 import Hero from './Hero';
 import { useCart } from '../context/CartContext';
 import SuggestionsSection from './SuggestionsSection';
+import ProductScrollSection from './ProductScrollSection';
 import newArrivalAPI from '../utils/newArrivalApi';
 import trendingAPI from '../utils/trendingApi';
 import discountAPI from '../utils/discountApi';
@@ -23,6 +24,7 @@ const ProductDetails = () => {
 
   const [product, setProduct] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -143,9 +145,24 @@ const ProductDetails = () => {
       }
     };
 
+    const fetchTrending = async () => {
+      try {
+        const response = await trendingAPI.getTrending();
+        if (response && response.success) {
+          // Filter out current product
+          const filtered = (response.data || [])
+            .filter(p => p._id !== id);
+          setTrendingProducts(filtered);
+        }
+      } catch (err) {
+        console.error('Error fetching trending products:', err);
+      }
+    };
+
     if (id) {
       fetchProduct();
       fetchSuggestions();
+      fetchTrending();
     }
   }, [id, collectionType]);
 
@@ -168,7 +185,16 @@ const ProductDetails = () => {
     }
     if (product) {
       // Direct checkout without adding to cart
-      navigate('/checkout', { state: { buyNowProduct: product } });
+      navigate('/order-review', {
+        state: {
+          items: [{
+            ...product,
+            quantity: quantity,
+            // Ensure price fields are correct for calculation in Checkout
+            price: product.discounted_price || product.original_price || product.price || 0
+          }]
+        }
+      });
     }
   };
 
@@ -241,7 +267,12 @@ const ProductDetails = () => {
 
 
       <Hero />
-      <div className="min-h-screen pt-20 bg-secondary">
+
+{/* Proper spacing for fixed header */}
+<div className="h-[120px] sm:h-[130px]"></div>
+
+<div className="min-h-screen bg-secondary">
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
 
           {/* Product Details Section */}
@@ -360,6 +391,11 @@ const ProductDetails = () => {
           {/* Suggestions Section */}
           {suggestions.length > 0 && (
             <SuggestionsSection products={suggestions} collectionType={collectionType} />
+          )}
+
+          {/* Trending Section */}
+          {trendingProducts.length > 0 && (
+            <ProductScrollSection title="Trending" products={trendingProducts} collectionType="trending" />
           )}
         </div>
       </div>

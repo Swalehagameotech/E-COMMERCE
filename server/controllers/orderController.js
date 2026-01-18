@@ -7,7 +7,8 @@ const Order = require('../models/Order');
 exports.createOrder = async (req, res) => {
   try {
     const { firebaseUID } = req.user;
-    const { items, totalPrice } = req.body;
+    const { items, totalPrice, email } = req.body;
+    console.log('Received Order Request:', { items, totalPrice, email }); // Debug Log
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
@@ -32,21 +33,26 @@ exports.createOrder = async (req, res) => {
     }
 
     // Prepare products array for Order model
+    // Prepare products array for Order model
     const products = items.map(item => ({
-      productId: item.productId,
+      productId: item.productId || item._id || item.id,
       name: item.name,
       price: item.price,
       quantity: item.quantity,
       image: item.image || '',
     }));
 
+    console.log('Mapped Products:', products); // Debug Log
+
     // Create order in Order model
     const order = await Order.create({
       firebaseUID,
       products,
       totalAmount: totalPrice,
+      email: email || user.email,
+      status: 'placed',
     });
-    
+
     // Clear cart
     user.cart = [];
     user.cartCount = 0;

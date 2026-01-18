@@ -10,7 +10,10 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300;
+      const cardWidth = scrollContainerRef.current.querySelector('.product-card')?.offsetWidth || 0;
+      const gap = 20; // gap between cards
+      const scrollAmount = (cardWidth + gap) * 2; // Scroll 2 cards at a time
+      
       const newScrollLeft =
         scrollContainerRef.current.scrollLeft +
         (direction === 'right' ? scrollAmount : -scrollAmount);
@@ -90,7 +93,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
-            className="flex gap-5 sm:gap-6 lg:gap-8 overflow-x-auto scroll-smooth pb-4 hide-scrollbar"
+            className="flex gap-3 sm:gap-6 lg:gap-8 overflow-x-auto scroll-smooth pb-4 hide-scrollbar"
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
@@ -100,7 +103,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
               <div
                 key={product._id}
                 onClick={() => handleProductClick(product._id)}
-                className="flex-shrink-0 w-48 sm:w-52 md:w-56 lg:w-64 cursor-pointer group"
+                className="product-card flex-shrink-0 w-[calc(50%-0.375rem)] sm:w-52 md:w-56 lg:w-64 cursor-pointer group"
               >
                 <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-[#FFE4E1] hover:border-[#FFB6C1] hover:scale-[1.02]">
                   {/* Product Image */}
@@ -124,38 +127,38 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
                   </div>
 
                   {/* Product Details */}
-                  <div className="p-4 sm:p-5 bg-white">
+                  <div className="p-3 sm:p-5 bg-white">
                     {/* Product Name */}
-                    <h3 className="text-sm sm:text-base font-bold text-[#8B4A6B] mb-2 line-clamp-2 min-h-[2.5rem] group-hover:text-[#FF69B4] transition-colors duration-200">
+                    <h3 className="text-xs sm:text-base font-bold text-[#8B4A6B] mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] group-hover:text-[#FF69B4] transition-colors duration-200">
                       {product.name}
                     </h3>
 
                     {/* Stars Rating */}
-                    <div className="flex items-center gap-1 mb-2">
+                    <div className="flex items-center gap-1 mb-1 sm:mb-2">
                       {renderStars(product.stars || 0)}
-                      <span className="text-xs text-[#8B4A6B]/70 ml-1">({product.stars || 0})</span>
+                      <span className="text-[10px] sm:text-xs text-[#8B4A6B]/70 ml-1">({product.stars || 0})</span>
                     </div>
 
                     {/* Price */}
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-1 sm:mb-2">
                       {product.discounted_price ? (
                         <>
-                          <span className="text-base sm:text-lg font-bold text-[#8B4A6B]">
+                          <span className="text-sm sm:text-lg font-bold text-[#8B4A6B]">
                             ₹{product.discounted_price}
                           </span>
-                          <span className="text-xs sm:text-sm text-[#8B4A6B]/50 line-through">
+                          <span className="text-[10px] sm:text-sm text-[#8B4A6B]/50 line-through">
                             ₹{product.original_price || product.price || 0}
                           </span>
                         </>
                       ) : (
-                        <span className="text-base sm:text-lg font-bold text-[#8B4A6B]">
+                        <span className="text-sm sm:text-lg font-bold text-[#8B4A6B]">
                           ₹{product.original_price || product.price || 0}
                         </span>
                       )}
                     </div>
 
                     {/* Description */}
-                    <p className="text-xs sm:text-sm text-[#8B4A6B]/70 line-clamp-2 min-h-[2.5rem] leading-relaxed">
+                    <p className="text-[10px] sm:text-sm text-[#8B4A6B]/70 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] leading-relaxed">
                       {product.description || product.brand_name || 'Beautiful product for you'}
                     </p>
                   </div>
@@ -176,6 +179,8 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
           )}
         </div>
       </div>
+
+     
     </section>
   );
 };

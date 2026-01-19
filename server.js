@@ -25,6 +25,7 @@ app.use('/api/others', require('./routes/othersRoutes'));
 app.use('/api/newarrival', require('./routes/newArrivalRoutes'));
 app.use('/api/trending', require('./routes/trendingRoutes'));
 app.use('/api/discount', require('./routes/discountRoutes'));
+app.use('/api/featuredproducts', require('./routes/featuredProductRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));

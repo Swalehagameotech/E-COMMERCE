@@ -31,28 +31,49 @@ exports.getProducts = async (req, res) => {
     
     let query = {};
     
-    // Filter by subcategory if provided
+    // Filter by subcategory if provided (support both category and subcategory params)
     // Your data uses: subcategory: "necklaces" (plural)
     // Frontend sends: "necklace" (singular)
-    if (category) {
+    const filterValue = req.query.subcategory || category;
+    if (filterValue) {
       const categoryMap = {
         'anklet': 'anklets',
-        'bracelet': 'bracelets', 
+        'anklets': 'anklets',
+        'bracelet': 'bracelets',
+        'bracelets': 'bracelets',
         'necklace': 'necklaces',
-        'watch': 'watches'
+        'necklaces': 'necklaces',
+        'watch': 'watches',
+        'watches': 'watches',
+        'bracelte': 'bracelets' // Handle typo in data
       };
       
-      const catLower = category.toLowerCase();
-      query.subcategory = categoryMap[catLower] || catLower;
-      console.log(`🔍 Filtering by subcategory: ${query.subcategory}`);
+      const catLower = filterValue.toLowerCase().trim();
+      const mappedSubcategory = categoryMap[catLower] || catLower;
+      
+      // Use regex for case-insensitive matching to handle variations
+      query.subcategory = { $regex: `^${mappedSubcategory}$`, $options: 'i' };
+      console.log(`🔍 Filtering by subcategory: ${mappedSubcategory} (from param: ${filterValue})`);
     }
     
-    // Search in name or description
+    // Search in name or description (combine with subcategory filter if both exist)
     if (search) {
-      query.$or = [
+      const searchConditions = [
         { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } }
       ];
+      
+      // If subcategory filter exists, combine with search using $and
+      if (query.subcategory) {
+        const subcategoryFilter = query.subcategory;
+        delete query.subcategory;
+        query.$and = [
+          { subcategory: subcategoryFilter },
+          { $or: searchConditions }
+        ];
+      } else {
+        query.$or = searchConditions;
+      }
       console.log(`🔍 Searching for: ${search}`);
     }
     

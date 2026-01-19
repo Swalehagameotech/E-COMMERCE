@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // @access  Public
 exports.getFootwear = async (req, res) => {
   try {
-    const { category, search, limit = 50 } = req.query;
+    const { category, subcategory, search, limit = 50 } = req.query;
     
     console.log('📊 Collection name:', Footwear.collection.name);
     const totalCount = await Footwear.countDocuments({});
@@ -14,8 +14,9 @@ exports.getFootwear = async (req, res) => {
     
     let query = {};
     
-    // Filter by subcategory if provided
-    if (category) {
+    // Filter by subcategory if provided (support both category and subcategory params)
+    const filterValue = subcategory || category;
+    if (filterValue) {
       const categoryMap = {
         'sandal': 'sandals',
         'sandals': 'sandals',
@@ -28,17 +29,33 @@ exports.getFootwear = async (req, res) => {
         'sneakers': 'sneakers'
       };
       
-      const catLower = category.toLowerCase();
-      query.subcategory = categoryMap[catLower] || catLower;
-      console.log(`🔍 Filtering by subcategory: ${query.subcategory}`);
+      const catLower = filterValue.toLowerCase().trim();
+      const mappedSubcategory = categoryMap[catLower] || catLower;
+      
+      // Use exact match first (case-insensitive), fallback to regex if needed
+      // Since schema uses lowercase: true, we should match lowercase
+      query.subcategory = mappedSubcategory.toLowerCase();
+      console.log(`🔍 Filtering by subcategory (exact match): ${query.subcategory} (from param: ${filterValue})`);
     }
     
-    // Search in name or description
+    // Search in name or description (combine with subcategory filter if both exist)
     if (search) {
-      query.$or = [
+      const searchConditions = [
         { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } }
       ];
+      
+      // If subcategory filter exists, combine with search using $and
+      if (query.subcategory) {
+        const subcategoryFilter = query.subcategory;
+        delete query.subcategory;
+        query.$and = [
+          { subcategory: subcategoryFilter },
+          { $or: searchConditions }
+        ];
+      } else {
+        query.$or = searchConditions;
+      }
       console.log(`🔍 Searching for: ${search}`);
     }
     

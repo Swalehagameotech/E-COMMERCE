@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // @access  Public
 exports.getFashion = async (req, res) => {
   try {
-    const { category, search, limit = 50 } = req.query;
+    const { category, subcategory, search, limit = 50 } = req.query;
     
     console.log('📊 Collection name:', Fashion.collection.name);
     const totalCount = await Fashion.countDocuments({});
@@ -14,8 +14,9 @@ exports.getFashion = async (req, res) => {
     
     let query = {};
     
-    // Filter by subcategory if provided
-    if (category) {
+    // Filter by subcategory if provided (support both category and subcategory params)
+    const filterValue = subcategory || category;
+    if (filterValue) {
       const categoryMap = {
         'comfy': 'comfy',
         'kurta': 'kurta',
@@ -24,18 +25,31 @@ exports.getFashion = async (req, res) => {
         'scarf': 'scarf'
       };
       
-      const catLower = category.toLowerCase();
+      const catLower = filterValue.toLowerCase().trim();
       const subcategoryValue = categoryMap[catLower] || catLower;
-      query.subcategory = { $regex: subcategoryValue, $options: 'i' };
-      console.log(`🔍 Filtering by subcategory: ${subcategoryValue}`);
+      // Use case-insensitive regex for flexible matching
+      query.subcategory = { $regex: `^${subcategoryValue}$`, $options: 'i' };
+      console.log(`🔍 Filtering by subcategory (case-insensitive): ${subcategoryValue} (from param: ${filterValue})`);
     }
     
-    // Search in name or description
+    // Search in name or description (combine with subcategory filter if both exist)
     if (search) {
-      query.$or = [
+      const searchConditions = [
         { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } }
       ];
+      
+      // If subcategory filter exists, combine with search using $and
+      if (query.subcategory) {
+        const subcategoryFilter = query.subcategory;
+        delete query.subcategory;
+        query.$and = [
+          { subcategory: subcategoryFilter },
+          { $or: searchConditions }
+        ];
+      } else {
+        query.$or = searchConditions;
+      }
       console.log(`🔍 Searching for: ${search}`);
     }
     

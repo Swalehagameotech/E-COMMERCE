@@ -12,21 +12,71 @@ exports.getOthers = async (req, res) => {
     const totalCount = await Others.countDocuments({});
     console.log(`📦 Total documents in collection: ${totalCount}`);
     
-    let query = { category: 'Other' }; // Always filter by category = "Other"
+    let query = {}; // Start with empty query
     
     // Filter by subcategory if provided
     if (subcategory) {
-      // Create flexible regex that matches subcategory with optional spaces/underscores
-      // e.g., "tote_bag", "tote bag", "totebag" all match
-      const escaped = subcategory.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const pattern = escaped.replace(/[\s_]/g, '[\\s_]*');
+      const subcategoryLower = subcategory.toLowerCase().trim();
       
-      query.subcategory = { 
-        $regex: `^${pattern}$`, 
-        $options: 'i' 
-      };
-      
-      console.log(`🔍 Filtering by subcategory: ${subcategory} (pattern: ${pattern})`);
+      // Handle parent categories that have multiple child subcategories
+      if (subcategoryLower === 'skincare') {
+        // Skincare - show only cleanser products
+        query.subcategory = 'cleanser';
+        console.log(`🔍 Filtering by skincare subcategory: cleanser`);
+      } else if (subcategoryLower === 'bags') {
+        // Bags - show only crossbody products (when bags is clicked directly from menu)
+        query.subcategory = 'crossbody';
+        console.log(`🔍 Filtering by bag subcategory: crossbody`);
+      } else if (['clutch', 'cluthe', 'crossbody', 'tote_bag', 'tote bag'].includes(subcategoryLower)) {
+        // Direct bag subcategory clicked (clutch, cluthe, crossbody, tote_bag, tote bag)
+        // Try "cluthe" first (as it might be the actual value in DB), then fallback to "clutch"
+        if (subcategoryLower === 'clutch' || subcategoryLower === 'cluthe') {
+          // Check which spelling exists in database
+          const clutheCount = await Others.countDocuments({ subcategory: 'cluthe' });
+          const clutchCount = await Others.countDocuments({ subcategory: 'clutch' });
+          console.log(`📊 Products with subcategory "cluthe": ${clutheCount}`);
+          console.log(`📊 Products with subcategory "clutch": ${clutchCount}`);
+          
+          // Use whichever has products, or prefer "cluthe" if both exist
+          if (clutheCount > 0) {
+            query.subcategory = 'cluthe';
+            console.log(`🔍 Using subcategory: cluthe`);
+          } else if (clutchCount > 0) {
+            query.subcategory = 'clutch';
+            console.log(`🔍 Using subcategory: clutch`);
+          } else {
+            // Default to "cluthe" if neither found (might be new data)
+            query.subcategory = 'cluthe';
+            console.log(`🔍 Defaulting to subcategory: cluthe`);
+          }
+        } else {
+          query.subcategory = subcategoryLower.toLowerCase();
+          console.log(`🔍 Filtering by bag subcategory: ${subcategoryLower}`);
+        }
+      } else if (['cleanser', 'moisturizer', 'facewash', 'sunscreen'].includes(subcategoryLower)) {
+        // Direct skincare subcategory clicked
+        query.subcategory = subcategoryLower;
+        console.log(`🔍 Filtering by skincare subcategory: ${subcategoryLower}`);
+      } else {
+        // Handle other direct subcategory matches
+        const subcategoryMap = {
+          'perfume': 'perfumes',
+          'perfumes': 'perfumes',
+          'glasses': 'glasses'
+        };
+        const mappedSubcategory = subcategoryMap[subcategoryLower] || subcategoryLower;
+        
+        // Since schema uses lowercase: true, use exact match with lowercase
+        query.subcategory = mappedSubcategory.toLowerCase();
+        console.log(`🔍 Filtering by subcategory (exact match): ${query.subcategory} (from param: ${subcategory})`);
+      }
+    }
+    
+    // Only add category filter if no subcategory filter exists, or add it separately
+    // Some products might not have category='Other', so let's not force it
+    if (!subcategory && category !== 'Other') {
+      // Only filter by category if explicitly provided and it's not 'Other'
+      // Most queries should work without this filter
     }
     
     // Search in name or description
@@ -37,12 +87,13 @@ exports.getOthers = async (req, res) => {
       ];
       
       // Combine search with subcategory filter using $and if both exist
-      if (subcategory) {
+      if (query.subcategory) {
+        const subcategoryFilter = query.subcategory;
+        delete query.subcategory; // Remove from root level
         query.$and = [
-          { subcategory: query.subcategory },
+          { subcategory: subcategoryFilter },
           { $or: searchConditions }
         ];
-        delete query.subcategory; // Remove direct assignment, use $and instead
       } else {
         query.$or = searchConditions;
       }
@@ -51,11 +102,47 @@ exports.getOthers = async (req, res) => {
     
     console.log('🔍 Final query:', JSON.stringify(query, null, 2));
     
+    // Debug: Check all unique subcategories in database
+    const uniqueSubcategories = await Others.distinct('subcategory');
+    console.log(`📋 All unique subcategories in database:`, uniqueSubcategories);
+    
+    // Debug: Check count for different bag subcategories
+    if (subcategory && subcategory.toLowerCase().trim() === 'bags') {
+      const bagSubcategories = ['crossbody', 'clutch', 'tote_bag', 'tote bag'];
+      for (const bagSub of bagSubcategories) {
+        const count = await Others.countDocuments({ subcategory: bagSub });
+        console.log(`📊 Products with subcategory "${bagSub}": ${count}`);
+      }
+    }
+    
+    // Check count with just subcategory filter for debugging
+    if (subcategory && !search) {
+      const subcategoryOnlyQuery = {};
+      if (subcategory.toLowerCase().trim() === 'skincare') {
+        subcategoryOnlyQuery.subcategory = 'cleanser';
+      } else if (subcategory.toLowerCase().trim() === 'bags') {
+        subcategoryOnlyQuery.subcategory = 'crossbody';
+      }
+      if (subcategoryOnlyQuery.subcategory) {
+        const countWithFilter = await Others.countDocuments(subcategoryOnlyQuery);
+        console.log(`📊 Products matching subcategory "${subcategoryOnlyQuery.subcategory}" only: ${countWithFilter}`);
+        
+        // Also try without category filter
+        const countWithoutCategory = await Others.countDocuments({ subcategory: subcategoryOnlyQuery.subcategory });
+        console.log(`📊 Products matching subcategory "${subcategoryOnlyQuery.subcategory}" (no category filter): ${countWithoutCategory}`);
+      }
+    }
+    
     const products = await Others.find(query)
       .limit(parseInt(limit))
       .sort({ createdAt: -1 });
     
     console.log(`✅ Found ${products.length} others products`);
+    if (products.length > 0) {
+      console.log(`📋 Sample product subcategories:`, products.slice(0, 5).map(p => p.subcategory));
+    } else {
+      console.log(`⚠️ No products found with query:`, JSON.stringify(query, null, 2));
+    }
     
     res.json({
       success: true,

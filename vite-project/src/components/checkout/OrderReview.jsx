@@ -64,9 +64,9 @@ const OrderReview = () => {
     return (
         <>
             <Hero />
-            <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+            <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6  lg:px-8">
                 <div className="max-w-3xl mx-auto">
-                    <h1 className="text-3xl font-extrabold text-gray-900 mb-8 font-serif">Review Your Order</h1>
+                    <h1 className="text-3xl font-extrabold text-gray-900 mb-8 mt-10  lg:mt-10 font-serif">Review Your Order</h1>
 
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
                         <div className="p-6">

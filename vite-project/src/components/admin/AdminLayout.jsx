@@ -53,7 +53,7 @@ const AdminLayout = () => {
           {/* Logo/Header */}
           <div className="p-6 border-b border-primary/10">
             <div className="flex items-center justify-between">
-              <h1 className="text-2xl font-serif font-bold text-primary">ZIVA Admin</h1>
+              <h1 className="text-2xl font-serif font-bold text-primary">BLOOM Admin</h1>
               <button
                 onClick={() => setSidebarOpen(false)}
                 className="lg:hidden text-primary hover:text-accent"

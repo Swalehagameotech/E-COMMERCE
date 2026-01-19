@@ -110,10 +110,10 @@ const MiddleBottom = () => {
           {/* Scroll Arrow - Right side only */}
           <button
             onClick={scroll}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 z-10 transition-all duration-200 hover:scale-110"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 z-10 transition-all duration-200"
             aria-label="Scroll right"
           >
-            <ChevronRight className="w-6 h-6 text-[#8B4A6B]" />
+            <ChevronRight className="w-5 h-5 text-[#8B4A6B]" />
           </button>
         </div>
 

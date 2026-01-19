@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, Plus, Home, Briefcase, MapPin } from 'lucide-react';
 import { auth } from '../../utils/firebase';
+import { API_ENDPOINTS } from '../../config/apiConfig';
 
 const AddressModal = ({ isOpen, onClose, onSelectAddress, selectedAddressId, user }) => {
     const [addresses, setAddresses] = useState([]);
@@ -22,7 +23,7 @@ const AddressModal = ({ isOpen, onClose, onSelectAddress, selectedAddressId, use
     const fetchAddresses = async () => {
         if (!user || !user.email) return;
         try {
-            const res = await fetch(`https://ecomm-backend-3r05.onrender.com/api/address/${user.email}`);
+            const res = await fetch(`${API_ENDPOINTS.ADDRESS}/${user.email}`);
             const data = await res.json();
             setAddresses(data);
         } catch (error) {
@@ -52,7 +53,7 @@ const AddressModal = ({ isOpen, onClose, onSelectAddress, selectedAddressId, use
                 email: user.email // Contact email
             };
 
-            const res = await fetch('http://localhost:5000/api/address/add', {
+            const res = await fetch(`${API_ENDPOINTS.ADDRESS}/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

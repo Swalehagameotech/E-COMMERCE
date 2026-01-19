@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { auth } from '../utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import AuthModal from './AuthModal';
+import { API_ENDPOINTS } from '../config/apiConfig';
 // Logo URL updated to use Cloudinary image
 const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 
@@ -44,7 +45,7 @@ const Hero = () => {
       if (user && user.uid) {
         try {
           const token = await user.getIdToken();
-          const res = await fetch('http://localhost:5000/api/auth/profile', {
+          const res = await fetch(`${API_ENDPOINTS.AUTH}/profile`, {
             headers: {
               'x-firebase-uid': user.uid
             }

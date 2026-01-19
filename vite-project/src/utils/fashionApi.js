@@ -47,11 +47,12 @@ export const fashionAPI = {
     }
   },
 
-  // Filter fashion by category
+  // Filter fashion by category/subcategory
   filterByCategory: async (category) => {
     try {
+      // Pass as both category and subcategory to ensure backend accepts it
       const response = await fashionApi.get('/', {
-        params: { category }
+        params: { category, subcategory: category }
       });
       return response.data;
     } catch (error) {

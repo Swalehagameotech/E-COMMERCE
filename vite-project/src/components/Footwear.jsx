@@ -1,17 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Hero from './Hero';
 import FootwearCategoryRow from './FootwearCategoryRow';
 import FootwearDisplay from './FootwearDisplay';
 import Footer from './Footer';
 
 const Footwear = () => {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
+  // Read search query and subcategory from URL params on mount and when URL changes
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    const urlSubcategory = searchParams.get('subcategory');
+    
+    console.log('🔍 Footwear component - URL params:', { urlSearch, urlSubcategory });
+    
+    if (urlSearch && urlSearch.trim()) {
+      setSearchQuery(urlSearch);
+      setSelectedCategory(null); // Clear category when search is active
+    } else {
+      setSearchQuery(''); // Clear search when URL param is removed
+    }
+    
+    if (urlSubcategory && urlSubcategory.trim()) {
+      console.log('✅ Setting selectedCategory from URL:', urlSubcategory);
+      setSelectedCategory(urlSubcategory);
+      setSearchQuery(''); // Clear search when subcategory is selected
+    } else if (!urlSubcategory && !urlSearch) {
+      // Only clear category if there's no URL param (don't clear if just no subcategory param)
+      // setSelectedCategory(null);
+    }
+  }, [searchParams]);
+
   const handleCategoryClick = (category) => {
+    console.log('🔍 FootwearCategoryRow clicked:', category);
+    // Update URL to maintain consistency
+    navigate(`/footwear?subcategory=${category}`, { replace: true });
     setSelectedCategory(category);
     setSearchQuery(''); // Clear search when category is selected
   };

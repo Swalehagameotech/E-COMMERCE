@@ -1,16 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Hero from './Hero';
 import OthersCategoryRow from './OthersCategoryRow';
 import OthersDisplay from './OthersDisplay';
 import Footer from './Footer';
 
 const Others = () => {
+  const [searchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  // Read search query and subcategory from URL params on mount
+  useEffect(() => {
+    const urlSearch = searchParams.get('search');
+    const urlSubcategory = searchParams.get('subcategory');
+    
+    if (urlSearch) {
+      setSearchQuery(urlSearch);
+      // Don't clear category/subcategory when searching
+    } else {
+      setSearchQuery(''); // Clear search when URL param is removed
+    }
+    
+    if (urlSubcategory) {
+      setSelectedSubcategory(urlSubcategory);
+      setSearchQuery(''); // Clear search when subcategory is selected
+    }
+  }, [searchParams]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -19,6 +38,9 @@ const Others = () => {
   };
 
   const handleSubcategoryClick = (subcategory) => {
+    console.log('🔍 OthersCategoryRow subcategory clicked:', subcategory);
+    // Update URL to maintain consistency
+    navigate(`/others?subcategory=${subcategory}`, { replace: true });
     setSelectedSubcategory(subcategory);
     setSearchQuery(''); // Clear search when subcategory is selected
     // Keep the category set when subcategory is selected

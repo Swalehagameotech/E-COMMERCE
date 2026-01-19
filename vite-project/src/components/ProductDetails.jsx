@@ -12,7 +12,9 @@ import footwearAPI from '../utils/footwearApi';
 import fashionAPI from '../utils/fashionApi';
 import othersAPI from '../utils/othersApi';
 import productAPI from '../utils/productApi';
+import featuredProductAPI from '../utils/featuredProductApi';
 import AuthModal from './AuthModal';
+import Footer from './Footer';
 import { isAuthenticated } from '../utils/auth';
 
 const ProductDetails = () => {
@@ -54,6 +56,8 @@ const ProductDetails = () => {
             response = await fashionAPI.getFashionById(id);
           } else if (collectionType === 'others') {
             response = await othersAPI.getOthersById(id);
+          } else if (collectionType === 'featuredproducts') {
+            response = await featuredProductAPI.getFeaturedProductById(id);
           } else {
             // Default: try products first (accessories), then newarrival
             response = await productAPI.getProductById(id);
@@ -81,6 +85,7 @@ const ProductDetails = () => {
             { api: footwearAPI, method: 'getFootwearById', name: 'footwear' },
             { api: fashionAPI, method: 'getFashionById', name: 'fashion' },
             { api: othersAPI, method: 'getOthersById', name: 'others' },
+            { api: featuredProductAPI, method: 'getFeaturedProductById', name: 'featuredproducts' },
           ];
 
           // Skip the collection we already tried
@@ -131,6 +136,8 @@ const ProductDetails = () => {
           response = await fashionAPI.getFashion();
         } else if (collectionType === 'others') {
           response = await othersAPI.getOthers();
+        } else if (collectionType === 'featuredproducts') {
+          response = await featuredProductAPI.getFeaturedProducts();
         }
 
         if (response && response.success) {
@@ -399,6 +406,7 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
+      <Footer />
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
     </>
   );

@@ -47,11 +47,12 @@ export const footwearAPI = {
     }
   },
 
-  // Filter footwear by category
+  // Filter footwear by category/subcategory
   filterByCategory: async (category) => {
     try {
+      // Pass as both category and subcategory to ensure backend accepts it
       const response = await footwearApi.get('/', {
-        params: { category }
+        params: { category, subcategory: category }
       });
       return response.data;
     } catch (error) {

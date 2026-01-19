@@ -12,6 +12,7 @@ export const API_ENDPOINTS = {
   FOOTWEAR: `${API_BASE_URL}/api/footwear`,
   FASHION: `${API_BASE_URL}/api/fashion`,
   OTHERS: `${API_BASE_URL}/api/others`,
+  FEATURED_PRODUCTS: `${API_BASE_URL}/api/featuredproducts`,
   CART: `${API_BASE_URL}/api/cart`,
   ORDERS: `${API_BASE_URL}/api/orders`,
   ADDRESS: `${API_BASE_URL}/api/address`,

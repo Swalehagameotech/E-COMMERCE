@@ -103,7 +103,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
               <div
                 key={product._id}
                 onClick={() => handleProductClick(product._id)}
-                className="product-card flex-shrink-0 w-[calc(50%-0.375rem)] sm:w-52 md:w-56 lg:w-64 cursor-pointer group"
+                className="product-card flex-shrink-0 w-[calc(50%-0.5rem)] sm:w-52 md:w-56 lg:w-64 cursor-pointer group"
               >
                 <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-[#FFE4E1] hover:border-[#FFB6C1] hover:scale-[1.02]">
                   {/* Product Image */}

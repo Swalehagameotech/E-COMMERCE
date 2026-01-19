@@ -46,7 +46,7 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
       image: images.others.Bags,
       hasSubcategories: true,
       subcategories: [
-        { key: 'clutch', name: 'Clutch', image: othersSubcategories.clutch },
+        { key: 'cluthe', name: 'cluthe', image: othersSubcategories.cluthe },
         { key: 'crossbody', name: 'Crossbody', image: othersSubcategories.crossbody },
         { key: 'tote_bag', name: 'Tote Bag', image: othersSubcategories.totebag }
       ]
@@ -137,7 +137,7 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
               {selectedMainCategory.name}
             </h2>
 
-            <div className="grid grid-cols-4 gap-3">
+            <div className="flex justify-center gap-4 sm:gap-6">
               {selectedMainCategory.subcategories.map((subcat) => (
                 <div
                   key={subcat.key}

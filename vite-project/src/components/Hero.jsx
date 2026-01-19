@@ -16,6 +16,8 @@ const Hero = () => {
   const [user, setUser] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showProductsMenu, setShowProductsMenu] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState(null); // 'accessories' | 'footwear' | 'fashion' | 'others' | null // false = closed, true = main grid, 'accessories'|'footwear'|'fashion'|'others' = submenu
 
   const navigate = useNavigate();
   const { cart, clearLocalCart } = useCart();
@@ -199,6 +201,224 @@ const Hero = () => {
                   {link.name}
                 </Link>
               ))}
+              {/* Products Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setShowProductsMenu(true)}
+                onMouseLeave={() => setShowProductsMenu(false)}
+              >
+                <p className="text-sm font-bold uppercase tracking-widest text-primary/80 hover:text-accent transition-colors duration-200 cursor-pointer">
+                  Products
+                </p>
+                {showProductsMenu && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white rounded-xl shadow-2xl border border-[#FFE4E1] p-6 z-50">
+                    <div className="grid grid-cols-4 gap-6">
+                      {/* Accessories */}
+                      <div>
+                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Accessories</h3>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link 
+                              to="/products?subcategory=anklet" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Anklet
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/products?subcategory=bracelet" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Bracelet
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/products?subcategory=necklace" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Necklace
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/products?subcategory=watch" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Watches
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* Footwear */}
+                      <div>
+                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Footwear</h3>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link 
+                              to="/footwear?subcategory=sandals" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Sandals
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/footwear?subcategory=boots" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Boots
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/footwear?subcategory=flats" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Flats
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/footwear?subcategory=sneakers" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Sneakers
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* Fashion */}
+                      <div>
+                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Fashion</h3>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=comfy" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Comfy
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=kurta" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Kurta
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=belt" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Belts
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=scarf" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Scarf
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                      {/* Others */}
+                      <div>
+                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Others</h3>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link 
+                              to="/others?subcategory=skincare" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Skincare
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/others?subcategory=bags" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Bags
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/others?subcategory=perfume" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Perfumes
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/others?subcategory=glasses" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Glasses
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    {/* Explore More Section */}
+                    <div className="mt-6 pt-6 border-t border-[#FFE4E1]">
+                      <h3 className="text-lg font-bold text-[#8B4A6B] mb-4">Explore More</h3>
+                      <div className="grid grid-cols-4 gap-4">
+                        <Link 
+                          to="/home#trending" 
+                          className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
+                          onClick={() => setShowProductsMenu(false)}
+                        >
+                          Trending
+                        </Link>
+                        <Link 
+                          to="/home#sale" 
+                          className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
+                          onClick={() => setShowProductsMenu(false)}
+                        >
+                          Sale
+                        </Link>
+                        <Link 
+                          to="/home#newarrival" 
+                          className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
+                          onClick={() => setShowProductsMenu(false)}
+                        >
+                          New Arrival
+                        </Link>
+                        <Link 
+                          to="/home#featured" 
+                          className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
+                          onClick={() => setShowProductsMenu(false)}
+                        >
+                          Featured Product
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </nav>
 
             {/* Icons & Actions */}
@@ -323,6 +543,109 @@ const Hero = () => {
                     {link.name}
                   </Link>
                 ))}
+                {/* Products Menu - Mobile */}
+                <div>
+                  <button
+                    onClick={() => {
+                      setShowProductsMenu(!showProductsMenu);
+                      setExpandedCategory(null); // Reset expanded category when toggling Products
+                    }}
+                    className="w-full text-left text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white flex items-center justify-between"
+                  >
+                    Products
+                    <span className="text-sm">{showProductsMenu ? '−' : '+'}</span>
+                  </button>
+                  {showProductsMenu && (
+                    <div className="bg-pink-50/50">
+                      {/* Accessories - Accordion */}
+                      <div>
+                        <button
+                          onClick={() => setExpandedCategory(expandedCategory === 'accessories' ? null : 'accessories')}
+                          className="w-full text-left text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white flex items-center justify-between"
+                        >
+                          Accessories
+                          <span className="text-sm">{expandedCategory === 'accessories' ? '−' : '+'}</span>
+                        </button>
+                        {expandedCategory === 'accessories' && (
+                          <div className="bg-white px-6 py-2 space-y-1">
+                            <Link to="/products?subcategory=anklet" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Anklet</Link>
+                            <Link to="/products?subcategory=bracelet" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Bracelet</Link>
+                            <Link to="/products?subcategory=necklace" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Necklace</Link>
+                            <Link to="/products?subcategory=watch" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Watches</Link>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Footwear - Accordion */}
+                      <div>
+                        <button
+                          onClick={() => setExpandedCategory(expandedCategory === 'footwear' ? null : 'footwear')}
+                          className="w-full text-left text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white flex items-center justify-between"
+                        >
+                          Footwear
+                          <span className="text-sm">{expandedCategory === 'footwear' ? '−' : '+'}</span>
+                        </button>
+                        {expandedCategory === 'footwear' && (
+                          <div className="bg-white px-6 py-2 space-y-1">
+                            <Link to="/footwear?subcategory=sandals" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Sandals</Link>
+                            <Link to="/footwear?subcategory=boots" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Boots</Link>
+                            <Link to="/footwear?subcategory=flats" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Flats</Link>
+                            <Link to="/footwear?subcategory=sneakers" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Sneakers</Link>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Fashion - Accordion */}
+                      <div>
+                        <button
+                          onClick={() => setExpandedCategory(expandedCategory === 'fashion' ? null : 'fashion')}
+                          className="w-full text-left text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white flex items-center justify-between"
+                        >
+                          Fashion
+                          <span className="text-sm">{expandedCategory === 'fashion' ? '−' : '+'}</span>
+                        </button>
+                        {expandedCategory === 'fashion' && (
+                          <div className="bg-white px-6 py-2 space-y-1">
+                            <Link to="/fashion?subcategory=comfy" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Comfy</Link>
+                            <Link to="/fashion?subcategory=kurta" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Kurta</Link>
+                            <Link to="/fashion?subcategory=belt" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Belts</Link>
+                            <Link to="/fashion?subcategory=scarf" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Scarf</Link>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Others - Accordion */}
+                      <div>
+                        <button
+                          onClick={() => setExpandedCategory(expandedCategory === 'others' ? null : 'others')}
+                          className="w-full text-left text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white flex items-center justify-between"
+                        >
+                          Others
+                          <span className="text-sm">{expandedCategory === 'others' ? '−' : '+'}</span>
+                        </button>
+                        {expandedCategory === 'others' && (
+                          <div className="bg-white px-6 py-2 space-y-1">
+                            <Link to="/others?subcategory=skincare" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Skincare</Link>
+                            <Link to="/others?subcategory=bags" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Bags</Link>
+                            <Link to="/others?subcategory=perfume" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Perfumes</Link>
+                            <Link to="/others?subcategory=glasses" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="block text-sm text-gray-700 hover:text-[#FF69B4] py-2">Glasses</Link>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Explore More */}
+                      <div className="px-6 py-3 bg-white">
+                        <h3 className="text-sm font-bold text-[#8B4A6B] mb-2">Explore More</h3>
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link to="/home#trending" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Trending</Link>
+                          <Link to="/home#sale" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Sale</Link>
+                          <Link to="/home#newarrival" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">New Arrival</Link>
+                          <Link to="/home#featured" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Featured</Link>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import Middle from './Middle';
 import NewArrivalSection from './NewArrivalSection';
 import TrendingSection from './TrendingSection';
 import DiscountSection from './DiscountSection';
+import FeaturedSection from './FeaturedSection';
 import Footer from './Footer';
 
 const Home = () => {
@@ -56,6 +57,7 @@ const Home = () => {
       <NewArrivalSection />
       <TrendingSection />
       <DiscountSection />
+      <FeaturedSection />
       <Footer />
     </div>
   );

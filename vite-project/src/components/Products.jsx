@@ -12,14 +12,21 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
-  // Read search query from URL params on mount
+  // Read search query and subcategory from URL params on mount
   useEffect(() => {
     const urlSearch = searchParams.get('search');
+    const urlSubcategory = searchParams.get('subcategory');
+    
     if (urlSearch) {
       setSearchQuery(urlSearch);
       setSelectedCategory(null); // Clear category when search is active
     } else {
       setSearchQuery(''); // Clear search when URL param is removed
+    }
+    
+    if (urlSubcategory) {
+      setSelectedCategory(urlSubcategory);
+      setSearchQuery(''); // Clear search when subcategory is selected
     }
   }, [searchParams]);
 

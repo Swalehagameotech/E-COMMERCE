@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/products';
+const API_URL = API_ENDPOINTS.PRODUCTS || 'https://ecomm-backend-3r05.onrender.com/api/products';
 
 // Create axios instance
 const productApi = axios.create({
@@ -47,11 +48,12 @@ export const productAPI = {
     }
   },
 
-  // Filter products by category
+  // Filter products by category/subcategory
   filterByCategory: async (category) => {
     try {
+      // Pass as both category and subcategory to ensure backend accepts it
       const response = await productApi.get('/', {
-        params: { category }
+        params: { category, subcategory: category }
       });
       return response.data;
     } catch (error) {

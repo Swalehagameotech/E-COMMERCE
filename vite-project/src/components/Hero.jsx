@@ -302,21 +302,22 @@ const Hero = () => {
         )}
 
         {/* Mobile Menu */}
+       {/* Mobile Menu */}
         <div className={`md:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} onClick={() => setIsMenuOpen(false)}>
-          <div className={`fixed inset-y-0 left-0 w-64 bg-secondary shadow-2xl transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
+          <div className={`fixed inset-y-0 left-0 w-72 bg-secondary shadow-2xl transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
             <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <img src={logo} alt="LUXE" className="h-6 md:h-8 w-auto" />
-                <button onClick={() => setIsMenuOpen(false)} className="text-gray-400 hover:text-primary !bg-transparent !border-none !shadow-none !p-0">
+              <div className="flex items-center justify-between mb-8">
+                <img src={logo} alt="LUXE" className="h-8 w-auto" />
+                <button onClick={() => setIsMenuOpen(false)} className="text-gray-400 hover:text-primary !bg-transparent !border-none !shadow-none !p-1">
                   <X className="h-6 w-6" />
                 </button>
               </div>
-              <div className="flex flex-col space-y-1 mt-8 bg-white">
+              <div className="flex flex-col bg-white rounded-lg overflow-hidden shadow-sm">
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     to={link.path}
-                    className="text-base font-medium text-primary hover:text-accent hover:bg-white/50 transition-all px-4 py-3 rounded-lg"
+                    className="text-base font-semibold text-primary hover:text-accent hover:bg-pink-50 transition-all px-6 py-4 bg-white border-b border-pink-100 last:border-b-0"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {link.name}

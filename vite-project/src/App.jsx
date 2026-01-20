@@ -7,6 +7,10 @@ import Products from './components/Products';
 import Footwear from './components/Footwear';
 import Fashion from './components/Fashion';
 import Others from './components/Others';
+import Sale from './components/Sale';
+import NewArrival from './components/NewArrival';
+import Trending from './components/Trending';
+import FeaturedProducts from './components/FeaturedProducts';
 import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import Checkout from './components/checkout/Checkout';
@@ -31,6 +35,10 @@ function App() {
           <Route path="/footwear" element={<Footwear />} />
           <Route path="/fashion" element={<Fashion />} />
           <Route path="/others" element={<Others />} />
+          <Route path="/sale" element={<Sale />} />
+          <Route path="/newarrival" element={<NewArrival />} />
+          <Route path="/trending" element={<Trending />} />
+          <Route path="/featuredproducts" element={<FeaturedProducts />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route
             path="/cart"

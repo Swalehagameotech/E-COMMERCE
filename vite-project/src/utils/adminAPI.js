@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/admin';
-
+//const API_URL = 'http://localhost:5000/api/admin'
 // Create axios instance
 const adminAxios = axios.create({
   baseURL: API_URL,
@@ -54,7 +54,27 @@ export const adminAPI = {
       return response.data;
     } catch (error) {
       console.error('Error adding product:', error);
-      throw error;
+      // Return error response in a format the component can handle
+      if (error.response) {
+        // Server responded with error status
+        return {
+          success: false,
+          message: error.response.data?.message || error.response.data?.error || `Server error: ${error.response.status}`,
+          error: error.response.data
+        };
+      } else if (error.request) {
+        // Request was made but no response received
+        return {
+          success: false,
+          message: 'No response from server. Please check if the server is running.'
+        };
+      } else {
+        // Something else happened
+        return {
+          success: false,
+          message: error.message || 'Error adding product'
+        };
+      }
     }
   },
 

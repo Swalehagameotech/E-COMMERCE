@@ -47,23 +47,62 @@ const AddProduct = () => {
     setLoading(true);
 
     try {
+      // Validate required fields
+      if (!formData.category) {
+        setError('Please select a category');
+        setLoading(false);
+        return;
+      }
+      if (!formData.subcategory || !formData.subcategory.trim()) {
+        setError('Please enter a subcategory');
+        setLoading(false);
+        return;
+      }
+
+      // Validate numeric fields
+      if (!formData.price || isNaN(parseFloat(formData.price)) || parseFloat(formData.price) <= 0) {
+        setError('Please enter a valid price');
+        setLoading(false);
+        return;
+      }
+      if (!formData.stock || isNaN(parseInt(formData.stock)) || parseInt(formData.stock) < 0) {
+        setError('Please enter a valid stock quantity');
+        setLoading(false);
+        return;
+      }
+
+      // Build product data and filter out undefined/null/empty values
       const productData = {
-        name: formData.name,
-        image: formData.image,
-        description: formData.description,
+        name: formData.name.trim(),
+        image: formData.image.trim(),
+        description: formData.description.trim(),
         price: parseFloat(formData.price),
-        discounted_price: formData.discounted_price ? parseFloat(formData.discounted_price) : undefined,
         stock: parseInt(formData.stock),
         category: formData.category,
-        subcategory: formData.subcategory,
-        brand_name: formData.brand_name,
-        material: formData.material,
-        color: formData.color,
+        subcategory: formData.subcategory.trim(),
         stars: parseFloat(formData.stars) || 0,
       };
 
+      // Add optional fields only if they have values
+      if (formData.discounted_price && formData.discounted_price.trim()) {
+        productData.discounted_price = parseFloat(formData.discounted_price);
+      }
+      if (formData.brand_name && formData.brand_name.trim()) {
+        productData.brand_name = formData.brand_name.trim();
+      }
+      if (formData.material && formData.material.trim()) {
+        productData.material = formData.material.trim();
+      }
+      if (formData.color && formData.color.trim()) {
+        productData.color = formData.color.trim();
+      }
+
+      console.log('📤 Sending product data:', { category: formData.category, productData });
+      
       const response = await adminAPI.addProduct(productData);
-      if (response.success) {
+      console.log('📥 Response from API:', response);
+      
+      if (response && response.success) {
         setSuccess(true);
         // Reset form
         setFormData({
@@ -84,11 +123,23 @@ const AddProduct = () => {
           setSuccess(false);
         }, 3000);
       } else {
-        setError(response.message || 'Failed to add product');
+        const errorMsg = response?.message || response?.error || 'Failed to add product. Please check all fields.';
+        console.error('❌ API Error:', errorMsg);
+        setError(errorMsg);
       }
     } catch (err) {
-      console.error('Error adding product:', err);
-      setError('Error adding product');
+      console.error('❌ Error adding product:', err);
+      console.error('❌ Error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status
+      });
+      // Better error handling - show the actual error message from the backend
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          err.message || 
+                          'Error adding product. Please check the server console for details.';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -228,19 +279,22 @@ const AddProduct = () => {
                 <option value="">Select Category</option>
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    {cat.charAt(0).toLowerCase() + cat.slice(1)}
                   </option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-primary mb-1">Subcategory</label>
+              <label className="block text-sm font-medium text-primary mb-1">
+                Subcategory <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 name="subcategory"
                 value={formData.subcategory}
                 onChange={handleChange}
+                required
                 className="w-full px-3 py-2 border border-primary/10 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               />
             </div>

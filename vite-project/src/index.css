@@ -189,9 +189,6 @@
     @apply bg-accent text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-accent-dark;
   }
 
-  button:hover {
-    @apply -translate-y-0.5;
-  }
 
   button:focus,
   button:focus-visible {

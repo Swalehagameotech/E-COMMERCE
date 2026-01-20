@@ -68,12 +68,20 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
   return (
     <section className="w-full py-12 sm:py-16 md:py-20 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4E1] to-[#FFF0F5]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Title */}
-        <div className="text-center mb-8 sm:mb-10">
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#8B4A6B] mb-3 tracking-tight">
-            {title}
-          </h2>
-          <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent mx-auto"></div>
+        {/* Section Title with View All Button */}
+        <div className="flex items-center justify-between mb-8 sm:mb-10">
+          <div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
+              {title}
+            </h2>
+            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent"></div>
+          </div>
+          <p
+            onClick={() => navigate(`/${collectionType === 'discount' ? 'sale' : collectionType}`)}
+            className="text-[#8B4A6B] hover:text-[#FF69B4] font-semibold text-sm sm:text-base uppercase tracking-wider transition-colors duration-200 border-b-2 border-transparent hover:border-[#FF69B4] cursor-pointer"
+          >
+            View All
+          </p>
         </div>
 
         {/* Scroll Container */}

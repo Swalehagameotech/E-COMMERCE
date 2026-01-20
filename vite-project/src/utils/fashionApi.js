@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // Temporarily use local backend for testing
-const API_URL = 'http://localhost:5000/api/fashion';
-// const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/fashion';
+//const API_URL = 'http://localhost:5000/api/fashion';
+ const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/fashion';
 
 // Create axios instance
 const fashionApi = axios.create({

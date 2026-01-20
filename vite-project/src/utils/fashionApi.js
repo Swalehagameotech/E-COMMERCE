@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/fashion';
+// Temporarily use local backend for testing
+const API_URL = 'http://localhost:5000/api/fashion';
+// const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/fashion';
 
 // Create axios instance
 const fashionApi = axios.create({
@@ -50,10 +52,12 @@ export const fashionAPI = {
   // Filter fashion by category/subcategory
   filterByCategory: async (category) => {
     try {
-      // Pass as both category and subcategory to ensure backend accepts it
+      // Pass as subcategory parameter (backend checks subcategory first, then category)
+      console.log('🔍 Fashion API - filterByCategory called with:', category);
       const response = await fashionApi.get('/', {
-        params: { category, subcategory: category }
+        params: { subcategory: category }
       });
+      console.log('🔍 Fashion API - Response:', response.data);
       return response.data;
     } catch (error) {
       console.error('Error filtering fashion:', error);

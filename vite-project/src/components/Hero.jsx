@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X, LogOut, Heart } from 'lucide-react';
+import { Search, ShoppingCart, User, Menu, X, LogOut, Heart, ChevronDown } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { auth } from '../utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -107,9 +107,11 @@ const Hero = () => {
       <>
         <header className="fixed top-0 left-0 right-0 z-50 bg-secondary/95 backdrop-blur-sm shadow-sm transition-all duration-300 border-b border-white/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-20">
+            <div className="flex items-center justify-between h-14 md:h-10">
+
               {/* Logo */}
-              <div className="flex-shrink-0 flex items-center">
+              <div className="flex items-center justify-between h-14 md:h-16">
+
                 <img src={logo} alt="LUXE Logo" className="h-12 w-auto object-contain" />
               </div>
 
@@ -145,23 +147,6 @@ const Hero = () => {
             </div>
           </div>
         </header>
-        
-        {/* Animated Sale Banner */}
-        <div className="fixed top-20 left-0 right-0 z-40 bg-gradient-to-r from-[#FFB6C1] via-[#FFC0CB] to-[#FFB6C1] overflow-hidden shadow-lg">
-          <div className="relative flex items-center h-10 sm:h-12">
-            <div className="flex animate-scroll-left whitespace-nowrap">
-              <div className="flex items-center gap-12 px-8">
-                {[...Array(4)].map((_, i) => (
-                  <span key={i} className="text-[#8B4A6B] font-bold text-sm sm:text-base uppercase tracking-wider flex items-center gap-3">
-                    <span className="inline-block w-2 h-2 bg-[#8B4A6B] rounded-full animate-pulse"></span>
-                     Republic Day Sale is Live 
-                    <span className="inline-block w-2 h-2 bg-[#8B4A6B] rounded-full animate-pulse"></span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </>
     );
   }
@@ -170,7 +155,7 @@ const Hero = () => {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-secondary/95 backdrop-blur-sm shadow-sm transition-all duration-300 border-b border-white/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+<div className="flex items-center justify-between h-14 md:h-16">
 
             {/* Mobile Menu Button */}
             <div className="flex md:hidden">
@@ -184,7 +169,7 @@ const Hero = () => {
             </div>
 
             {/* Logo */}
-            <div className="flex-shrink-0 flex items-center justify-center md:justify-start flex-1 md:flex-none">
+            <div className="flex-shrink-0 flex items-center justify-center md:justify-start  flex-1 md:flex-none">
               <Link to="/home" className="flex items-center">
                 <img src={logo} alt="LUXE Logo" className="h-6 md:h-8 w-auto object-contain" />
               </Link>
@@ -202,16 +187,25 @@ const Hero = () => {
                 </Link>
               ))}
               {/* Products Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => setShowProductsMenu(true)}
-                onMouseLeave={() => setShowProductsMenu(false)}
-              >
-                <p className="text-sm font-bold uppercase tracking-widest text-primary/80 hover:text-accent transition-colors duration-200 cursor-pointer">
+              <div className="relative">
+                <p 
+                  onClick={() => setShowProductsMenu(!showProductsMenu)}
+                  className="text-sm font-bold uppercase tracking-widest text-primary/80 hover:text-accent transition-colors duration-200 cursor-pointer"
+                >
                   Products
                 </p>
                 {showProductsMenu && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white rounded-xl shadow-2xl border border-[#FFE4E1] p-6 z-50">
+                  <div className="fixed top-16 left-1/2 -translate-x-1/2 w-[800px] bg-white rounded-xl shadow-2xl border border-[#FFE4E1] p-6 z-50 max-h-[80vh] overflow-y-auto">
+                    {/* Close Button */}
+                    <div className="flex justify-end mb-4">
+                      <p
+                        onClick={() => setShowProductsMenu(false)}
+                        className="p-1 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+                        aria-label="Close menu"
+                      >
+                        <X className="h-5 w-5 text-gray-600" />
+                      </p>
+                    </div>
                     <div className="grid grid-cols-4 gap-6">
                       {/* Accessories */}
                       <div>
@@ -525,8 +519,8 @@ const Hero = () => {
        {/* Mobile Menu */}
         <div className={`md:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} onClick={() => setIsMenuOpen(false)}>
           <div className={`fixed inset-y-0 left-0 w-72 bg-secondary shadow-2xl transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-8">
+<div className="px-6 pt-3 pb-6">
+<div className="flex items-center justify-between mb-4">
                 <img src={logo} alt="LUXE" className="h-8 w-auto" />
                 <button onClick={() => setIsMenuOpen(false)} className="text-gray-400 hover:text-primary !bg-transparent !border-none !shadow-none !p-1">
                   <X className="h-6 w-6" />
@@ -654,51 +648,51 @@ const Hero = () => {
 
       {showAuthModal && <AuthModal onClose={() => setShowAuthModal(false)} />}
       
-      {/* Animated Sale Banner */}
-      {/* Premium Animated Sale Banner */}
-<div className="fixed top-20 left-0 right-0 z-40 
-  bg-gradient-to-r from-pink-100 via-rose-100 to-pink-100 
-  backdrop-blur-md border-y border-pink-200/50 shadow-sm overflow-hidden">
-
-  <div className="relative flex items-center h-10 sm:h-12 md:h-14">
-    
-    <div className="flex animate-smooth-scroll whitespace-nowrap">
-      
-      {[...Array(2)].map((_, index) => (
-        <div key={index} className="flex items-center gap-10 sm:gap-16 px-6 sm:px-10">
-          
-          {[...Array(4)].map((_, i) => (
-            <span
-              key={i}
-              className="
-                flex items-center gap-3
-                text-[#7A3B5F]
-                font-extrabold
-                text-xs sm:text-sm md:text-base
-                tracking-wide sm:tracking-widest
-                uppercase
-                drop-shadow-sm
-              "
+      {/* Category Navigation Bar - Always Visible */}
+      <div className="fixed top-14 left-0 right-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="flex md:grid md:grid-cols-4 gap-2 md:gap-3 py-1.5 md:py-2 overflow-x-auto md:overflow-visible no-scrollbar whitespace-nowrap scroll-smooth -mx-3 sm:-mx-4 lg:mx-0 px-3 sm:px-4 lg:px-0">
+            
+            {/* Accessories */}
+            <p
+              onClick={() => navigate('/products')}
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
             >
-              <span className="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 
-                bg-pink-500 rounded-full animate-pulse">
-              </span>
+              <span>Accessories</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </p>
 
-              Republic Day Sale is Live
+            {/* Footwear */}
+            <p
+              onClick={() => navigate('/footwear')}
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
+            >
+              <span>Footwear</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </p>
 
-              <span className="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 
-                bg-pink-500 rounded-full animate-pulse">
-              </span>
-            </span>
-          ))}
+            {/* Fashion */}
+            <p
+              onClick={() => navigate('/fashion')}
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
+            >
+              <span>Fashion</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </p>
 
+            {/* Others */}
+            <p
+              onClick={() => navigate('/others')}
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
+            >
+              <span>Others</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </p>
+
+          </div>
         </div>
-      ))}
+      </div>
 
-    </div>
-
-  </div>
-</div>
 
     </>
   );

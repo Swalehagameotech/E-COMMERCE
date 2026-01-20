@@ -73,7 +73,7 @@ const Fashion = () => {
         searchQuery={searchQuery} 
         onSearchChange={handleSearchChange}
       />
-      <div className="pt-20 sm:pt-18 md:pt-20 pb-4 sm:pb-6 md:pb-8">
+      <div className="pt-32 sm:pt-32 md:pt-36 pb-4 sm:pb-6 md:pb-8">
         <FashionCategoryRow onCategoryClick={handleCategoryClick} />
         <FashionDisplay 
           category={selectedCategory} 

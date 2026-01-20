@@ -46,7 +46,7 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
       image: images.others.Bags,
       hasSubcategories: true,
       subcategories: [
-        { key: 'cluthe', name: 'cluthe', image: othersSubcategories.cluthe },
+        { key: 'cluthe', name: 'Clutch', image: othersSubcategories.cluthe },
         { key: 'crossbody', name: 'Crossbody', image: othersSubcategories.crossbody },
         { key: 'tote_bag', name: 'Tote Bag', image: othersSubcategories.totebag }
       ]
@@ -71,7 +71,7 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
       // Set the category state so products are shown immediately
       onCategoryClick(category.key);
     } else {
-      onSubcategoryClick(category.key === 'perfume' ? 'perfumes' : 'glasses');
+      onSubcategoryClick(category.key === 'perfume' ? 'perfume' : 'glasses'); // Database has "perfume" (singular)
       setSelectedMainCategory(null);
     }
   };
@@ -87,14 +87,14 @@ const OthersCategoryRow = ({ onCategoryClick, onSubcategoryClick }) => {
     // Clear subcategory when going back
     onSubcategoryClick(null);
   };
-
-  const Wrapper = ({ children }) => (
-    <div className="w-full py-2 sm:py-3 md:py-4 pt-12 sm:pt-14 md:pt-16 bg-secondary">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-        {children}
-      </div>
+const Wrapper = ({ children }) => (
+  <div className="w-full py-2 sm:py-3 md:py-4 pt-0 -mt-4 sm:-mt-3 md:-mt-6 lg:-mt-8 bg-secondary">
+    <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
+      {children}
     </div>
-  );
+  </div>
+);
+
 
   /* ================= SUBCATEGORIES ================= */
   if (selectedMainCategory?.hasSubcategories) {

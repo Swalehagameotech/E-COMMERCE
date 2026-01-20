@@ -47,7 +47,8 @@ const OthersDisplay = ({ category, subcategory, searchQuery }) => {
         } else if (subcategory) {
           response = await othersAPI.filterBySubcategory(subcategory);
         } else if (category) {
-          response = await othersAPI.getOthers({ limit: 200 });
+          // When category is selected (like "skincare" or "bags"), fetch products filtered by category
+          response = await othersAPI.getOthers({ category, limit: 200 });
         } else {
           response = await othersAPI.getOthers({ limit: 50 });
         }

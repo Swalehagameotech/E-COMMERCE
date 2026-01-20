@@ -9,7 +9,7 @@ const FashionCategoryRow = ({ onCategoryClick }) => {
   ];
 
   return (
-    <div className="w-full py-2 sm:py-3 md:py-4 pt-12 sm:pt-14 md:pt-16 relative z-0 bg-secondary">
+<div className="w-full py-2 sm:py-3 md:py-4 pt-0 -mt-4 sm:-mt-3 md:-mt-5 lg:-mt-6 relative z-0 bg-secondary">
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
 
         {/* Desktop */}

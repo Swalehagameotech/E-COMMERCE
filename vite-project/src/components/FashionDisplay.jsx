@@ -45,32 +45,23 @@ const FashionDisplay = ({ category, searchQuery }) => {
         if (searchQuery?.trim()) {
           response = await fashionAPI.searchFashion(searchQuery);
         } else if (category?.trim()) {
+          console.log('🔍 FashionDisplay - Fetching products for category:', category);
           response = await fashionAPI.filterByCategory(category);
+          console.log('🔍 FashionDisplay - API response:', response);
         } else {
           response = await fashionAPI.getFashion({ limit: 50 });
         }
 
         if (!isMounted) return;
+        
+        console.log('🔍 FashionDisplay - Response success:', response.success);
+        console.log('🔍 FashionDisplay - Products count:', response.data?.length || 0);
 
         if (response.success) {
           let productsToShow = response.data || [];
 
-          if (category && productsToShow.length > 0) {
-            const mappedCategory =
-              {
-                comfy: 'comfy',
-                kurta: 'kurta',
-                belt: 'belts',
-                belts: 'belts',
-                scarf: 'scarf'
-              }[category.toLowerCase()] || category.toLowerCase();
-
-            productsToShow = productsToShow.filter(p => {
-              const sub = (p.subcategory || '').toLowerCase();
-              return sub === mappedCategory || sub.includes(mappedCategory);
-            });
-          }
-
+          // Backend already filters by subcategory, so no need for additional client-side filtering
+          // Just use the products returned by the backend
           setProducts(productsToShow);
         } else {
           setError('Failed to fetch fashion');

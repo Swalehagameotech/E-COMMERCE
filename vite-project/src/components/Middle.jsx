@@ -129,7 +129,7 @@ const Middle = () => {
   };
 
   return (
-<section className="relative w-full overflow-hidden mt-32 lg:mt-32">
+<section className="relative w-full overflow-hidden mt-24 lg:mt-28">
 
       {/* Desktop Carousel */}
       <div className="hidden lg:block relative w-full overflow-hidden">

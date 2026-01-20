@@ -8,7 +8,7 @@ const About = () => {
       <div className="min-h-screen bg-gray-50 pt-20 bg-gradient-to-br from-[#EDDFE0] to-[#FFF5F6] rounded-xl">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 md:p-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#8D493A] via-gray-700 to-[#8D493A]
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#8D493A] via-gray-700 to-[#8D493A]
                            bg-clip-text text-transparent tracking-wide mb-6 text-center">
             About Us
           </h1>

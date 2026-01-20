@@ -132,6 +132,7 @@ const OthersDisplay = ({ category, subcategory, searchQuery }) => {
                 products={products}
                 onFilterChange={setFilters}
                 isOpen={true}
+                categoryName={subcategory || category || 'Others'}
               />
             </aside>
 
@@ -145,6 +146,7 @@ const OthersDisplay = ({ category, subcategory, searchQuery }) => {
                   onFilterChange={setFilters}
                   isOpen={showFilters}
                   onClose={() => setShowFilters(false)}
+                  categoryName={subcategory || category || 'Others'}
                 />
               </div>
 

@@ -147,6 +147,7 @@ const FootwearDisplay = ({ category, searchQuery }) => {
               isOpen
               collection="footwear"
               activeCategory={category}
+              categoryName={category || 'Footwear'}
             />
           </aside>
 
@@ -161,6 +162,7 @@ const FootwearDisplay = ({ category, searchQuery }) => {
                 isOpen={showFilters}
                 collection="footwear"
                 activeCategory={category}
+                categoryName={category || 'Footwear'}
               />
             </div>
 

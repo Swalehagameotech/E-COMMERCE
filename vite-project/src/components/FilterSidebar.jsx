@@ -1,11 +1,46 @@
 import { useState, useEffect, useMemo } from 'react';
 import { X, SlidersHorizontal } from 'lucide-react';
 
-const FilterSidebar = ({ products, onFilterChange, onClose, isOpen }) => {
+const FilterSidebar = ({ products, onFilterChange, onClose, isOpen, categoryName = 'Product' }) => {
   const [priceRange, setPriceRange] = useState(['', '']);
   const [selectedDiscounts, setSelectedDiscounts] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortBy, setSortBy] = useState('newest');
+
+  // Format category name: capitalize first letter and handle multiple words
+  const formatCategoryName = (name) => {
+    if (!name) return 'Product';
+    return name
+      .split(/[\s-_]+/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+
+  const displayCategoryName = formatCategoryName(categoryName);
+
+  // Calculate actual min and max prices from products
+  const minMaxPrices = useMemo(() => {
+    if (products.length === 0) return { min: 0, max: 50000 };
+    const prices = products
+      .map(p => p.discounted_price || p.price || 0)
+      .filter(p => p > 0);
+    if (prices.length === 0) return { min: 0, max: 50000 };
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    return { 
+      min: Math.floor(min / 100) * 100, // Round down to nearest 100
+      max: Math.ceil(max / 100) * 100   // Round up to nearest 100
+    };
+  }, [products]);
+
+  const maxPrice = minMaxPrices.max;
+
+  // Set initial price range to actual min/max when products change
+  useEffect(() => {
+    if (products.length > 0 && minMaxPrices.min > 0 && minMaxPrices.max > 0) {
+      setPriceRange([minMaxPrices.min.toString(), minMaxPrices.max.toString()]);
+    }
+  }, [minMaxPrices.min, minMaxPrices.max, products.length]); // Update when min/max prices change
 
   const availableBrands = useMemo(() => {
     const brands = new Set();
@@ -13,16 +48,6 @@ const FilterSidebar = ({ products, onFilterChange, onClose, isOpen }) => {
       if (p.brand_name || p.brand) brands.add(p.brand_name || p.brand);
     });
     return Array.from(brands).sort();
-  }, [products]);
-
-  const maxPrice = useMemo(() => {
-    if (products.length === 0) return 50000;
-    const prices = products
-      .map(p => p.discounted_price || p.price || 0)
-      .filter(p => p > 0);
-    if (prices.length === 0) return 50000;
-    const max = Math.max(...prices);
-    return Math.ceil(max / 1000) * 1000 || 50000;
   }, [products]);
 
   const discountOptions = useMemo(() => {
@@ -148,21 +173,33 @@ const FilterSidebar = ({ products, onFilterChange, onClose, isOpen }) => {
             <div>
               <h3 className="text-sm font-semibold mb-3">Price Range</h3>
               <div className="flex gap-3">
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={priceRange[0]}
-                  onChange={e => setPriceRange([e.target.value, priceRange[1]])}
-                  className="w-full px-3 py-2 border rounded-lg text-sm"
-                />
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={priceRange[1]}
-                  onChange={e => setPriceRange([priceRange[0], e.target.value])}
-                  className="w-full px-3 py-2 border rounded-lg text-sm"
-                />
+                <div className="flex-1">
+                  <label className="block text-xs text-gray-600 mb-1">{displayCategoryName} Min</label>
+                  <input
+                    type="number"
+                    placeholder={minMaxPrices.min > 0 ? minMaxPrices.min.toString() : "Min"}
+                    value={priceRange[0]}
+                    onChange={e => setPriceRange([e.target.value, priceRange[1]])}
+                    className="w-full px-3 py-2 border rounded-lg text-sm"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-xs text-gray-600 mb-1">{displayCategoryName} Max</label>
+                  <input
+                    type="number"
+                    placeholder={minMaxPrices.max > 0 ? minMaxPrices.max.toString() : "Max"}
+                    value={priceRange[1]}
+                    onChange={e => setPriceRange([priceRange[0], e.target.value])}
+                    className="w-full px-3 py-2 border rounded-lg text-sm"
+                  />
+                </div>
               </div>
+              {/* Show actual price range below inputs */}
+              {products.length > 0 && minMaxPrices.min > 0 && (
+                <p className="text-xs text-gray-500 mt-2">
+                  Price range: ₹{minMaxPrices.min.toLocaleString()} - ₹{minMaxPrices.max.toLocaleString()}
+                </p>
+              )}
             </div>
 
             {/* Discount */}

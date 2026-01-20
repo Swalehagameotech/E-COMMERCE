@@ -4,7 +4,6 @@ import { ShoppingCart, Star, Plus, Minus, ArrowLeft } from 'lucide-react';
 import Hero from './Hero';
 import { useCart } from '../context/CartContext';
 import SuggestionsSection from './SuggestionsSection';
-import ProductScrollSection from './ProductScrollSection';
 import newArrivalAPI from '../utils/newArrivalApi';
 import trendingAPI from '../utils/trendingApi';
 import discountAPI from '../utils/discountApi';
@@ -26,7 +25,6 @@ const ProductDetails = () => {
 
   const [product, setProduct] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
-  const [trendingProducts, setTrendingProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -141,10 +139,10 @@ const ProductDetails = () => {
         }
 
         if (response && response.success) {
-          // Filter out current product and limit to 8
+          // Filter out current product and limit to 20
           const filtered = (response.data || [])
             .filter(p => p._id !== id)
-            .slice(0, 8);
+            .slice(0, 20);
           setSuggestions(filtered);
         }
       } catch (err) {
@@ -152,24 +150,9 @@ const ProductDetails = () => {
       }
     };
 
-    const fetchTrending = async () => {
-      try {
-        const response = await trendingAPI.getTrending();
-        if (response && response.success) {
-          // Filter out current product
-          const filtered = (response.data || [])
-            .filter(p => p._id !== id);
-          setTrendingProducts(filtered);
-        }
-      } catch (err) {
-        console.error('Error fetching trending products:', err);
-      }
-    };
-
     if (id) {
       fetchProduct();
       fetchSuggestions();
-      fetchTrending();
     }
   }, [id, collectionType]);
 
@@ -276,33 +259,39 @@ const ProductDetails = () => {
       <Hero />
 
 {/* Proper spacing for fixed header */}
-<div className="h-[120px] sm:h-[130px]"></div>
+{/* Proper spacing for fixed header */}
+<div className="h-[90px] sm:h-[90px]"></div>
+
 
 <div className="min-h-screen bg-secondary">
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
 
           {/* Product Details Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-16">
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 mb-16">
 
             {/* Left Side - Product Image */}
-            <div className="w-full">
-              <div className="bg-white rounded-none shadow-sm p-4 sm:p-6 md:p-8 sticky top-24">
-                <div className="aspect-[3/4] w-full bg-gray-50 overflow-hidden relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
+  {/* Left Side - Product Image (Sticky) */}
+<div className="w-full">
+  <div className="bg-white shadow-sm p-3 sm:p-4 sticky top-24">
+    <div className="w-full bg-gray-50 flex items-center justify-center">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full max-h-[480px] object-contain"
+        onError={(e) => {
+          e.target.src =
+            'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
+        }}
+      />
+    </div>
+  </div>
+</div>
+
 
             {/* Right Side - Product Details */}
-            <div className="w-full">
+{/* Right Side - Product Details */}
+<div className="w-full lg:pl-12 lg:max-h-[calc(100vh-160px)] overflow-y-auto no-scrollbar">
               <div className="bg-transparent p-6 sm:p-0">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">
                   {product.name}
@@ -398,11 +387,6 @@ const ProductDetails = () => {
           {/* Suggestions Section */}
           {suggestions.length > 0 && (
             <SuggestionsSection products={suggestions} collectionType={collectionType} />
-          )}
-
-          {/* Trending Section */}
-          {trendingProducts.length > 0 && (
-            <ProductScrollSection title="Trending" products={trendingProducts} collectionType="trending" />
           )}
         </div>
       </div>

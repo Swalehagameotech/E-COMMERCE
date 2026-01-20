@@ -135,6 +135,7 @@ const FashionDisplay = ({ category, searchQuery }) => {
               products={products}
               onFilterChange={setFilters}
               isOpen
+              categoryName={category || 'Fashion'}
             />
           </div>
 
@@ -147,6 +148,7 @@ const FashionDisplay = ({ category, searchQuery }) => {
                 onFilterChange={setFilters}
                 isOpen={showFilters}
                 onClose={() => setShowFilters(false)}
+                categoryName={category || 'Fashion'}
               />
             </div>
 

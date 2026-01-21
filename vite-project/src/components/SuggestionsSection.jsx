@@ -71,7 +71,7 @@ const SuggestionsSection = ({ products, collectionType }) => {
               <div className="bg-white overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
 
                 {/* Image */}
-                <div className="w-full aspect-[4/5] bg-gradient-to-br from-[#FFF0F5] to-[#FFE4E1] overflow-hidden">
+                <div className="w-full aspect-[4/5] bg-white overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}

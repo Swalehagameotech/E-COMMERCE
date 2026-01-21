@@ -92,7 +92,7 @@ const AddressModal = ({ isOpen, onClose, onSelectAddress, selectedAddressId, use
                         {showForm ? 'Add New Address' : 'Select Delivery Address'}
                     </h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <X className="w-5 h-5 text-gray-500" />
+                        <X className="w-5 h-5 text-white" />
                     </button>
                 </div>
 
@@ -101,7 +101,7 @@ const AddressModal = ({ isOpen, onClose, onSelectAddress, selectedAddressId, use
                         <div className="space-y-4">
                             <button
                                 onClick={() => setShowForm(true)}
-                                className="w-full py-4 border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center gap-2 text-primary hover:bg-primary/5 transition-colors font-medium"
+                                className="w-full text-white py-4 border-2 border-dashed border-primary/20 rounded-xl flex items-center justify-center gap-2 text-primary hover:bg-primary/5 transition-colors font-medium"
                             >
                                 <Plus className="w-5 h-5" /> Add New Address
                             </button>

@@ -21,7 +21,7 @@ const OrderConfirmationModal = ({ isOpen, onClose }) => {
                 <div className="flex flex-col gap-3">
                     <Link
                         to="/orders"
-                        className="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-[#A02E4C] text-white rounded-xl font-semibold hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
                     >
                         Track Order
                     </Link>

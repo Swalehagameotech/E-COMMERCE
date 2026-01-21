@@ -135,7 +135,7 @@ const Checkout = () => {
                                     <h2 className="text-xl font-bold text-gray-800">Delivery Address</h2>
                                     <button
                                         onClick={() => setIsAddressModalOpen(true)}
-                                        className="text-primary hover:text-accent font-medium text-sm"
+                                        className="text-white hover:text-accent font-medium text-sm"
                                     >
                                         {selectedAddress ? 'Change' : 'Select'}
                                     </button>

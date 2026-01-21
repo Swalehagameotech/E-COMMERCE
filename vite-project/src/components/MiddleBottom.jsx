@@ -45,7 +45,7 @@ const MiddleBottom = () => {
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
 
   return (
-    <div className="w-full bg-white px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <div className="w-full bg-gray-50 px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#8B4A6B] mb-4">Shop by Category</h2>
@@ -79,7 +79,7 @@ const MiddleBottom = () => {
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(items).map(([itemKey, imageUrl]) => (
                     <div key={itemKey} className="flex flex-col items-center">
-                      <div className="w-full h-24 mb-3 overflow-hidden bg-gradient-to-br from-[#FFF0F5] to-[#FFE4E1] rounded-lg flex items-center justify-center p-2">
+                      <div className="w-full h-24 mb-3 overflow-hidden  rounded-lg flex items-center justify-center p-2">
                         {imageUrl && imageUrl.trim() !== '' ? (
                           <img
                             src={imageUrl}
@@ -134,7 +134,7 @@ const MiddleBottom = () => {
               <div className="grid grid-cols-2 gap-4">
                 {Object.entries(items).map(([itemKey, imageUrl]) => (
                   <div key={itemKey} className="flex flex-col items-center">
-                    <div className="w-full h-24 mb-3 overflow-hidden bg-gradient-to-br from-[#FFF0F5] to-[#FFE4E1] rounded-lg flex items-center justify-center p-2">
+                    <div className="w-full h-24 mb-3 overflow-hidden rounded-lg flex items-center justify-center p-2">
                       {imageUrl && imageUrl.trim() !== '' ? (
                         <img
                           src={imageUrl}

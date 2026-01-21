@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#000000', // Warm dark grey/brown for text
-        secondary: '#f6dde1', // Very light pastel pink background
-        accent: '#2b2222', // Soft pastel pink/coral
-        'accent-dark': '#ffffff', // Slightly darker pink for hover
+        primary: '#4A403A', // Warm dark grey/brown for text
+        secondary: '#F9FAFB', // Very light pastel pink background
+        accent: '#A87676', // Soft pastel pink/coral
+        'accent-dark': '#FF9E99', // Slightly darker pink for hover
         'pastel-cream': '#FFF9F0',
         'pastel-green': '#E2F0CB',
         white: '#FFFFFF',

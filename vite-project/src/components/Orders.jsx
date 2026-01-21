@@ -81,7 +81,7 @@ const Orders = () => {
               <p className="text-gray-600 mb-6">You haven't placed any orders yet.</p>
               <button
                 onClick={() => navigate('/home')}
-                className="bg-primary hover:bg-white hover:text-primary text-white font-medium py-2 px-6 rounded-lg transition-colors border border-transparent hover:border-primary"
+                className="bg-[#A02E4] Chover:bg-white hover:text-primary text-white font-medium py-2 px-6 rounded-lg transition-colors border border-transparent hover:border-primary"
               >
                 Start Shopping
               </button>

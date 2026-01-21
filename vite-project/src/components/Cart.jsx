@@ -19,7 +19,7 @@ const Cart = () => {
               <p className="text-gray-500 mb-8 font-medium">Add some products to get started!</p>
               <button
                 onClick={() => navigate('/home')}
-                className="bg-primary hover:bg-white hover:text-primary border border-transparent hover:border-primary text-white font-bold tracking-widest uppercase text-sm py-3 px-8 transition-all duration-300"
+                className="bg-[#A02E4C] hover:bg-white hover:text-primary border border-transparent hover:border-primary text-white font-bold tracking-widest uppercase text-sm py-3 px-8 transition-all duration-300"
               >
                 Continue Shopping
               </button>

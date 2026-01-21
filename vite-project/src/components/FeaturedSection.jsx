@@ -63,7 +63,7 @@ const FeaturedSection = () => {
   }
 
   return (
-    <section className="w-full py-12 sm:py-16 md:py-20 bg-[#fff9f7]">
+    <section className="w-full py-12 sm:py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title with View All Button */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">

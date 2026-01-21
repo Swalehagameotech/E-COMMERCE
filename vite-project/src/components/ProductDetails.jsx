@@ -375,7 +375,7 @@ const ProductDetails = () => {
                   </button>
                   <button
                     onClick={handleBuyNow}
-                    className="flex-1 bg-pastel-green border border-pastel-green hover:bg-white hover:text-primary text-primary font-bold text-sm uppercase tracking-widest py-4 px-6 transition-all duration-300 rounded-xl shadow-sm"
+                    className="flex-1 bg-[#A02E4C] border border-[#A02E4C] hover:bg-white hover:text-primary text-white font-bold text-sm uppercase tracking-widest py-4 px-6 transition-all duration-300 rounded-xl shadow-sm"
                   >
                     Buy Now
                   </button>

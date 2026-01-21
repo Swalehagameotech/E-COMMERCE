@@ -76,7 +76,7 @@ const AdminLayout = () => {
                   }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive(item.path)
                     ? 'bg-primary text-white shadow-md'
-                    : 'text-primary hover:bg-secondary'
+                    : 'text-white hover:bg-secondary'
                     }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -104,7 +104,7 @@ const AdminLayout = () => {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-primary hover:text-accent p-2"
+              className="lg:hidden text-white hover:text-accent p-2"
             >
               <Menu className="h-6 w-6" />
             </button>

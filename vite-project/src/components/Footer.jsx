@@ -100,7 +100,7 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-white">
-            © {new Date().getFullYear()} Luxe Store. All rights reserved.
+            © {new Date().getFullYear()} Bloom Store. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-xs text-white hover:text-accent transition-colors">Privacy Policy</a>

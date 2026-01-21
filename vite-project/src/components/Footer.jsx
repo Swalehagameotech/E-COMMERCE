@@ -11,14 +11,14 @@ const Footer = () => {
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
               <Truck className="w-6 h-6 text-accent" />
             </div>
-            <h4 className="font-serif font-bold text-lg">Free Shipping</h4>
+            <h4 className="font-serif font-bold text-lg text-white">Free Shipping</h4>
             <p className="text-sm text-white max-w-xs">On all orders over $100. Delivered safely to your doorstep.</p>
           </div>
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
               <ShieldCheck className="w-6 h-6 text-accent" />
             </div>
-            <h4 className="font-serif font-bold text-lg">Secure Payment</h4>
+            <h4 className="font-serif font-bold text-lg text-white">Secure Payment</h4>
             <p className="text-sm text-white max-w-xs">100% secure payment processing with top-tier encryption.</p>
           </div>
           <div className="flex flex-col items-center text-center space-y-3">
@@ -26,7 +26,7 @@ const Footer = () => {
               <RefreshCw className="w-6 h-6 text-accent" />
             </div>
             <div className="flex flex-col">
-              <h4 className="font-serif font-bold text-lg">Easy Returns</h4>
+              <h4 className="font-serif font-bold text-lg text-white">Easy Returns</h4>
               <p className="text-sm text-white max-w-xs">Love it or return it within 30 days. No questions asked.</p>
             </div>
           </div>

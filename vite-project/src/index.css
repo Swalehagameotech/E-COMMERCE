@@ -181,12 +181,12 @@
   }
 
   a:hover {
-    @apply text-accent-dark;
+@apply text-[#cb4d6f];
   }
 
   button {
     @apply rounded-xl border border-transparent px-6 py-2.5 text-sm font-bold font-sans tracking-wide;
-    @apply bg-[#A02E4C]  text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-accent-dark;
+    @apply bg-[#A02E4C]  text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-[#cb4d6f];
   }
 
 

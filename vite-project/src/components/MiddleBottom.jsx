@@ -45,7 +45,7 @@ const MiddleBottom = () => {
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5Y2EzYWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
 
   return (
-    <div className="w-full bg-gradient-to-b from-[#FFF0F5] via-[#FFE4E1] to-[#FFF0F5] px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <div className="w-full bg-[#fff9f7] px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-[#8B4A6B] mb-4">Shop by Category</h2>

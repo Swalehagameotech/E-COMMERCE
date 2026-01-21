@@ -40,7 +40,7 @@ const Contact = () => {
     <>
       <Hero />
 
-<div className="min-h-screen bg-gray-50 pt-24 bg-gradient-to-br from-[#EDDFE0] to-[##F4C2C2 ] rounded-xl">
+<div className="min-h-screen bg-gray-50 pt-24 bg-[#fff9f7 ] rounded-xl">
 
 
 

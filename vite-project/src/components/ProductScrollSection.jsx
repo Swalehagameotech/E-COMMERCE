@@ -66,7 +66,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
   };
 
   return (
-    <section className="w-full py-12 sm:py-16 md:py-20 bg-gradient-to-b from-[#FFF0F5] via-[#FFE4E1] to-[#FFF0F5]">
+    <section className="w-full py-12 sm:py-16 md:py-20 bg-[#fff9f7]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title with View All Button */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">

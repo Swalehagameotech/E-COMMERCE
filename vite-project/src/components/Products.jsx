@@ -45,7 +45,7 @@ const Products = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-[#fff9f7]">
       {/* Back Arrow */}
       <button
         onClick={handleBackClick}

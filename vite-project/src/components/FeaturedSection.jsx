@@ -73,7 +73,7 @@ const FeaturedSection = () => {
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8 sm:mb-10">
           <div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
               Featured Products
             </h2>
             <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent"></div>
@@ -98,7 +98,7 @@ const FeaturedSection = () => {
               <div className="bg-white overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ">
 
                 {/* Image */}
-                <div className="w-full aspect-[4/5] bg-gradient-to-br from-[#FFF0F5] to-[#FFE4E1] overflow-hidden">
+                <div className="w-full aspect-[4/5] bg-white overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}

@@ -124,7 +124,7 @@ const Cart = () => {
 
                 <button
                   onClick={() => navigate('/order-review', { state: { items: cart, fromCart: true } })}
-                  className="w-full bg-primary hover:bg-white hover:text-primary border border-transparent hover:border-primary text-white font-bold tracking-widest uppercase text-sm py-4 px-4 transition-all duration-300"
+                  className="w-full bg-[#A02E4C]  hover:bg-white hover:text-primary border border-transparent hover:border-primary text-white font-bold tracking-widest uppercase text-sm py-4 px-4 transition-all duration-300"
                 >
                   Buy now
                 </button>

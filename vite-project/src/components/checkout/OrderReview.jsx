@@ -104,7 +104,7 @@ const OrderReview = () => {
                     <div className="flex justify-end">
                         <button
                             onClick={handleConfirmOrderClick}
-                            className="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5"
+                            className="bg-[#A02E4C]  hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:-translate-y-0.5"
                         >
                             Confirm Order
                         </button>

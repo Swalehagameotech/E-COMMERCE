@@ -208,7 +208,7 @@ const Checkout = () => {
                                 <button
                                     onClick={handlePlaceOrder}
                                     disabled={loading || !selectedAddress}
-                                    className="w-full mt-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-primary/20"
+                                    className="w-full mt-6 py-3 bg-[#A02E4C]  text-white rounded-xl font-bold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-primary/20"
                                 >
                                     {loading ? 'Processing...' : 'Place Order'}
                                 </button>

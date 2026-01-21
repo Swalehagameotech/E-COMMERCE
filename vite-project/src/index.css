@@ -186,7 +186,7 @@
 
   button {
     @apply rounded-xl border border-transparent px-6 py-2.5 text-sm font-bold font-sans tracking-wide;
-    @apply bg-accent text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-accent-dark;
+    @apply bg-[#A02E4C]  text-white cursor-pointer transition-all duration-300 shadow-sm hover:shadow-md hover:bg-accent-dark;
   }
 
 

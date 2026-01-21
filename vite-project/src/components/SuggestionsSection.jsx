@@ -89,12 +89,6 @@ const SuggestionsSection = ({ products, collectionType }) => {
                     {item.name}
                   </h3>
 
-                  <div className="flex items-center gap-1 mb-1 sm:mb-2">
-                    {renderStars(item.stars || 0)}
-                    <span className="text-[10px] sm:text-xs text-[#8B4A6B]/70 ml-1">
-                      ({item.stars || 0})
-                    </span>
-                  </div>
 
                   <div className="flex items-center gap-2">
                     {item.discounted_price ? (

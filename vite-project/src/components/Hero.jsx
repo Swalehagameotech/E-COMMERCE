@@ -381,28 +381,28 @@ const Hero = () => {
                       <h3 className="text-lg font-bold text-[#8B4A6B] mb-4">Explore More</h3>
                       <div className="grid grid-cols-4 gap-4">
                         <Link 
-                          to="/home#trending" 
+                          to="/trending" 
                           className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
                           onClick={() => setShowProductsMenu(false)}
                         >
                           Trending
                         </Link>
                         <Link 
-                          to="/home#sale" 
+                          to="/sale" 
                           className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
                           onClick={() => setShowProductsMenu(false)}
                         >
                           Sale
                         </Link>
                         <Link 
-                          to="/home#newarrival" 
+                          to="/newarrival" 
                           className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
                           onClick={() => setShowProductsMenu(false)}
                         >
                           New Arrival
                         </Link>
                         <Link 
-                          to="/home#featured" 
+                          to="/featuredproducts" 
                           className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors text-center py-2 px-4 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1]"
                           onClick={() => setShowProductsMenu(false)}
                         >
@@ -631,10 +631,10 @@ const Hero = () => {
                       <div className="px-6 py-3 bg-white">
                         <h3 className="text-sm font-bold text-[#8B4A6B] mb-2">Explore More</h3>
                         <div className="grid grid-cols-2 gap-2">
-                          <Link to="/home#trending" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Trending</Link>
-                          <Link to="/home#sale" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Sale</Link>
-                          <Link to="/home#newarrival" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">New Arrival</Link>
-                          <Link to="/home#featured" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Featured</Link>
+                          <Link to="/sale" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Trending</Link>
+                          <Link to="/trending" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Sale</Link>
+                          <Link to="/newarrival" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">New Arrival</Link>
+                          <Link to="/featuredproducts" onClick={() => {setIsMenuOpen(false); setShowProductsMenu(false); setExpandedCategory(null);}} className="text-xs text-center py-2 px-3 bg-[#FFF0F5] rounded-lg hover:bg-[#FFE4E1] text-gray-700">Featured</Link>
                         </div>
                       </div>
                     </div>

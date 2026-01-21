@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Truck, ShieldCheck, RefreshCw, Star } from 'lucide
 const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#FFF5F6] text-primary pt-16 pb-10 border-t-4 border-white">
+    <footer className="w-full bg-[#7A7A73] text-white pt-16 pb-10 border-t-4 border-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
 
         {/* Why Choose Us Section */}
@@ -12,14 +12,14 @@ const Footer = () => {
               <Truck className="w-6 h-6 text-accent" />
             </div>
             <h4 className="font-serif font-bold text-lg">Free Shipping</h4>
-            <p className="text-sm text-primary/70 max-w-xs">On all orders over $100. Delivered safely to your doorstep.</p>
+            <p className="text-sm text-white max-w-xs">On all orders over $100. Delivered safely to your doorstep.</p>
           </div>
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
               <ShieldCheck className="w-6 h-6 text-accent" />
             </div>
             <h4 className="font-serif font-bold text-lg">Secure Payment</h4>
-            <p className="text-sm text-primary/70 max-w-xs">100% secure payment processing with top-tier encryption.</p>
+            <p className="text-sm text-white max-w-xs">100% secure payment processing with top-tier encryption.</p>
           </div>
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
@@ -27,7 +27,7 @@ const Footer = () => {
             </div>
             <div className="flex flex-col">
               <h4 className="font-serif font-bold text-lg">Easy Returns</h4>
-              <p className="text-sm text-primary/70 max-w-xs">Love it or return it within 30 days. No questions asked.</p>
+              <p className="text-sm text-white max-w-xs">Love it or return it within 30 days. No questions asked.</p>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="space-y-6">
             <img src={logo} alt="LUXE" className="h-10 w-auto" />
-            <p className="text-primary/70 text-sm leading-relaxed max-w-xs">
+            <p className="text-white text-sm leading-relaxed max-w-xs">
               Redefining contemporary fashion with timeless elegance. Quality craftsmanship for the modern woman.
             </p>
             <div className="flex gap-4">
@@ -56,40 +56,40 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h4 className="text-lg font-serif font-bold text-primary">Shop</h4>
+            <h4 className="text-lg font-serif font-bold text-white">Shop</h4>
             <ul className="space-y-4">
-              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">New Arrivals</a></li>
-              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Best Sellers</a></li>
-              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Accessories</a></li>
-              <li><a href="/products" className="text-primary/70 hover:text-accent transition-colors text-sm">Sale</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">New Arrivals</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Best Sellers</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Accessories</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Sale</a></li>
             </ul>
           </div>
 
           {/* Customer Care */}
           <div className="space-y-6">
-            <h4 className="text-lg font-serif font-bold text-primary">Customer Care</h4>
+            <h4 className="text-lg font-serif font-bold text-white">Customer Care</h4>
             <ul className="space-y-4">
-              <li><a href="/contact" className="text-primary/70 hover:text-accent transition-colors text-sm">Contact Us</a></li>
-              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">Shipping & Returns</a></li>
-              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">Size Guide</a></li>
-              <li><a href="#" className="text-primary/70 hover:text-accent transition-colors text-sm">FAQ</a></li>
+              <li><a href="/contact" className="text-white hover:text-accent transition-colors text-sm">Contact Us</a></li>
+              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">Shipping & Returns</a></li>
+              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">Size Guide</a></li>
+              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">FAQ</a></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h4 className="text-lg font-serif font-bold text-primary">Contact</h4>
-            <div className="space-y-4 text-sm text-primary/70">
+            <h4 className="text-lg font-serif font-bold text-white">Contact</h4>
+            <div className="space-y-4 text-sm text-white">
               <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-accent mt-0.5" />
+                <MapPin className="w-5 h-5 text-white mt-0.5" />
                 <span>123 Fashion Ave, <br />New York, NY 10001</span>
               </div>
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-accent" />
+                <Phone className="w-5 h-5 text-white" />
                 <span>91824559</span>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-accent" />
+                <Mail className="w-5 h-5 text-white" />
                 <span>support@bloom.com</span>
               </div>
             </div>
@@ -99,12 +99,12 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-primary/60">
+          <p className="text-xs text-white">
             © {new Date().getFullYear()} Luxe Store. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-xs text-primary/60 hover:text-accent transition-colors">Privacy Policy</a>
-            <a href="#" className="text-xs text-primary/60 hover:text-accent transition-colors">Terms of Service</a>
+            <a href="#" className="text-xs text-white hover:text-accent transition-colors">Privacy Policy</a>
+            <a href="#" className="text-xs text-white hover:text-accent transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

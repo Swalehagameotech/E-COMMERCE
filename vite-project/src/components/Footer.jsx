@@ -2,7 +2,7 @@ import { Mail, Phone, MapPin, Truck, ShieldCheck, RefreshCw, Star } from 'lucide
 const logo = 'https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768745498/bloom-removebg-preview_s6namb.png';
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#7A7A73] text-white pt-16 pb-10 border-t-4 border-white">
+    <footer className="w-full bg-[#44444E] text-white pt-16 pb-10 border-t-4 border-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
 
         {/* Why Choose Us Section */}

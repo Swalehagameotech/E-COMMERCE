@@ -51,15 +51,16 @@ const SuggestionsSection = ({ products, collectionType }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-8 sm:mb-10">
-          <div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
-              You May Also Like
-            </h2>
-            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent"></div>
+      <div className="mb-8 sm:mb-10">
+          <div className="flex items-center justify-center">
+            <div className="text-center">
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
+                You May Also Like
+              </h2>
+              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent mx-auto"></div>
+            </div>
           </div>
         </div>
-
         {/* ✅ GRID (NO SCROLL, SAME AS FEATURED) */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {products.map((item) => (

@@ -325,7 +325,7 @@ const ProductDetails = () => {
                 {product.description && (
                   <div className="mb-8">
                     <h3 className="text-sm font-bold text-primary mb-2 uppercase tracking-wider">Description</h3>
-                    <p className="text-gray-600 leading-relaxed font-light">{product.description}</p>
+                    <p className="text-black font-bold leading-relaxed font-light">{product.description}</p>
                   </div>
                 )}
 
@@ -336,10 +336,10 @@ const ProductDetails = () => {
                       <span className="text-gray-600 font-light">{product.material}</span>
                     </div>
                   )}
-                  {product.color && (
+                  {product.brand && (
                     <div className="flex items-center gap-4">
-                      <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Color:</span>
-                      <span className="text-gray-600 font-light">{product.color}</span>
+                      <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Brand:</span>
+                      <span className="text-gray-600 font-light">{product.brand}</span>
                     </div>
                   )}
                 </div>

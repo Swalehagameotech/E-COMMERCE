@@ -143,7 +143,7 @@ const SaleDisplay = () => {
                         />
                       </div>
 
-                      <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center group-hover:underline decoration-accent underline-offset-4 decoration-1 transition-all">
+                      <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center">
                         {product.name}
                       </h3>
                       <p className="text-xs text-gray-500 mb-2 line-clamp-1 uppercase tracking-wide">

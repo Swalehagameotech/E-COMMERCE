@@ -83,28 +83,33 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Title */}
-        <div className="flex items-center justify-between mb-8 sm:mb-10">
-          <div>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
-              {title}
-            </h2>
-            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent"></div>
-          </div>
+        <div className="relative mb-8 sm:mb-10">
+  
+  {/* Centered Title */}
+  <div className="flex flex-col items-center text-center">
+    <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
+      {title}
+    </h2>
+    <div className="w-20 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent"></div>
+  </div>
 
-          <p
-            onClick={() =>
-              navigate(`/${collectionType === 'discount' ? 'sale' : collectionType}`)
-            }
-            className="text-[#8B4A6B] hover:text-[#FF69B4] font-semibold text-sm sm:text-base uppercase tracking-wider transition-colors duration-200 border-b-2 border-transparent hover:border-[#FF69B4] cursor-pointer"
-          >
-            View All
-          </p>
-        </div>
+  {/* Right-aligned View All */}
+  <p
+    onClick={() =>
+      navigate(`/${collectionType === 'discount' ? 'sale' : collectionType}`)
+    }
+    className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8B4A6B] hover:text-[#FF69B4] font-semibold text-sm sm:text-base uppercase tracking-wider transition-colors duration-200 border-b-2 border-transparent hover:border-[#FF69B4] cursor-pointer"
+  >
+    View All
+  </p>
+
+</div>
+
 
         {/* Scroll Container */}
         <div className="relative">
           {showLeftArrow && (
-            <button
+            <button         
               onClick={() => scroll('left')}
               className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white shadow-lg rounded-full p-2.5 sm:p-3 transition-all duration-300 hover:scale-110 border border-[#FFB6C1]/30"
             >

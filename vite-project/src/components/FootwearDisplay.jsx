@@ -177,14 +177,14 @@ const FootwearDisplay = ({ category, searchQuery }) => {
                   <div className="aspect-[3/4] bg-gray-50 overflow-hidden mb-4">
                     <img
                       src={product.image}
-                      alt={product.name}
+                      alt={product.brand}
                       className="w-full h-full object-cover group-hover:scale-105 transition"
                       loading="lazy"
                     />
                   </div>
 
-                  <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center group-hover:underline decoration-accent underline-offset-4 decoration-1 transition-all">
-                    {product.name}
+                  <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center">
+                    {product.brand}
                   </h3>
                   <p className="text-xs text-gray-500 mb-2 line-clamp-1 uppercase tracking-wide">
                     {product.description}

@@ -8,12 +8,12 @@ const MiddleBottom = () => {
   const scrollContainerRef = useRef(null);
 
   const handleCategoryClick = (categoryKey) => {
-    if (categoryKey === 'accessories') {
+    if (categoryKey === 'fashion') {
+      navigate('/fashion');
+    } else if (categoryKey === 'accessories') {
       navigate('/products');
     } else if (categoryKey === 'footwears') {
       navigate('/footwear');
-    } else if (categoryKey === 'fashion') {
-      navigate('/fashion');
     } else if (categoryKey === 'others') {
       navigate('/others');
     }
@@ -31,11 +31,19 @@ const MiddleBottom = () => {
   };
 
   const categoryLabels = {
+    fashion: 'Fashion',
     accessories: 'Accessories',
     footwears: 'Footwears',
-    fashion: 'Fashion',
     others: 'Others'
   };
+
+  // Define the order of categories
+  const categoryOrder = ['fashion', 'accessories', 'footwears', 'others'];
+  
+  // Sort images based on the defined order
+  const sortedCategories = categoryOrder
+    .filter(key => images[key]) // Only include categories that exist in images
+    .map(key => [key, images[key]]);
 
   const formatTitle = (key) => {
     return key.charAt(0).toUpperCase() + key.slice(1);
@@ -64,7 +72,7 @@ const MiddleBottom = () => {
               scrollPaddingLeft: '0.5rem'
             }}
           >
-            {Object.entries(images).map(([categoryKey, items]) => (
+            {sortedCategories.map(([categoryKey, items]) => (
               <div
                 key={categoryKey}
                 onClick={() => handleCategoryClick(categoryKey)}
@@ -119,7 +127,7 @@ const MiddleBottom = () => {
 
         {/* Desktop: Grid Layout (unchanged) */}
         <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {Object.entries(images).map(([categoryKey, items]) => (
+          {sortedCategories.map(([categoryKey, items]) => (
             <div
               key={categoryKey}
               onClick={() => handleCategoryClick(categoryKey)}

@@ -207,6 +207,48 @@ const Hero = () => {
                       </p>
                     </div>
                     <div className="grid grid-cols-4 gap-6">
+                    {/* Fashion */}
+                      <div>
+                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Fashion</h3>
+                        <ul className="space-y-2">
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=comfy" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Comfy
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=kurta" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Kurta
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=belt" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Belts
+                            </Link>
+                          </li>
+                          <li>
+                            <Link 
+                              to="/fashion?subcategory=scarf" 
+                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
+                              onClick={() => setShowProductsMenu(false)}
+                            >
+                              Scarf
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
                       {/* Accessories */}
                       <div>
                         <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Accessories</h3>
@@ -291,48 +333,7 @@ const Hero = () => {
                           </li>
                         </ul>
                       </div>
-                      {/* Fashion */}
-                      <div>
-                        <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Fashion</h3>
-                        <ul className="space-y-2">
-                          <li>
-                            <Link 
-                              to="/fashion?subcategory=comfy" 
-                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
-                              onClick={() => setShowProductsMenu(false)}
-                            >
-                              Comfy
-                            </Link>
-                          </li>
-                          <li>
-                            <Link 
-                              to="/fashion?subcategory=kurta" 
-                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
-                              onClick={() => setShowProductsMenu(false)}
-                            >
-                              Kurta
-                            </Link>
-                          </li>
-                          <li>
-                            <Link 
-                              to="/fashion?subcategory=belt" 
-                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
-                              onClick={() => setShowProductsMenu(false)}
-                            >
-                              Belts
-                            </Link>
-                          </li>
-                          <li>
-                            <Link 
-                              to="/fashion?subcategory=scarf" 
-                              className="text-sm text-gray-700 hover:text-[#FF69B4] transition-colors block py-1"
-                              onClick={() => setShowProductsMenu(false)}
-                            >
-                              Scarf
-                            </Link>
-                          </li>
-                        </ul>
-                      </div>
+                      
                       {/* Others */}
                       <div>
                         <h3 className="text-lg font-bold text-[#8B4A6B] mb-4 pb-2 border-b border-[#FFE4E1]">Others</h3>
@@ -652,7 +653,14 @@ const Hero = () => {
       <div className="fixed top-14 left-0 right-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
           <div className="flex md:grid md:grid-cols-4 gap-2 md:gap-3 py-1.5 md:py-2 overflow-x-auto md:overflow-visible no-scrollbar whitespace-nowrap scroll-smooth -mx-3 sm:-mx-4 lg:mx-0 px-3 sm:px-4 lg:px-0">
-            
+             {/* Fashion */}
+            <p
+              onClick={() => navigate('/fashion')}
+              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
+            >
+              <span>Fashion</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </p>
             {/* Accessories */}
             <p
               onClick={() => navigate('/products')}
@@ -671,14 +679,7 @@ const Hero = () => {
               <ChevronDown className="h-3.5 w-3.5" />
             </p>
 
-            {/* Fashion */}
-            <p
-              onClick={() => navigate('/fashion')}
-              className="flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs md:text-sm font-semibold text-primary hover:text-accent cursor-pointer rounded-md transition-all duration-200 uppercase tracking-wide whitespace-nowrap flex-shrink-0"
-            >
-              <span>Fashion</span>
-              <ChevronDown className="h-3.5 w-3.5" />
-            </p>
+           
 
             {/* Others */}
             <p

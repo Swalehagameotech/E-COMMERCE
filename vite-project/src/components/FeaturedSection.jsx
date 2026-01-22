@@ -72,17 +72,14 @@ const FeaturedSection = () => {
 
         {/* Section Header */}
         {/* Section Header */}
+       {/* Section Header */}
         <div className="mb-8 sm:mb-10">
-          <div className="flex items-center justify-center mb-8">
-            <div className="text-center">
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
-                Featured Products
-              </h2>
-              <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent mx-auto"></div>
-            </div>
-          </div>
-
-          <div className="flex justify-end">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
+              Featured Products
+            </h2>
+            <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#FFB6C1] to-transparent mx-auto mb-4"></div>
+            
             <p
               onClick={() => navigate('/featuredproducts')}
               className="text-[#8B4A6B] hover:text-[#FF69B4] font-semibold text-sm sm:text-base uppercase tracking-wider transition-colors duration-200 border-b-2 border-transparent hover:border-[#FF69B4] cursor-pointer"

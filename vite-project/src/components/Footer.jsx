@@ -12,7 +12,7 @@ const Footer = () => {
               <Truck className="w-6 h-6 text-accent" />
             </div>
             <h4 className="font-serif font-bold text-lg text-white">Free Shipping</h4>
-            <p className="text-sm text-white max-w-xs">On all orders over $100. Delivered safely to your doorstep.</p>
+            <p className="text-sm text-white max-w-xs">On all orders over ₹500. Delivered safely to your doorstep.</p>
           </div>
           <div className="flex flex-col items-center text-center space-y-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
@@ -82,7 +82,7 @@ const Footer = () => {
             <div className="space-y-4 text-sm text-white">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-white mt-0.5" />
-                <span>123 Fashion Ave, <br />New York, NY 10001</span>
+                <span>103 Bloom Store, <br />Banglore, INDIA</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-white" />

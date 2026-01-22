@@ -294,7 +294,7 @@ const ProductDetails = () => {
 <div className="w-full lg:pl-12 lg:max-h-[calc(100vh-160px)] overflow-y-auto no-scrollbar">
               <div className="bg-transparent p-6 sm:p-0">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">
-                  {product.name}
+                  {product.brand}
                 </h1>
 
                 {product.brand_name && (
@@ -325,7 +325,7 @@ const ProductDetails = () => {
                 {product.description && (
                   <div className="mb-8">
                     <h3 className="text-sm font-bold text-primary mb-2 uppercase tracking-wider">Description</h3>
-                    <p className="text-black font-bold leading-relaxed font-light">{product.description}</p>
+                    <p className="text-black font-weight-500 leading-relaxed ">{product.description}</p>
                   </div>
                 )}
 

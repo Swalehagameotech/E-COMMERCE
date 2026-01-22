@@ -298,9 +298,9 @@ const ProductDetails = () => {
                 </h1>
 
                 {product.brand_name && (
-                  <p className="text-lg sm:text-xl text-gray-500 mb-6 uppercase tracking-widest font-light">
-                    {product.brand_name}
-                  </p>
+<h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">             
+      {product.brand_name}
+                  </h1>
                 )}
 
                 <div className="mb-8 border-b border-gray-200 pb-8">

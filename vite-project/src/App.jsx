@@ -18,6 +18,11 @@ import OrderReview from './components/checkout/OrderReview';
 import About from './components/About';
 import Contact from './components/Contact';
 import Orders from './components/Orders';
+import ShippingReturns from './components/ShippingReturns';
+import FAQ from './components/FAQ';
+import TrackOrder from './components/TrackOrder';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 import ProtectedRoute from './components/ProtectedRoute';
 import Admin from './components/admin/Admin';
 import ScrollToTop from './utils/SrollToTop';
@@ -74,6 +79,11 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/shipping-returns" element={<ShippingReturns />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route
             path="/admin/*"
             element={

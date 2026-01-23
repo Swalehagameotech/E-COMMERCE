@@ -58,10 +58,13 @@ const Footer = () => {
           <div className="space-y-6">
             <h4 className="text-lg font-serif font-bold text-white">Shop</h4>
             <ul className="space-y-4">
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">New Arrivals</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Best Sellers</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Accessories</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Sale</a></li>
+              <li><a href="/fashion" className="text-white hover:text-accent transition-colors text-sm">Fashion</a></li>
+              <li><a href="/others" className="text-white hover:text-accent transition-colors text-sm">Accessories</a></li>
+              <li><a href="/footwear" className="text-white hover:text-accent transition-colors text-sm">Footwear</a></li>
+              <li><a href="/others" className="text-white hover:text-accent transition-colors text-sm">Others</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">New Arrival</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Trending</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Featured Products</a></li>
             </ul>
           </div>
 
@@ -70,9 +73,9 @@ const Footer = () => {
             <h4 className="text-lg font-serif font-bold text-white">Customer Care</h4>
             <ul className="space-y-4">
               <li><a href="/contact" className="text-white hover:text-accent transition-colors text-sm">Contact Us</a></li>
-              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">Shipping & Returns</a></li>
-              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">Size Guide</a></li>
-              <li><a href="#" className="text-white hover:text-accent transition-colors text-sm">FAQ</a></li>
+              <li><a href="/shipping-returns" className="text-white hover:text-accent transition-colors text-sm">Shipping & Returns</a></li>
+              <li><a href="/track-order" className="text-white hover:text-accent transition-colors text-sm">Track Order</a></li>
+              <li><a href="/faq" className="text-white hover:text-accent transition-colors text-sm">FAQ</a></li>
             </ul>
           </div>
 
@@ -103,8 +106,8 @@ const Footer = () => {
             © {new Date().getFullYear()} Bloom Store. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-xs text-white hover:text-accent transition-colors">Privacy Policy</a>
-            <a href="#" className="text-xs text-white hover:text-accent transition-colors">Terms of Service</a>
+            <a href="/privacy-policy" className="text-xs text-white hover:text-accent transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="text-xs text-white hover:text-accent transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

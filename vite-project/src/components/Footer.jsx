@@ -59,12 +59,12 @@ const Footer = () => {
             <h4 className="text-lg font-serif font-bold text-white">Shop</h4>
             <ul className="space-y-4">
               <li><a href="/fashion" className="text-white hover:text-accent transition-colors text-sm">Fashion</a></li>
-              <li><a href="/others" className="text-white hover:text-accent transition-colors text-sm">Accessories</a></li>
+              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Accessories</a></li>
               <li><a href="/footwear" className="text-white hover:text-accent transition-colors text-sm">Footwear</a></li>
               <li><a href="/others" className="text-white hover:text-accent transition-colors text-sm">Others</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">New Arrival</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Trending</a></li>
-              <li><a href="/products" className="text-white hover:text-accent transition-colors text-sm">Featured Products</a></li>
+              <li><a href="/newarrival" className="text-white hover:text-accent transition-colors text-sm">New Arrival</a></li>
+              <li><a href="/trending" className="text-white hover:text-accent transition-colors text-sm">Trending</a></li>
+              <li><a href="/featuredproducts" className="text-white hover:text-accent transition-colors text-sm">Featured Products</a></li>
             </ul>
           </div>
 

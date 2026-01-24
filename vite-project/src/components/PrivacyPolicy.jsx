@@ -213,7 +213,7 @@ const PrivacyPolicy = () => {
               <div className="mt-6">
                 <a 
                   href="/contact" 
-                  className="inline-block      bg-[#A02E4C]  hover:bg-[#cb4d6f] text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+                  className="inline-block bg-[#A02E4C]  hover:bg-[#cb4d6f] hover:text-white text-white font-semibold py-2 px-6 rounded-lg transition-colors"
                 >
                   Contact Us
                 </a>

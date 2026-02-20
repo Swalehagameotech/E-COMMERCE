@@ -325,12 +325,7 @@ const ProductDetails = () => {
                 )}
 
                 <div className="space-y-4 mb-8">
-                  {product.material && (
-                    <div className="flex items-center gap-4">
-                      <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Material:</span>
-                      <span className="text-gray-600 font-light">{product.material}</span>
-                    </div>
-                  )}
+                 
                   {(product.brand_name || product.brand) && (
                     <div className="flex items-center gap-4">
                       <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Brand:</span>

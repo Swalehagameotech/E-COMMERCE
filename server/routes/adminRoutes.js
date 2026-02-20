@@ -7,7 +7,10 @@ const { authenticate } = require('../middleware/authMiddleware');
 router.use(authenticate);
 
 // Dashboard
-router.get('/dashboard', adminController.getDashboard);
+router.get('/dashboard', (req, res, next) => {
+  console.log('🔍 Dashboard route hit!');
+  next();
+}, adminController.getDashboard);
 
 // Products
 router.get('/products', adminController.getAllProducts);

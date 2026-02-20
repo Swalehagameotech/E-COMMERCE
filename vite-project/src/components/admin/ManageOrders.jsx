@@ -219,13 +219,13 @@ const ManageOrders = () => {
                       </select>
                     </td>
                     <td className="px-6 py-4">
-                      <button
+                      <h3
                         onClick={() => setSelectedOrder(order)}
-                        className="p-2 text-gray-400 hover:text-primary transition-colors"
+                        className="p-2 text-gray-700 hover:text-primary transition-colors"
                         title="View Invoice"
                       >
                         <Eye className="w-5 h-5" />
-                      </button>
+                      </h3>
                     </td>
                   </tr>
                 ))

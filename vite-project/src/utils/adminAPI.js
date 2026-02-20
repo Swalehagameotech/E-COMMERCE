@@ -1,8 +1,12 @@
 import axios from 'axios';
 
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/admin';
-//const API_URL = 'http://localhost:5000/api/admin'
+//const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/admin';
+
 // Create axios instance
+const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/admin';
+
+
+
 const adminAxios = axios.create({
   baseURL: API_URL,
   headers: {

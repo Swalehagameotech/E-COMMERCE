@@ -7,6 +7,8 @@ const Discount = require('../models/Discount');
 const Fashion = require('../models/Fashion');
 const Footwear = require('../models/Footwear');
 const Others = require('../models/Others');
+const FeaturedProduct = require('../models/FeaturedProduct');
+const Product = require('../models/Product');
 
 // Collection mapping
 const collectionMap = {
@@ -21,27 +23,56 @@ const collectionMap = {
 
 // Get dashboard statistics
 exports.getDashboard = async (req, res) => {
+  console.log('🚀 getDashboard FUNCTION CALLED - NEW VERSION WITH PRODUCT COUNT');
+  console.log('📥 Request received at:', new Date().toISOString());
   try {
-    const collections = [NewArrival, Trending, Discount, Fashion, Footwear, Others];
+    // Define collections with their display names
+    const collections = [
+      { model: NewArrival, name: 'newarrival' },
+      { model: Trending, name: 'trending' },
+      { model: Discount, name: 'discount' },
+      { model: Fashion, name: 'fashion' },
+      { model: Footwear, name: 'footwear' },
+      { model: Others, name: 'others' },
+      { model: FeaturedProduct, name: 'featuredproducts' },
+      { model: Product, name: 'accessories' }
+    ];
 
     // Get total stock from all collections
     let totalStock = 0;
     const categoryStock = [];
 
-    for (const collection of collections) {
-      const products = await collection.find({});
-      const stock = products.reduce((sum, p) => sum + (p.stock || 0), 0);
-      totalStock += stock;
-
-      const collectionName = collection.modelName.toLowerCase();
-      categoryStock.push({
-        category: collectionName === 'newarrival' ? 'newarrival' :
-          collectionName === 'discount' ? 'discount' :
-            collectionName === 'trending' ? 'trending' :
-              collectionName,
-        stock: stock,
-      });
+    for (const { model, name } of collections) {
+      try {
+        // IMPORTANT: Count total documents (products) in this collection
+        // This is the NUMBER OF PRODUCTS, not the stock quantity
+        const productCount = await model.countDocuments({});
+        
+        // Also get stock for total stock calculation (for the Total Stock metric at the top)
+        const products = await model.find({});
+        const stockSum = products.reduce((sum, p) => sum + (p.stock || 0), 0);
+        totalStock += stockSum;
+        
+        // DEBUG: Log both values to verify
+        console.log(`📊 ${name}: ${productCount} PRODUCTS (documents), Stock sum: ${stockSum}`);
+        
+        // Store PRODUCT COUNT (not stock sum) in the categoryStock array
+        // The field is named "stock" for frontend compatibility but contains PRODUCT COUNT
+        categoryStock.push({
+          category: name,
+          stock: productCount, // THIS IS PRODUCT COUNT FROM countDocuments(), NOT STOCK SUM
+        });
+      } catch (error) {
+        console.error(`❌ Error counting ${name}:`, error.message);
+        // Continue with other collections even if one fails
+        categoryStock.push({
+          category: name,
+          stock: 0,
+        });
+      }
     }
+    
+    console.log('📦 Final categoryStock:', JSON.stringify(categoryStock, null, 2));
 
     // Get total customers
     const totalCustomers = await User.countDocuments();

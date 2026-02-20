@@ -16,7 +16,9 @@ const Dashboard = () => {
   const fetchDashboard = async () => {
     try {
       const response = await adminAPI.getDashboard();
+      console.log('📊 Dashboard API Response:', response);
       if (response.success) {
+        console.log('📦 Category Stock Data:', response.data?.categoryStock);
         setStats(response.data);
       } else {
         setError('Failed to load dashboard data');
@@ -110,9 +112,9 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Category Stock Cards */}
+      {/* Category Product Count Cards */}
       <div>
-        <h2 className="text-2xl font-serif font-bold text-primary mb-4">Stock by Category</h2>
+        <h2 className="text-2xl font-serif font-bold text-primary mb-4">Products by Category</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {stats?.categoryStock?.map((category) => (
             <div

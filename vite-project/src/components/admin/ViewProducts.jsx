@@ -169,18 +169,18 @@ const ViewProducts = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">
-                        <button
+                        <h3
                           onClick={() => handleEdit(product)}
-                          className="text-black hover:text-accent-dark p-2 hover:bg-secondary rounded"
+                          className="text-black hover:text-accent-dark p-2 rounded"
                         >
                           <Edit className="h-4 w-4" />
-                        </button>
-                        <button
+                        </h3>
+                        <h3
                           onClick={() => handleDelete(product._id, product.category)}
-                          className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded"
+                          className="text-red-600 hover:text-red-700 p-2 rounded"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </button>
+                        </h3>
                       </div>
                     </td>
                   </tr>

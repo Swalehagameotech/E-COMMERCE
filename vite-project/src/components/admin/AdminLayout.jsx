@@ -43,7 +43,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary flex">
+    <div className="h-screen bg-secondary flex overflow-hidden">
       {/* Sidebar */}
       <aside
         className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-primary/10 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
@@ -51,7 +51,7 @@ const AdminLayout = () => {
       >
         <div className="flex flex-col h-full">
           {/* Logo/Header */}
-          <div className="p-6 border-b border-primary/10">
+          <div className="p-6 border-b border-primary/10 flex-shrink-0">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-serif font-bold text-primary">BLOOM Admin</h1>
               <button
@@ -74,10 +74,11 @@ const AdminLayout = () => {
                     navigate(item.path);
                     setSidebarOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${isActive(item.path)
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-white hover:bg-secondary'
-                    }`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 !bg-black !text-white !border-2 !shadow-none hover:!shadow-none ${
+                    isActive(item.path)
+                      ? '!border-black'
+                      : '!border-transparent hover:!border-black'
+                  }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium">{item.name}</span>
@@ -98,9 +99,9 @@ const AdminLayout = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Bar */}
-        <header className="bg-white border-b border-primary/10 px-4 py-4 lg:px-8">
+        <header className="bg-white border-b border-primary/10 px-4 py-4 lg:px-8 flex-shrink-0">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}

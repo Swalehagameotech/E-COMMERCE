@@ -146,12 +146,12 @@ const ManageUsers = () => {
                     </td>
                     <td className="px-6 py-4 text-sm text-primary">{user.orderCount || 0}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
+                      <h3
                         onClick={() => handleDelete(user._id)}
-                        className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded"
+                        className="text-red-600 hover:text-red-700  rounded"
                       >
                         <Trash2 className="h-4 w-4" />
-                      </button>
+                      </h3>
                     </td>
                   </tr>
                 ))

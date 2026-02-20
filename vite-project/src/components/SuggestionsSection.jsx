@@ -87,7 +87,7 @@ const SuggestionsSection = ({ products, collectionType }) => {
                 {/* Details */}
                 <div className="p-3 sm:p-5 bg-white">
                   <h3 className="text-xs sm:text-base font-bold text-[#8B4A6B] mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] group-hover:text-[#FF69B4] transition-colors">
-                    {item.name}
+                    {item.brand_name || item.brand || item.name}
                   </h3>
 
 

@@ -152,7 +152,7 @@ const ProductScrollSection = ({ title, products, collectionType }) => {
                   {/* Product Details */}
                   <div className="p-3 sm:p-5 bg-white">
                     <h3 className="text-xs sm:text-base font-bold text-[#8B4A6B] mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem]">
-                      {product.name}
+                      {product.brand_name || product.brand || product.name}
                     </h3>
 
                     <div className="flex items-center gap-1 mb-1 sm:mb-2">

@@ -12,11 +12,24 @@ const FeaturedSection = () => {
     const fetchProducts = async () => {
       try {
         const response = await featuredProductAPI.getFeaturedProducts();
-        if (response.success) {
+        console.log('Featured products API response:', response);
+        
+        // Handle different response formats
+        if (response.success && response.data) {
           setProducts((response.data || []).slice(0, 16));
+        } else if (Array.isArray(response)) {
+          // If response is directly an array
+          setProducts(response.slice(0, 16));
+        } else if (response.data && Array.isArray(response.data)) {
+          // If data is nested differently
+          setProducts(response.data.slice(0, 16));
+        } else {
+          console.warn('Unexpected response format:', response);
+          setProducts([]);
         }
       } catch (error) {
         console.error('Error fetching featured products:', error);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -64,15 +77,11 @@ const FeaturedSection = () => {
     return stars;
   };
 
-  if (loading || !products.length) return null;
-
   return (
     <section className="w-full py-12 sm:py-16 md:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        {/* Section Header */}
-       {/* Section Header */}
         <div className="mb-8 sm:mb-10">
           <div className="flex flex-col items-center text-center">
             <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-[#8B4A6B] mb-2 tracking-tight">
@@ -89,9 +98,17 @@ const FeaturedSection = () => {
           </div>
         </div>
 
-        {/* ✅ GRID (NO SCROLL) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {products.map((product) => (
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-12">
+            <p className="text-[#8B4A6B]">Loading featured products...</p>
+          </div>
+        )}
+
+        {/* Products Grid */}
+        {!loading && products.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+            {products.map((product) => (
             <div
               key={product._id}
               onClick={() => handleProductClick(product._id)}
@@ -115,7 +132,7 @@ const FeaturedSection = () => {
                 {/* Details */}
                 <div className="p-3 sm:p-5 bg-white">
                   <h3 className="text-xs sm:text-base font-bold text-[#8B4A6B] mb-1 sm:mb-2 line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] group-hover:text-[#FF69B4] transition-colors">
-                    {product.name}
+                    {product.brand_name || product.brand || product.name}
                   </h3>
 
                   <div className="flex items-center gap-1 mb-1 sm:mb-2">
@@ -146,7 +163,15 @@ const FeaturedSection = () => {
               </div>
             </div>
           ))}
-        </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && products.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-[#8B4A6B]">No featured products available at the moment.</p>
+          </div>
+        )}
 
       </div>
     </section>

@@ -294,14 +294,9 @@ const ProductDetails = () => {
 <div className="w-full lg:pl-12 lg:max-h-[calc(100vh-160px)] overflow-y-auto no-scrollbar">
               <div className="bg-transparent p-6 sm:p-0">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">
-                  {product.brand}
-                </h1>
+                 {product.brand_name || product.brand}                </h1>
 
-                {product.brand_name && (
-<h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-primary mb-4 leading-tight">             
-      {product.brand_name}
-                  </h1>
-                )}
+                
 
                 <div className="mb-8 border-b border-gray-200 pb-8">
                   <div className="flex items-center gap-4 mb-2">
@@ -336,10 +331,10 @@ const ProductDetails = () => {
                       <span className="text-gray-600 font-light">{product.material}</span>
                     </div>
                   )}
-                  {product.brand && (
+                  {(product.brand_name || product.brand) && (
                     <div className="flex items-center gap-4">
                       <span className="text-primary font-bold w-24 text-sm uppercase tracking-wider">Brand:</span>
-                      <span className="text-gray-600 font-light">{product.brand}</span>
+                      <span className="text-gray-600 font-light">{product.brand_name || product.brand}</span>
                     </div>
                   )}
                 </div>

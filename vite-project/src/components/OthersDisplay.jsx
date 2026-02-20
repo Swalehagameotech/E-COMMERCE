@@ -161,14 +161,14 @@ const OthersDisplay = ({ category, subcategory, searchQuery }) => {
                     <div className="aspect-[3/4] bg-gray-50 overflow-hidden mb-4">
                       <img
                         src={product.image}
-                        alt={product.brand}
+                        alt={product.brand_name || product.brand || product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition"
                         loading="lazy"
                       />
                     </div>
 
                     <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center">
-                      {product.brand}
+                      {product.brand_name || product.brand || product.name}
                     </h3>
                     <p className="text-xs text-gray-500 mb-2 line-clamp-1 uppercase tracking-wide">
                       {product.description}

@@ -15,7 +15,7 @@ const Middle = () => {
   const slides = [
     {
       id: 1,
-      image:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768646835/White_Green_and_Orange_Simple_Modern_Republic_Day_Sale_Billboard_Landscape_1920_x_600_px_1_vlnrt7.png",
+      image:"https://res.cloudinary.com/dvkxgrcbv/image/upload/v1771571197/Untitled_1920_x_600_px_11_dfmjzx.png",
       fallbackBg: "bg-gradient-to-r from-pink-400 to-purple-500"
     },
     {
@@ -34,7 +34,7 @@ const Middle = () => {
   const mobileSlides = [
     {
       id: 1,
-      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1768649523/White_Orange_Minimal_Indian_Republic_Day_Sale_Instagram_Post_2_jlc5yu.svg",
+      image: "https://res.cloudinary.com/dvkxgrcbv/image/upload/v1771571221/Untitled_1920_x_600_px_1080_x_1080_px_ajdodt.png",
       fallbackBg: "bg-gradient-to-r from-pink-400 to-purple-500"
     },
     {

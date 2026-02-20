@@ -144,7 +144,7 @@ const SaleDisplay = () => {
                       </div>
 
                       <h3 className="text-base font-serif text-primary mb-1 line-clamp-1 text-center">
-                        {product.name}
+                        {product.brand_name || product.brand || product.name}
                       </h3>
                       <p className="text-xs text-gray-500 mb-2 line-clamp-1 uppercase tracking-wide">
                         {product.description}

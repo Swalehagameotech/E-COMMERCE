@@ -150,7 +150,7 @@ exports.addProduct = async (req, res) => {
     }
 
     const ProductModel = collectionMap[category];
-    const product = await ProductModel.create(productData);
+    const product = await ProductModel.create({ ...productData, category });
 
     res.status(201).json({
       success: true,

@@ -14,6 +14,9 @@ export const API_ENDPOINTS = {
   ORDERS: `${API_BASE_URL}/api/orders`,
   ADDRESS: `${API_BASE_URL}/api/address`,
   ADMIN: `${API_BASE_URL}/api/admin`,
+  TRENDING: `${API_BASE_URL}/api/trending`,
+  NEW_ARRIVAL: `${API_BASE_URL}/api/newarrival`,
+  DISCOUNT: `${API_BASE_URL}/api/discount`,
 };
 
 export default API_BASE_URL;

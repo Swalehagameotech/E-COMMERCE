@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import AddressModal from './AddressModal';
 import OrderConfirmationModal from './OrderConfirmationModal';
 import { auth } from '../../utils/firebase';
+import { API_ENDPOINTS } from '../../config/apiConfig';
 import Hero from '../Hero';
 import Footer from '../Footer';
 
@@ -89,7 +90,7 @@ const Checkout = () => {
                 email: email,
             };
 
-            const res = await fetch('https://ecomm-backend-3r05.onrender.com/api/orders', {
+            const res = await fetch(API_ENDPOINTS.ORDERS, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

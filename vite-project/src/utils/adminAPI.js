@@ -1,9 +1,7 @@
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
-//const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/admin';
-
-// Create axios instance
-const API_URL = 'http://localhost:5000/api/admin';
+const API_URL = API_ENDPOINTS.ADMIN;
 
 
 

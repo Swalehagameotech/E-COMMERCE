@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api/orders';
+const API_URL = API_ENDPOINTS.ORDERS;
 
 // Create axios instance
 const orderAxios = axios.create({

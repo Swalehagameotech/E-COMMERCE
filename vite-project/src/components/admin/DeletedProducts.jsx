@@ -131,12 +131,12 @@ const DeletedProducts = () => {
                       {product.deletedBy || 'N/A'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
+                      <h3
                         onClick={() => handleRestore(product._id)}
                         className="text-accent hover:text-accent-dark p-2 hover:bg-secondary rounded mr-2"
                       >
                         <RotateCcw className="h-4 w-4" />
-                      </button>
+                      </h3>
                     </td>
                   </tr>
                 ))

@@ -7,12 +7,11 @@ import {
 } from 'firebase/auth';
 import { auth, googleProvider } from './firebase';
 import axios from 'axios';
-
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
 // Create axios instance for Firebase auth
 const firebaseAPI = axios.create({
-  baseURL: `${API_URL}/auth`,
+  baseURL: API_ENDPOINTS.AUTH,
   headers: {
     'Content-Type': 'application/json',
   },

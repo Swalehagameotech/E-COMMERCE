@@ -1,10 +1,9 @@
 import axios from 'axios';
-
-const API_URL = 'https://ecomm-backend-3r05.onrender.com/api';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
 // Create axios instance for cart API
 const cartAxios = axios.create({
-  baseURL: `${API_URL}/cart`,
+  baseURL: API_ENDPOINTS.CART,
   headers: {
     'Content-Type': 'application/json',
   },

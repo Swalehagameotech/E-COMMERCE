@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_ENDPOINTS } from '../config/apiConfig';
 
 const featuredProductApi = axios.create({
-  baseURL: API_ENDPOINTS.FEATURED_PRODUCTS || 'https://ecomm-backend-3r05.onrender.com/api/featuredproducts',
+  baseURL: API_ENDPOINTS.FEATURED_PRODUCTS,
   headers: {
     'Content-Type': 'application/json',
   },

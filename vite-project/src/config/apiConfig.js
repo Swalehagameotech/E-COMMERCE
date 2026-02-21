@@ -1,9 +1,6 @@
 // API Configuration
 // Uses environment variable in production, falls back to localhost in development
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 
-  (import.meta.env.MODE === 'production' 
-    ? 'https://ecomm-backend-3r05.onrender.com' 
-    : 'http://localhost:5000');
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const API_URL = API_BASE_URL;
 export const API_ENDPOINTS = {
